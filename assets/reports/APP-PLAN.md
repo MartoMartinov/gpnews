@@ -12,7 +12,7 @@
 
 G.P. News is a mobile news platform for employees and stakeholders of G.P. Group JSC, a Bulgarian construction company. The app delivers curated news, articles, and announcements organized by construction-industry categories. Users can read articles, comment, vote in polls, submit their own news, and receive push notifications.
 
-The design reference is the interactive React prototype in Claude Design ("GP Group - News App"), which defines two visual directions (A — Steel editorial, B — Обект industrial), the component library, all screens, and the data model.
+The design reference is the interactive React prototype in Claude Design ("GP Group - News App"), which defines the component library, all screens, and the data model. The prototype offers two visual directions; **Direction A (Steel) has been selected** for this build (see §4).
 
 ---
 
@@ -534,9 +534,11 @@ src/
 - Push notifications: native only, skip web path
 - App is Bulgarian only — no i18n library (per CLAUDE.md: "do not add translations libraries")
 - Minimum mobile width: 360px CSS pixels
-- Dark mode: implement support but do not force — design defaults to light mode
-- Shared component CSS classes prefixed `.gp-` (matching the prototype naming)
+- Dark mode: implement support but do not force — design defaults to light mode (depends on user operational system settings)
+- Shared component CSS classes prefixed `.gp-` (initials of the app name, matching the prototype naming)
 - Use `::part()` for Ionic shadow DOM — never `/deep/` or `::ng-deep`
+- Build Direction A (Steel) only — do not port `[data-direction="b"]` style branches
+- When frontend API needs change, keep the dev mock backend (`C:/Users/twrkh/Projects/backend-mock`) in sync (per CLAUDE.md)
 
 ---
 
