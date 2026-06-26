@@ -20,7 +20,7 @@ The design reference is the interactive React prototype in Claude Design ("GP Gr
 
 | Layer | Technology |
 |---|---|
-| Framework | Angular 20+ (latest stable, standalone components, signals, zoneless, OnPush) |
+| Framework | Angular 21 (21.2.17 — latest version NgRx SignalStore supports; standalone, signals, OnPush) |
 | Mobile shell | Ionic (latest, blank template) |
 | Native runtime | Capacitor (latest) + `@capacitor/app` |
 | State management | NgRx SignalStore (`@ngrx/signals`) |
@@ -547,6 +547,8 @@ src/
 | Decision | Options | Status |
 |---|---|---|
 | Design direction (A vs B) | Steel (rounded, editorial) or Обект (sharp, industrial) | ✅ **RESOLVED — Direction A (Steel)** |
+| Angular version | 22 (absolute latest) vs 21 (latest NgRx-compatible) | ✅ **RESOLVED — Angular 21.2.17.** NgRx SignalStore (mandated by state.md) has no Angular 22 release; 21 keeps the whole stack on clean peer deps |
+| Change detection | Zoneless vs zone-based | Zone-based (`provideZoneChangeDetection`) retained for Ionic compatibility; components are OnPush + signals so a later zoneless switch stays low-risk |
 | Default theme | Light (prototype default) or Dark | Light — dark mode rule in IONIC.md requires explicit opt-in, which CLAUDE.md does not give |
 | Default font | IBM Plex Sans, Manrope, Golos Text, Spectral | IBM Plex Sans — most technical and readable (aligns with Steel) |
 | Accent color | #F2C200 (yellow), #E8741E (orange), #2A6FDB (blue), #10A86A (green) | #F2C200 — matches prototype default and brand |

@@ -4,7 +4,20 @@ trigger: always_on
 
 This is the source code for the Angular framework. This guide outlines standard practices for AI agents working in this repository.
 
-Always use the latest version as of the date of initialization. Check for the current version always.
+## Version policy
+
+Use the latest Angular version **that the project's mandated libraries also support** — not blindly the absolute latest. Always check current versions and peer dependencies before scaffolding.
+
+Steps before choosing the Angular version:
+1. Check the latest published `@angular/core` and `@angular/cli`.
+2. Check the peer-dependency range of every mandated library — at minimum **NgRx** (`@ngrx/signals`, see `./state.md`) and **Ionic** (`@ionic/angular`, see `../IONIC.md`). NgRx releases track Angular majors and often lag by one major right after an Angular release.
+3. Pick the **highest Angular major that satisfies all of those peer ranges at once**. Do NOT force-install with `--legacy-peer-deps` to get a newer Angular than a core dependency supports — a mismatched peer on a framework-level package (state, UI kit) is a real runtime/build risk, not a warning to silence.
+4. Within that chosen major, use the latest patch/minor.
+5. If the absolute-latest Angular is held back only by one mandated library, record it as a one-line decision (which library, which version gap) and note the trivial upgrade path once that library catches up.
+
+> Example (June 2026): Angular 22 was latest, but `@ngrx/signals` peered to `@angular/core@^21` with no v22 release. Correct choice = **Angular 21** (latest NgRx-compatible), not Angular 22 forced past its peer.
+
+The same rule applies on later upgrades: bump the framework only when the mandated stack has compatible releases, then `ng update` everything together.
 
 ## Environment
 - want to have envireonments for development (localhost), demo, dev, staging and production.
