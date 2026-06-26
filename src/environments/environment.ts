@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   name: 'dev',
-  apiBaseUrl: 'http://localhost:8000/bg',
+  apiBaseUrl: 'http://localhost:3000/api/gpnews',
 };

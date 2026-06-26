@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { GpLogoComponent } from '../../../shared/components';
+import { AuthStore } from '../../../store/auth/auth.store';
 
-/** Splash — shows the logo briefly, then routes onward. */
+/** Splash — shows the logo while auto-login runs, then routes onward. */
 @Component({
   selector: 'app-splash',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,7 +12,7 @@ import { GpLogoComponent } from '../../../shared/components';
   template: `
     <ion-content [fullscreen]="true">
       <div class="splash">
-        <gp-logo [big]="true" />
+        <gp-logo [height]="84" />
         <span class="gp-spin"></span>
       </div>
     </ion-content>
@@ -31,11 +32,17 @@ import { GpLogoComponent } from '../../../shared/components';
     `,
   ],
 })
-export class SplashPage implements OnInit {
+export class SplashPage {
+  private readonly store = inject(AuthStore);
   private readonly router = inject(Router);
 
-  ngOnInit(): void {
-    // TODO (Phase 2): check stored token → home vs onboarding.
-    setTimeout(() => this.router.navigateByUrl('/onboarding', { replaceUrl: true }), 1700);
+  constructor() {
+    // Route once AuthStore.bootstrap() (run in its onInit) has settled.
+    effect(() => {
+      if (this.store.initialized()) {
+        const target = this.store.isLoggedIn() ? '/tabs/home' : '/onboarding';
+        this.router.navigateByUrl(target, { replaceUrl: true });
+      }
+    });
   }
 }

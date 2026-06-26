@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
   {
@@ -13,11 +15,13 @@ export const routes: Routes = [
   },
   {
     path: 'auth/login',
+    canActivate: [guestGuard],
     loadComponent: () =>
       import('./pages/auth/login/login.page').then((m) => m.LoginPage),
   },
   {
     path: 'auth/signup',
+    canActivate: [guestGuard],
     loadComponent: () =>
       import('./pages/auth/signup/signup.page').then((m) => m.SignupPage),
   },
@@ -37,11 +41,13 @@ export const routes: Routes = [
       },
       {
         path: 'notifications',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('./pages/notifications/notifications.page').then((m) => m.NotificationsPage),
       },
       {
         path: 'profile',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('./pages/profile/profile.page').then((m) => m.ProfilePage),
       },
@@ -67,6 +73,7 @@ export const routes: Routes = [
   },
   {
     path: 'add-news',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/add-news/add-news.page').then((m) => m.AddNewsPage),
   },

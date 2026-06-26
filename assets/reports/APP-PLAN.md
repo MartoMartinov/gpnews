@@ -85,7 +85,7 @@ Four font stacks (user-selectable in prototype, pick one as default):
 `4 / 8 / 12 / 16 / 20 / 24 / 32 / 40px`
 
 ### Radius
-Default `8px` (rounded — Direction A). Use the prototype's derived scale: `--r-sm` = radius × 0.5, `--r-md` = radius × 0.8, `--r-lg` = radius.
+Default `4px` (matches the prototype's current default). Derived scale: `--r-sm` = radius × 0.5 (2px), `--r-md` = radius × 0.8 (3.2px, inputs/buttons), `--r-lg` = radius (4px, cards).
 
 ### Design Direction — **SELECTED: A — Steel**
 

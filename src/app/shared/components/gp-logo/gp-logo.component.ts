@@ -1,39 +1,36 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 
-/**
- * G.P. News wordmark.
- * TODO: swap for the brand PNG via CSS mask once assets/logo.png is added
- * (see prototype `.gp-logo`). Text wordmark is the interim fallback.
- */
+/** G.P. Group brand logo. Renders the static brand PNG (assets/logo.png). */
 @Component({
   selector: 'gp-logo',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<span class="logo" [class.big]="big()">G.P. <b>News</b></span>`,
+  imports: [NgOptimizedImage],
+  template: `
+    <img
+      ngSrc="assets/logo.png"
+      width="250"
+      height="111"
+      priority
+      alt="G.P. Group JSC."
+      class="logo-img"
+      [style.height.px]="height()"
+    />
+  `,
   styles: [
     `
       :host {
         display: inline-flex;
       }
-      .logo {
-        font-family: var(--font-head);
-        font-weight: 600;
-        font-size: 20px;
-        letter-spacing: -0.02em;
-        color: var(--color-ink);
-      }
-      .logo b {
-        font-weight: 800;
-        color: var(--color-accent-ink);
-        background: var(--color-accent);
-        padding: 0 6px;
-        border-radius: var(--r-sm);
-      }
-      .logo.big {
-        font-size: 40px;
+      /* width:auto keeps the intrinsic 250:111 ratio so NgOptimizedImage
+         doesn't flag aspect-ratio distortion. */
+      .logo-img {
+        width: auto;
       }
     `,
   ],
 })
 export class GpLogoComponent {
-  readonly big = input<boolean>(false);
+  /** Rendered logo height in px. */
+  readonly height = input<number>(30);
 }

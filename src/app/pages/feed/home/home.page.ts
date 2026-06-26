@@ -1,18 +1,27 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
-import { ChipComponent, EmptyStateComponent } from '../../../shared/components';
+import {
+  ChipComponent,
+  EmptyStateComponent,
+  GpLogoComponent,
+  IconComponent,
+} from '../../../shared/components';
 
 /** Home feed placeholder (Phase 3 adds per-category sections + FeedStore). */
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IONIC_IMPORTS, ChipComponent, EmptyStateComponent],
+  imports: [IONIC_IMPORTS, ChipComponent, EmptyStateComponent, GpLogoComponent, IconComponent],
   template: `
     <ion-header>
       <ion-toolbar>
-        <ion-buttons slot="start"><ion-button>Меню</ion-button></ion-buttons>
-        <ion-title>G.P. News</ion-title>
-        <ion-buttons slot="end"><ion-button>Търси</ion-button></ion-buttons>
+        <ion-buttons slot="start">
+          <ion-button aria-label="Меню"><gp-icon name="menu" [size]="24" [sw]="2" /></ion-button>
+        </ion-buttons>
+        <ion-title><gp-logo /></ion-title>
+        <ion-buttons slot="end">
+          <ion-button aria-label="Търсене"><gp-icon name="search" [size]="22" [sw]="2" /></ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content [fullscreen]="true">
@@ -26,6 +35,19 @@ import { ChipComponent, EmptyStateComponent } from '../../../shared/components';
       </div>
     </ion-content>
   `,
-  styles: [`.pad { padding: 20px; }`],
+  styles: [
+    `
+      .pad {
+        padding: 20px;
+      }
+      ion-title {
+        display: flex;
+        justify-content: center;
+      }
+      ion-button {
+        --color: var(--color-ink);
+      }
+    `,
+  ],
 })
 export class HomePage {}

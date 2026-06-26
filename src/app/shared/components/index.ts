@@ -5,3 +5,4 @@ export * from './avatar/avatar.component';
 export * from './skeleton/skeleton.component';
 export * from './empty-state/empty-state.component';
 export * from './gp-logo/gp-logo.component';
+export * from './blueprint/blueprint.component';
