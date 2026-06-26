@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonContent } from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { BtnComponent } from '../../../shared/components';
 
 /** Onboarding placeholder (Phase 2 will add the 3-slide carousel). */
 @Component({
   selector: 'app-onboarding',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonContent, BtnComponent],
+  imports: [IONIC_IMPORTS, BtnComponent],
   template: `
     <ion-content [fullscreen]="true">
       <div class="onb">

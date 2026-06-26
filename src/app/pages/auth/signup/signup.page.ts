@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { IonContent } from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { BtnComponent } from '../../../shared/components';
 
 /** Signup placeholder (Phase 2 adds the reactive form). */
 @Component({
   selector: 'app-signup',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonContent, BtnComponent],
+  imports: [IONIC_IMPORTS, BtnComponent],
   template: `
     <ion-content [fullscreen]="true">
       <div class="auth">

@@ -116,3 +116,12 @@ Here is a link to the most recent Angular style guide https://angular.dev/style-
 - Design services around a single responsibility
 - Use the `providedIn: 'root'` option for singleton services
 - Use the `inject()` function instead of constructor injection
+
+### Project structure
+
+- Route-level screens live under `src/app/pages/` — **not** `features/`. Use the folder name `pages`.
+  - Group related screens in a sub-folder by domain, e.g. `pages/auth/login/`, `pages/feed/home/`, `pages/polls/poll-detail/`.
+  - Each screen component file is named `<name>.page.ts` and the class `<Name>Page`.
+- Cross-cutting, reusable building blocks live under `src/app/shared/` (components, directives, pipes, models, and the `ionic-imports.ts` barrel).
+- App-wide singletons (services, guards, interceptors) live under `src/app/core/`.
+- State stores live under `src/app/store/` (see `./state.md` / `./ngrx-signalstore.md`).

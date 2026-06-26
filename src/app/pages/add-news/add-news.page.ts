@@ -1,28 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Location } from '@angular/common';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButtons,
-  IonButton,
-} from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../shared/ionic-imports';
 import { EmptyStateComponent } from '../../shared/components';
 
 /** Add News placeholder (Phase 6 adds the editor + submit flow). */
 @Component({
   selector: 'app-add-news',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButtons,
-    IonButton,
-    EmptyStateComponent,
-  ],
+  imports: [IONIC_IMPORTS, EmptyStateComponent],
   template: `
     <ion-header>
       <ion-toolbar>

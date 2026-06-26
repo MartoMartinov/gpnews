@@ -1,28 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButtons,
-  IonButton,
-} from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { ChipComponent, EmptyStateComponent } from '../../../shared/components';
 
 /** Home feed placeholder (Phase 3 adds per-category sections + FeedStore). */
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButtons,
-    IonButton,
-    ChipComponent,
-    EmptyStateComponent,
-  ],
+  imports: [IONIC_IMPORTS, ChipComponent, EmptyStateComponent],
   template: `
     <ion-header>
       <ion-toolbar>

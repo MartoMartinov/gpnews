@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
-  IonIcon,
-  IonLabel,
-} from '@ionic/angular/standalone';
+import { IonTabs, IonTabBar, IonTabButton } from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../shared/ionic-imports';
 import { addIcons } from 'ionicons';
 import {
   homeOutline,
@@ -18,7 +13,7 @@ import {
 @Component({
   selector: 'app-tabs',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
+  imports: [IONIC_IMPORTS, IonTabs, IonTabBar, IonTabButton],
   template: `
     <ion-tabs>
       <ion-tab-bar slot="bottom">

@@ -446,7 +446,7 @@ src/
         auth.service.ts
         storage.service.ts
         push-notification.service.ts
-    features/
+    pages/
       auth/
         login/
         signup/
@@ -489,7 +489,7 @@ src/
         notification.model.ts
         user.model.ts
     store/
-      features/
+      pages/
         with-request-status.feature.ts
         with-loading.feature.ts
         with-base.feature.ts

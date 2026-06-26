@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonContent } from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { GpLogoComponent } from '../../../shared/components';
 
 /** Splash — shows the logo briefly, then routes onward. */
 @Component({
   selector: 'app-splash',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonContent, GpLogoComponent],
+  imports: [IONIC_IMPORTS, GpLogoComponent],
   template: `
     <ion-content [fullscreen]="true">
       <div class="splash">

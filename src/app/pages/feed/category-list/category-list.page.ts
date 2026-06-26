@@ -1,27 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButtons,
-  IonBackButton,
-} from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { EmptyStateComponent } from '../../../shared/components';
 
 /** Category article list placeholder (Phase 3). Route param: :id. */
 @Component({
   selector: 'app-category-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButtons,
-    IonBackButton,
-    EmptyStateComponent,
-  ],
+  imports: [IONIC_IMPORTS, EmptyStateComponent],
   template: `
     <ion-header>
       <ion-toolbar>

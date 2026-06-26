@@ -43,6 +43,31 @@ If the client owns a domain (e.g. `practicalmachinist.com`), always derive the a
 
 ---
 
+## Shared Ionic imports (reduce per-component clutter)
+
+Standalone components must list every Ionic component they use in `imports`, which gets verbose fast (`IonHeader`, `IonToolbar`, `IonTitle`, `IonContent`, …) repeated across every page. To cut the clutter **without** an NgModule (NgModules are disallowed — see `./ANGULAR/coding-instuctions.md`), group the commonly-used Ionic components into a single exported const array and reference it via Angular's nested-array flattening in `imports`.
+
+- File: `src/app/shared/ionic-imports.ts`
+  ```ts
+  import { IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonBackButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
+
+  export const IONIC_IMPORTS = [
+    IonContent, IonHeader, IonToolbar, IonTitle,
+    IonButtons, IonButton, IonBackButton, IonIcon, IonLabel,
+  ] as const;
+  ```
+- Usage in a component (Angular flattens nested arrays in `imports`):
+  ```ts
+  imports: [IONIC_IMPORTS, EmptyStateComponent],
+  ```
+
+Rules:
+- Keep `IONIC_IMPORTS` to **broadly-used page-shell** components. Page-specific / rare ones (e.g. `IonTabs`, `IonModal`, `IonRefresher`, `IonApp`, `IonRouterOutlet`) stay imported directly in the one component that needs them — don't bloat every bundle with components only one page uses.
+- Do **not** wrap this in an NgModule. The const-array barrel is the standalone-idiomatic equivalent and preserves tree-shaking.
+- Grow the shared set as more components become broadly used; trim ones that fall out of common use.
+
+---
+
 ## Global Styles Entry Point (`src/global.scss`)
 
 This file orchestrates the full style stack in order:

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonContent } from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { BtnComponent, GpLogoComponent } from '../../../shared/components';
 
 /** Login placeholder (Phase 2 adds the reactive form + AuthService). */
 @Component({
   selector: 'app-login',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonContent, BtnComponent, GpLogoComponent],
+  imports: [IONIC_IMPORTS, BtnComponent, GpLogoComponent],
   template: `
     <ion-content [fullscreen]="true">
       <div class="auth">

@@ -1,27 +1,12 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButtons,
-  IonBackButton,
-} from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { EmptyStateComponent } from '../../../shared/components';
 
 /** Poll detail placeholder (Phase 5). Route param: :id. */
 @Component({
   selector: 'app-poll-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButtons,
-    IonBackButton,
-    EmptyStateComponent,
-  ],
+  imports: [IONIC_IMPORTS, EmptyStateComponent],
   template: `
     <ion-header>
       <ion-toolbar>

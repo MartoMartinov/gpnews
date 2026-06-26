@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { EmptyStateComponent } from '../../../shared/components';
 
 /** Polls list placeholder (Phase 5 adds PollsStore + rows). */
 @Component({
   selector: 'app-polls-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, EmptyStateComponent],
+  imports: [IONIC_IMPORTS, EmptyStateComponent],
   template: `
     <ion-header>
       <ion-toolbar><ion-title>Анкети</ion-title></ion-toolbar>
