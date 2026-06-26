@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* ============================================================
+   G.P. News — Tailwind v4 theme (Direction A — Steel)
+   Mirror of design tokens in theme/variables.scss so utilities
+   (bg-surface, text-ink, etc.) and var() references stay in sync.
+   ============================================================ */
+@theme {
+  /* Brand accent */
+  --color-accent: #f2c200;
+  --color-accent-ink: #1a1a12;
+
+  /* Surfaces (light — Steel) */
+  --color-bg: #eaeae7;
+  --color-surface: #ffffff;
+  --color-surface-2: #f4f4f1;
+  --color-surface-3: #ececE8;
+
+  /* Ink (text) */
+  --color-ink: #17170f;
+  --color-ink-2: #56564e;
+  --color-ink-3: #8c8c83;
+
+  /* Lines */
+  --color-line: rgba(20, 20, 10, 0.09);
+  --color-line-2: rgba(20, 20, 10, 0.16);
+
+  /* Typography */
+  --font-head: "IBM Plex Sans", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Breakpoint floor — mobile minimum is 360px */
+  --breakpoint-sm: 360px;
+}

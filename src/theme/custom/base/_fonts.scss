@@ -1,0 +1,10 @@
+// ============================================================
+// Fonts — IBM Plex Sans (head/body) + IBM Plex Mono (meta)
+// Direction A (Steel) uses the technical IBM Plex family.
+// ============================================================
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+// Apply globally via the Ionic font-family token.
+* {
+  font-family: var(--ion-font-family);
+}

@@ -1,0 +1,7 @@
+{
+  "name": "gpnews-tmp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

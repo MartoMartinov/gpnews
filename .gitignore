@@ -1,15 +1,12 @@
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 
-# Tailwind CLI generated output
-trivia-app/src/tailwind-out.css
-
 *~
 *.sw[mnpcod]
 .tmp
 *.tmp
 *.tmp.*
-IUsernterfaceState.xcuserstate
+UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
 *.log
@@ -31,24 +28,6 @@ log.txt
 /tmp
 /out-tsc
 /bazel-out
-/documentation
-/android/.gradle
-/android/.idea
-/android/.kotlin
-/android/app/main/assets/public
-/android/app/release
-/android/app/build
-/android/build
-/android/capacitor-cordova-android-plugins
-/android/gradle
-/android/capacitor.settings.gradle
-/android/app/capacitor.build.gradle
-/android/local.properties
-/ios/App/Pods
-/ios/App/Podfile
-/ios/App/Podfile.lock
-/ios/App/App.xcodeproj
-/ios/App/App.xcworkspace
 
 # Node
 /node_modules
@@ -89,9 +68,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-
-
-/assets/ignore
-/src/assets/static/
-

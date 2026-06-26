@@ -1,0 +1,68 @@
+// ============================================================
+// Ionic component overrides (Direction A — Steel)
+// Tag-level + ::part() only. No component-scoped overrides.
+// ============================================================
+
+ion-content {
+  --background: var(--color-bg);
+}
+
+ion-toolbar {
+  --background: var(--color-surface);
+  --color: var(--color-ink);
+  --border-width: 0 0 1px 0;
+  --border-color: var(--color-line);
+  --min-height: 56px;
+}
+
+ion-title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+ion-tab-bar {
+  --background: var(--color-surface);
+  --color: var(--color-ink-3);
+  --color-selected: var(--color-accent);
+  border-top: 1px solid var(--color-line);
+}
+
+ion-tab-button {
+  --color: var(--color-ink-3);
+  --color-selected: var(--color-ink);
+  font-family: var(--font-head);
+  font-weight: 600;
+}
+
+ion-button {
+  --border-radius: var(--r-md);
+  font-family: var(--font-head);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+ion-card {
+  --background: var(--color-surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  margin: 0;
+}
+
+ion-item {
+  --background: var(--color-surface);
+  --color: var(--color-ink);
+  --border-color: var(--color-line);
+  --padding-start: var(--s4);
+  --inner-padding-end: var(--s4);
+}
+
+ion-modal {
+  --background: var(--color-bg);
+  --border-radius: var(--r-lg);
+}
+
+ion-refresher ion-refresher-content {
+  --color: var(--color-ink-3);
+}
