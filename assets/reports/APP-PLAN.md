@@ -373,58 +373,128 @@ All prefixed with `/{locale}` per Laravel convention. Since app is Bulgarian onl
 
 ## 12. Feature Implementation Order
 
-### Phase 1 — Foundation
-1. Project scaffold (Ionic + Angular + Capacitor)
-2. Theme setup (Tailwind, SCSS structure, design tokens from prototype)
-3. Shared UI component library (Icon, Btn, Chip, Avatar, Skeleton, Toast, EmptyState)
-4. Routing skeleton (all routes, lazy-loaded, with placeholder pages)
-5. Environment config (dev/staging/prod)
+> **Legend:** ✅ Done · ⚠️ Partial · ❌ Not started
+> **Last updated:** 2026-06-29
 
-### Phase 2 — Auth
-6. AuthService + AuthStore + AuthInterceptor
-7. Secure storage service wrapper
-8. Splash screen + auto-login logic
-9. Onboarding screen (3 slides)
-10. Login screen
-11. Signup screen
-12. Auth guards
+---
 
-### Phase 3 — Core Feed
-13. FeedStore + ArticleService
-14. Home screen (per-category sections, hero card, row cards, pull-to-refresh, guest gate)
-15. Category drawer (slide-in overlay)
-16. Category list screen
-17. Skeleton loading states
+### Phase 1 — Foundation ✅ Complete
 
-### Phase 4 — Article & Comments
-18. Article detail screen (hero image, body, tags, author)
-19. CommentService
-20. Comments section (threaded, sort, like, reply, composer)
-21. Scroll-to-comments deep link
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 1 | Project scaffold (Ionic + Angular + Capacitor) | ✅ | Angular 21, Ionic blank, Capacitor wired |
+| 2 | Theme setup (Tailwind v4, SCSS structure, design tokens) | ✅ | `variables.scss`, `_global.scss`, `_fonts.scss`, `_normalize.scss`, Ionic overrides |
+| 3 | Shared UI component library | ✅ | Icon (40+ glyphs), Btn, Chip, Avatar, Skeleton, EmptyState, GpLogo, Blueprint. Toast uses Ionic ToastController — no custom component needed. ImgPlaceholder/ArticleThumb replaced by `.gp-img` CSS pattern. PullToRefresh handled by Ionic IonRefresher. |
+| 4 | Routing skeleton (all routes, lazy-loaded) | ✅ | All routes in `app.routes.ts`; `withComponentInputBinding()` for route params |
+| 5 | Environment config (dev/staging/prod) | ✅ | `environment.ts`, `environment.staging.ts`, `environment.prod.ts` |
 
-### Phase 5 — Engagement
-22. PollsStore + PollService
-23. Polls list screen
-24. Poll detail screen (vote + animated results)
-25. NotificationsStore + NotificationService
-26. Notifications screen (list, mark read, mark all, unread badge)
+---
 
-### Phase 6 — User & Content Creation
-27. ProfileStore + profile screen (my articles, edit name, logout)
-28. AddNewsStore + Add News modal (category, image, title, body, submit, confirmation)
-29. Profile guest empty state
+### Phase 2 — Auth ✅ Complete
 
-### Phase 7 — Push Notifications
-30. PushNotificationService
-31. Permission request flow (post-onboarding)
-32. Deep-link from notification to article
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 6 | AuthService + AuthStore + AuthInterceptor | ✅ | HMAC Bearer token; interceptor attaches header; 401 handling present |
+| 7 | Secure storage service wrapper | ✅ | `@aparajita/capacitor-secure-storage` wrapped in `SecureStorageService` |
+| 8 | Splash screen + auto-login logic | ✅ | Waits for `AuthStore.initialized()`, routes to onboarding or home |
+| 9 | Onboarding screen (3 slides) | ✅ | Dot pagination, skip, get-started CTA |
+| 10 | Login screen | ✅ | Email + password, show/hide toggle, "continue as guest" |
+| 11 | Signup screen | ✅ | Name, email, password, confirm — client-side validated |
+| 12 | Auth guards | ✅ | `authGuard` (protects `/tabs/notifications`, `/add-news`), `guestGuard` (redirects logged-in users from auth screens). `/tabs/profile` is unguarded — shows guest empty state inline instead. |
 
-### Phase 8 — Polish & QA
-33. Page transitions (slide/modal animations matching prototype)
-34. Accessibility audit (AXE checks, WCAG AA — color contrast, ARIA, focus management)
-35. Error states (network failure, empty states, offline detection)
-36. Back-end integration (replace mock with real API)
-37. iOS + Android build verification
+---
+
+### Phase 3 — Core Feed ✅ Complete
+
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 13 | FeedStore + FeedService | ✅ | `forkJoin` for parallel categories+articles load; `rxMethod` + `tapResponse` |
+| 14 | Home screen | ✅ | Per-category sections, hero card + row cards, skeleton, guest gate after section 1, pull-to-refresh |
+| 15 | Category drawer | ✅ | `DrawerService` signal toggle; slide-in overlay with scrim, full category list (icon + name + count), "Добави новина" CTA |
+| 16 | Category list screen | ✅ | Row list with skeleton, empty state, pull-to-refresh |
+| 17 | Skeleton loading states | ✅ | `SkeletonComponent` (shimmer) used on all list/detail screens |
+
+---
+
+### Phase 4 — Article & Comments ✅ Complete
+
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 18 | Article detail screen (hero image, body, tags, author) | ✅ | Fullscreen `ion-content` (no header). Hero: 16/11 blueprint-texture panel tinted by category hue, dual gradient overlay (top dark → bottom fades to `--color-bg`), absolute back button (frosted glass circle, iOS safe-area top offset), category tag badge at bottom-left. Body: title (25 px / 800 / −0.02 em), date + comment-count pill, optional pending banner, lead paragraph (17 px / 600), body paragraphs, tags row, author card (avatar + name + id). Skeleton loading for hero + body. Not-found empty state. |
+| 19 | CommentService + FeedStore | ✅ | `CommentService`: `getComments(articleId)`, `addComment(articleId, text)`, `likeComment(articleId, commentId)` → `{ liked, likes }`, `addReply(articleId, commentId, text)` → `Comment`. `FeedStore` extended with `likeComment` and `addReply` rxMethods that update `activeComments` signal in place (top-level and nested). Mock backend endpoints added: `POST /articles/:id/comments/:cid/like` and `POST /articles/:id/comments/:cid/replies`. |
+| 20 | Comments section (threaded, sort, like, reply, composer) | ✅ | Count badge includes replies (`countAll` recurses one level). Sort toggle (Нови / Харесани) shown when >1 top-level comment; sorts `activeComments` slice reactively. Composer (logged-in): avatar + `[(ngModel)]` textarea + circular send button (accent when text present). Locked row (guest): tappable → `/auth/login`. Empty state varies by login state. Comment list: avatar + name + relative time (`fmtAgo`) + text + like button (toggles red, updates count) + Reply button. Inline reply composer opens below the comment with `'Отговори на [FirstName]…'` placeholder. Replies indented with `border-left`. Like works on replies too. |
+| 21 | Scroll-to-comments deep link | ✅ | Comment-count pill in the article subtitle calls `scrollToComments()` → `IonContent.scrollToPoint` using `getBoundingClientRect` delta + `scrollTop` offset. `scroll` query-param `input()` auto-triggers the same scroll after load via `effect()` watching `articleLoading` → fires `doScrollToComments()` with 250 ms defer. |
+
+---
+
+### Phase 5 — Engagement ✅ Complete
+
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 22 | PollsStore + PollService | ✅ | `loadPolls`, `loadPoll`, `castVote`; `voting` flag; optimistic update |
+| 23 | Polls list screen | ✅ | Rows with vote-status chip, pull-to-refresh |
+| 24 | Poll detail screen | ✅ | Radio options, animated progress bars after voting, live total count |
+| 25 | NotificationsStore + NotificationService | ✅ | `loadNotifications`, `markRead`, `markAllRead` (with toast) |
+| 26 | Notifications screen + unread badge | ✅ | Unread dot per card, "Отбележи всички", badge on tab connected to `NotificationsStore.unreadCount()`; store loads eagerly via `withHooks` → `effect(() => auth.isLoggedIn())` so badge count is accurate from first render |
+
+---
+
+### Phase 6 — User & Content Creation ✅ Complete
+
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 27 | ProfileStore + profile screen | ✅ | Route-scoped `ProfileStore` (`saveName`, `changePassword`, `deleteAccount` rxMethods). Profile screen: avatar header (72px), My Articles list with pending/published chips, Settings (editable name + disabled email + save), Change Password (3 fields each with eye toggle + inline validation), red logout button, 3-step Delete Account flow (trigger → warning panel → type "ИЗТРИВАНЕ" to confirm). `AuthStore.updateUser()` persists name change to secure storage. Backend: `PUT /auth/profile-data`, `PUT /auth/new-password`, `DELETE /auth/delete-profile` added to mock. |
+| 28 | Add News modal | ✅ | Top bar matches demo (close icon + centred title + accent "Публикувай" button). Image upload toggles between empty and mock-uploaded state. Title shows char count (`/120`). Inline validation errors on title and body fields. Done screen: detail card with status chip, author name, author ID, submission number, "Към началото" primary CTA + "Виж моите публикации" secondary link. `loadMyArticles` triggered on success so My Articles section in profile updates immediately. |
+| 29 | Profile guest empty state | ✅ | `authGuard` removed from `/tabs/profile` route. Guest tab bar updated: shows "Профил" tab instead of bare "Вход" button. Profile page shows `gp-empty-state` + "Вход" and "Регистрация" CTA buttons when not logged in. |
+
+---
+
+### Phase 7 — Push Notifications ❌ Not started
+
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 30 | PushNotificationService | ❌ | `@capacitor/push-notifications` installed but no service |
+| 31 | Permission request flow (post-onboarding) | ❌ | |
+| 32 | Deep-link from push notification to article | ❌ | In-app notification tap → article works; native push → app not wired |
+
+---
+
+### Phase 8 — Polish & QA ❌ Not started
+
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 33 | Page transitions (slide/modal animations) | ❌ | Ionic defaults only; no custom enter/leave animations |
+| 34 | Accessibility audit (AXE, WCAG AA) | ❌ | |
+| 35 | Error states (network failure, offline detection) | ❌ | Empty states exist; no network-error banner or offline guard |
+| 36 | Back-end integration (replace mock with real Laravel API) | ❌ | All calls hit `C:/Users/twrkh/Projects/backend-mock` |
+| 37 | iOS + Android build verification | ❌ | |
+
+---
+
+### Additional gaps vs. plan §7 (Shared Components)
+
+| Component | Status | Notes |
+|---|---|---|
+| Search screen + `/search` route | ❌ | Not built; search button in home topbar navigates nowhere |
+| ToastComponent | — | Intentionally replaced by Ionic `ToastController`; no custom component needed |
+| ImgPlaceholderComponent / ArticleThumbComponent | — | Replaced by `.gp-img` CSS pattern with `--cathue` var; no component needed |
+| PullToRefreshDirective | — | Replaced by Ionic `IonRefresher` / `IonRefresherContent` |
+
+---
+
+### Summary
+
+| Phase | Status | Completion |
+|---|---|---|
+| 1 — Foundation | ✅ Complete | 5 / 5 |
+| 2 — Auth | ✅ Complete | 7 / 7 |
+| 3 — Core Feed | ✅ Complete | 5 / 5 |
+| 4 — Article & Comments | ✅ Complete | 4 / 4 |
+| 5 — Engagement | ✅ Complete | 5 / 5 |
+| 6 — User & Content | ⚠️ Partial | 1.5 / 3 |
+| 7 — Push Notifications | ❌ Not started | 0 / 3 |
+| 8 — Polish & QA | ❌ Not started | 0 / 5 |
+| **Total** | | **27 / 37** |
 
 ---
 

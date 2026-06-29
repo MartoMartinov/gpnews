@@ -30,4 +30,16 @@ export class AuthService {
   me(): Observable<{ user: User }> {
     return this.http.get<{ user: User }>(`${this.base}/auth/me`);
   }
+
+  updateProfile(name: string): Observable<{ user: User }> {
+    return this.http.put<{ user: User }>(`${this.base}/auth/profile-data`, { name });
+  }
+
+  changePassword(current: string, password: string): Observable<{ ok: boolean }> {
+    return this.http.put<{ ok: boolean }>(`${this.base}/auth/new-password`, { current, password });
+  }
+
+  deleteAccount(): Observable<{ ok: boolean }> {
+    return this.http.delete<{ ok: boolean }>(`${this.base}/auth/delete-profile`);
+  }
 }

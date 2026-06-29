@@ -46,7 +46,6 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
-        canActivate: [authGuard],
         loadComponent: () =>
           import('./pages/profile/profile.page').then((m) => m.ProfilePage),
       },

@@ -19,7 +19,7 @@ import { exhaustMap, pipe, tap } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { SecureStorageService } from '../../core/services/secure-storage.service';
 import { StorageService } from '../../core/services/storage.service';
-import { AuthMetadata, AuthResponse, Credentials, RegisterData } from '../../shared/models';
+import { AuthMetadata, AuthResponse, Credentials, RegisterData, User } from '../../shared/models';
 import { withBase } from '../features';
 import { withRequestStatus } from '../features';
 import { initialAuthSlice } from './auth.slice';
@@ -162,6 +162,15 @@ export const AuthStore = signalStore(
           patchState(store, clearSession());
         }
         patchState(store, setInitialized());
+      },
+
+      /** Update the stored user after a profile-data change. */
+      updateUser: (user: User) => {
+        patchState(store, { user });
+        void (async () => {
+          const meta = await store._storage.get<AuthMetadata>(AUTH_DATA);
+          if (meta) await store._storage.set(AUTH_DATA, { ...meta, user });
+        })();
       },
 
       /** Called by the interceptor after a successful token refresh. */

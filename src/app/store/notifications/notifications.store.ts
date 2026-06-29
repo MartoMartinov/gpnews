@@ -1,9 +1,10 @@
-import { computed, inject } from '@angular/core';
+import { computed, effect, inject } from '@angular/core';
 import { ToastController } from '@ionic/angular/standalone';
 import {
   patchState,
   signalStore,
   withComputed,
+  withHooks,
   withMethods,
   withProps,
   withState,
@@ -15,6 +16,7 @@ import { pipe, switchMap, tap } from 'rxjs';
 import { NotificationService } from '../../core/services/notification.service';
 import { AppNotification } from '../../shared/models';
 import { withBase } from '../features';
+import { AuthStore } from '../auth/auth.store';
 
 interface NotificationsState {
   items: AppNotification[];
@@ -92,4 +94,18 @@ export const NotificationsStore = signalStore(
       ),
     ),
   })),
+  withHooks((store) => {
+    const auth = inject(AuthStore);
+    return {
+      onInit: () => {
+        effect(() => {
+          if (auth.isLoggedIn()) {
+            store.loadNotifications(undefined);
+          } else {
+            patchState(store, { items: [], loading: false });
+          }
+        });
+      },
+    };
+  }),
 );

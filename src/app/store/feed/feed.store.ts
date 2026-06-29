@@ -141,6 +141,55 @@ export const FeedStore = signalStore(
       ),
     ),
 
+    likeComment: rxMethod<{ articleId: string; commentId: string }>(
+      pipe(
+        switchMap(({ articleId, commentId }) =>
+          store._comment.likeComment(articleId, commentId).pipe(
+            tapResponse({
+              next: ({ liked, likes }: { liked: boolean; likes: number }) => {
+                patchState(store, {
+                  activeComments: store.activeComments().map((c) => {
+                    if (c.id === commentId) return { ...c, liked, likes };
+                    if (c.replies?.some((r) => r.id === commentId)) {
+                      return {
+                        ...c,
+                        replies: (c.replies ?? []).map((r) =>
+                          r.id === commentId ? { ...r, liked, likes } : r,
+                        ),
+                      };
+                    }
+                    return c;
+                  }),
+                });
+              },
+              error: () => {},
+            }),
+          ),
+        ),
+      ),
+    ),
+
+    addReply: rxMethod<{ articleId: string; commentId: string; text: string }>(
+      pipe(
+        switchMap(({ articleId, commentId, text }) =>
+          store._comment.addReply(articleId, commentId, text).pipe(
+            tapResponse({
+              next: (reply: Comment) => {
+                patchState(store, {
+                  activeComments: store.activeComments().map((c) =>
+                    c.id === commentId
+                      ? { ...c, replies: [...(c.replies ?? []), reply] }
+                      : c,
+                  ),
+                });
+              },
+              error: () => {},
+            }),
+          ),
+        ),
+      ),
+    ),
+
     submitArticle: (data: SubmitArticleData) => store._feed.submitArticle(data),
 
     loadMyArticles: rxMethod<void>(

@@ -5,6 +5,7 @@ import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import { BtnComponent, ChipComponent, GpLogoComponent, IconComponent, SkeletonComponent } from '../../../shared/components';
 import { FeedStore } from '../../../store/feed/feed.store';
 import { AuthStore } from '../../../store/auth/auth.store';
+import { DrawerService } from '../../../core/services/drawer.service';
 import { Category } from '../../../shared/models';
 
 @Component({
@@ -126,6 +127,7 @@ export class HomePage {
   protected readonly feed = inject(FeedStore);
   protected readonly auth = inject(AuthStore);
   private readonly router = inject(Router);
+  private readonly drawerSvc = inject(DrawerService);
 
   protected catHue(cat: Category): string {
     return `hsl(${cat.hue} 45% 55%)`;
@@ -144,7 +146,7 @@ export class HomePage {
   }
 
   openDrawer(): void {
-    // Category drawer — future phase
+    this.drawerSvc.open();
   }
 
   refresh(event: CustomEvent): void {
