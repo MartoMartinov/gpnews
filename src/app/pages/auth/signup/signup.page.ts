@@ -47,43 +47,62 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
 
         <form [formGroup]="form" (ngSubmit)="submit()">
           <div class="gp-field" [class.err]="invalid('name')">
-            <input class="gp-input" placeholder="Име и фамилия" formControlName="name" autocomplete="name" />
+            <input class="gp-input" placeholder="Име и фамилия" aria-label="Име и фамилия"
+              [attr.aria-invalid]="invalid('name') || null" aria-describedby="name-err"
+              formControlName="name" autocomplete="name" />
             @if (invalid('name')) {
-              <div class="errmsg"><gp-icon name="close" [size]="13" [sw]="2.5" />Въведи име и фамилия</div>
+              <div class="errmsg" id="name-err" role="alert">
+                <gp-icon name="close" [size]="13" [sw]="2.5" />Въведи име и фамилия
+              </div>
             }
           </div>
 
           <div class="gp-field" [class.err]="invalid('email')">
             <input class="gp-input" type="email" inputmode="email" placeholder="Имейл адрес"
-              formControlName="email" autocomplete="email" />
+              aria-label="Имейл адрес" [attr.aria-invalid]="invalid('email') || null"
+              aria-describedby="email-err" formControlName="email" autocomplete="email" />
             @if (invalid('email')) {
-              <div class="errmsg"><gp-icon name="close" [size]="13" [sw]="2.5" />Невалиден имейл адрес</div>
+              <div class="errmsg" id="email-err" role="alert">
+                <gp-icon name="close" [size]="13" [sw]="2.5" />Невалиден имейл адрес
+              </div>
             }
           </div>
 
           <div class="gp-field" [class.err]="invalid('password')">
             <div class="gp-input-wrap">
               <input class="gp-input" [type]="showPw() ? 'text' : 'password'" placeholder="Парола"
-                formControlName="password" autocomplete="new-password" />
-              <button type="button" class="eye-btn" (click)="showPw.set(!showPw())" tabindex="-1">
+                aria-label="Парола" [attr.aria-invalid]="invalid('password') || null"
+                aria-describedby="pw-err" formControlName="password" autocomplete="new-password" />
+              <button type="button" class="eye-btn"
+                [attr.aria-label]="showPw() ? 'Скрий паролата' : 'Покажи паролата'"
+                [attr.aria-pressed]="showPw()"
+                (click)="showPw.set(!showPw())" tabindex="-1">
                 <gp-icon [name]="showPw() ? 'eye' : 'eyeoff'" [size]="20" />
               </button>
             </div>
             @if (invalid('password')) {
-              <div class="errmsg"><gp-icon name="close" [size]="13" [sw]="2.5" />Минимум 6 символа</div>
+              <div class="errmsg" id="pw-err" role="alert">
+                <gp-icon name="close" [size]="13" [sw]="2.5" />Минимум 6 символа
+              </div>
             }
           </div>
 
           <div class="gp-field" [class.err]="confirmInvalid()">
             <div class="gp-input-wrap">
               <input class="gp-input" [type]="showPw2() ? 'text' : 'password'" placeholder="Повтори паролата"
-                formControlName="confirm" autocomplete="new-password" />
-              <button type="button" class="eye-btn" (click)="showPw2.set(!showPw2())" tabindex="-1">
+                aria-label="Повтори паролата" [attr.aria-invalid]="confirmInvalid() || null"
+                aria-describedby="confirm-err" formControlName="confirm" autocomplete="new-password" />
+              <button type="button" class="eye-btn"
+                [attr.aria-label]="showPw2() ? 'Скрий паролата' : 'Покажи паролата'"
+                [attr.aria-pressed]="showPw2()"
+                (click)="showPw2.set(!showPw2())" tabindex="-1">
                 <gp-icon [name]="showPw2() ? 'eye' : 'eyeoff'" [size]="20" />
               </button>
             </div>
             @if (confirmInvalid()) {
-              <div class="errmsg"><gp-icon name="close" [size]="13" [sw]="2.5" />Паролите не съвпадат</div>
+              <div class="errmsg" id="confirm-err" role="alert">
+                <gp-icon name="close" [size]="13" [sw]="2.5" />Паролите не съвпадат
+              </div>
             }
           </div>
 

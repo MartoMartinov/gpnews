@@ -19,6 +19,15 @@ import { CommentService } from '../../core/services/comment.service';
 import { Article, Category, Comment, SubmitArticleData } from '../../shared/models';
 import { withBase } from '../features';
 
+async function toast(
+  ctrl: ToastController,
+  message: string,
+  color: 'success' | 'danger' | 'medium',
+): Promise<void> {
+  const t = await ctrl.create({ message, duration: 2500, position: 'bottom', color });
+  await t.present();
+}
+
 export interface HomeSectionData {
   cat: Category;
   lead: Article;
@@ -77,7 +86,10 @@ export const FeedStore = signalStore(
             tapResponse({
               next: ([categories, articles]) =>
                 patchState(store, { categories, articles, loading: false }),
-              error: () => patchState(store, { loading: false }),
+              error: () => {
+                patchState(store, { loading: false });
+                void toast(store._toast, 'Неуспешно зареждане. Провери интернет връзката.', 'danger');
+              },
             }),
           ),
         ),
@@ -91,11 +103,13 @@ export const FeedStore = signalStore(
           store._feed.getArticles(catId).pipe(
             tapResponse({
               next: (articles) => {
-                // Merge into master list, replacing articles for this cat.
                 const existing = store.articles().filter((a) => a.cat !== catId);
                 patchState(store, { articles: [...existing, ...articles], loading: false });
               },
-              error: () => patchState(store, { loading: false }),
+              error: () => {
+                patchState(store, { loading: false });
+                void toast(store._toast, 'Неуспешно зареждане. Провери интернет връзката.', 'danger');
+              },
             }),
           ),
         ),
@@ -110,7 +124,10 @@ export const FeedStore = signalStore(
             tapResponse({
               next: ([activeArticle, activeComments]) =>
                 patchState(store, { activeArticle, activeComments, articleLoading: false }),
-              error: () => patchState(store, { articleLoading: false }),
+              error: () => {
+                patchState(store, { articleLoading: false });
+                void toast(store._toast, 'Статията не може да бъде заредена.', 'danger');
+              },
             }),
           ),
         ),
@@ -124,17 +141,9 @@ export const FeedStore = signalStore(
             tapResponse({
               next: (comment: Comment) => {
                 patchState(store, { activeComments: [comment, ...store.activeComments()] });
-                void (async () => {
-                  const t = await store._toast.create({
-                    message: 'Коментарът е публикуван',
-                    duration: 2000,
-                    position: 'bottom',
-                    color: 'success',
-                  });
-                  await t.present();
-                })();
+                void toast(store._toast, 'Коментарът е публикуван', 'success');
               },
-              error: () => {},
+              error: () => void toast(store._toast, 'Грешка при публикуване на коментара.', 'danger'),
             }),
           ),
         ),
@@ -183,7 +192,7 @@ export const FeedStore = signalStore(
                   ),
                 });
               },
-              error: () => {},
+              error: () => void toast(store._toast, 'Грешка при публикуване на отговора.', 'danger'),
             }),
           ),
         ),

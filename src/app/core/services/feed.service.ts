@@ -19,6 +19,10 @@ export class FeedService {
     return this.http.get<Article[]>(`${this.base}/articles`, { params });
   }
 
+  searchArticles(q: string): Observable<Article[]> {
+    return this.http.get<Article[]>(`${this.base}/articles`, { params: { q } });
+  }
+
   getArticle(id: string): Observable<Article> {
     return this.http.get<Article>(`${this.base}/articles/${id}`);
   }

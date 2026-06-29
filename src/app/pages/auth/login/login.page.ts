@@ -37,11 +37,14 @@ import { AuthStore } from '../../../store/auth/auth.store';
               type="email"
               inputmode="email"
               placeholder="Имейл адрес"
+              aria-label="Имейл адрес"
+              [attr.aria-invalid]="invalid('email') || null"
+              aria-describedby="email-err"
               formControlName="email"
               autocomplete="email"
             />
             @if (invalid('email')) {
-              <div class="errmsg">
+              <div class="errmsg" id="email-err" role="alert">
                 <gp-icon name="close" [size]="13" [sw]="2.5" />Невалиден имейл адрес
               </div>
             }
@@ -53,15 +56,21 @@ import { AuthStore } from '../../../store/auth/auth.store';
                 class="gp-input"
                 [type]="showPw() ? 'text' : 'password'"
                 placeholder="Парола"
+                aria-label="Парола"
+                [attr.aria-invalid]="invalid('password') || null"
+                aria-describedby="pw-err"
                 formControlName="password"
                 autocomplete="current-password"
               />
-              <button type="button" class="eye" (click)="showPw.set(!showPw())" tabindex="-1">
+              <button type="button" class="eye"
+                [attr.aria-label]="showPw() ? 'Скрий паролата' : 'Покажи паролата'"
+                [attr.aria-pressed]="showPw()"
+                (click)="showPw.set(!showPw())" tabindex="-1">
                 <gp-icon [name]="showPw() ? 'eye' : 'eyeoff'" [size]="20" />
               </button>
             </div>
             @if (invalid('password')) {
-              <div class="errmsg">
+              <div class="errmsg" id="pw-err" role="alert">
                 <gp-icon name="close" [size]="13" [sw]="2.5" />Паролата е твърде кратка
               </div>
             }

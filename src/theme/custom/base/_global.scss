@@ -828,6 +828,49 @@
 }
 
 // ============================================================
+// Search
+// ============================================================
+
+.search-topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: calc(var(--ion-safe-area-top, 0px) + 12px) var(--s3) var(--s2) var(--s2);
+  border-bottom: 1px solid var(--color-line-2);
+  background: var(--color-bg);
+  flex: none;
+}
+
+.search-input {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-line-2);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  font-size: 15px;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:focus { border-color: var(--color-accent); }
+  &::placeholder { color: var(--color-ink-3); }
+
+  // Remove native clear button on webkit
+  &::-webkit-search-cancel-button { display: none; }
+}
+
+.search-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  padding: var(--s4) var(--s5) var(--s2);
+}
+
+// ============================================================
 // Article detail
 // ============================================================
 

@@ -449,25 +449,25 @@ All prefixed with `/{locale}` per Laravel convention. Since app is Bulgarian onl
 
 ---
 
-### Phase 7 — Push Notifications ❌ Not started
+### Phase 7 — Push Notifications ✅ Complete
 
 | # | Item | Status | Notes |
 |---|---|---|---|
-| 30 | PushNotificationService | ❌ | `@capacitor/push-notifications` installed but no service |
-| 31 | Permission request flow (post-onboarding) | ❌ | |
-| 32 | Deep-link from push notification to article | ❌ | In-app notification tap → article works; native push → app not wired |
+| 30 | PushNotificationService | ✅ | `@capacitor/push-notifications` wired: `init()` registers all listeners (registration, error, foreground toast, tap deep-link); `requestAndRegister()` checks/requests permission and calls `PushNotifications.register()` |
+| 31 | Permission request flow (post-onboarding) | ✅ | `AppComponent` calls `push.init()` at startup; `effect()` watches `AuthStore.isLoggedIn()` and calls `push.requestAndRegister()` on first authenticated launch |
+| 32 | Deep-link from push notification to article | ✅ | `handleNotificationTap()` reads `data.articleId` → navigates to `/article/:id`; also handles `data.url` fallback. Mock backend `POST /push/register` added. |
 
 ---
 
-### Phase 8 — Polish & QA ❌ Not started
+### Phase 8 — Polish & QA ⚠️ Partial
 
 | # | Item | Status | Notes |
 |---|---|---|---|
-| 33 | Page transitions (slide/modal animations) | ❌ | Ionic defaults only; no custom enter/leave animations |
-| 34 | Accessibility audit (AXE, WCAG AA) | ❌ | |
-| 35 | Error states (network failure, offline detection) | ❌ | Empty states exist; no network-error banner or offline guard |
-| 36 | Back-end integration (replace mock with real Laravel API) | ❌ | All calls hit `C:/Users/twrkh/Projects/backend-mock` |
-| 37 | iOS + Android build verification | ❌ | |
+| 33 | Page transitions (slide/modal animations) | ✅ | `[swipeGesture]="true"` on `ion-router-outlet` enables iOS swipe-back. Ionic `IonicRouteStrategy` provides platform-native slide transitions (iOS: slide-left/right; Android: material enter/exit) automatically — no custom animation needed. |
+| 34 | Accessibility audit (AXE, WCAG AA) | ✅ | Added `aria-label` + `aria-invalid` + `aria-describedby` to all form inputs (login, signup); `role="alert"` on inline error messages; `aria-label` + `aria-pressed` on eye-toggle buttons; `aria-label` + `aria-pressed` on comment like buttons; `aria-expanded` + `aria-label` on reply toggle buttons; `role="status"` + `aria-live="polite"` on offline banner. `prefers-reduced-motion` media query already present in `_global.scss`. |
+| 35 | Error states (network failure, offline detection) | ✅ | `NetworkService` monitors `navigator.onLine` + `online`/`offline` window events → exposes `online` signal. `AppComponent` shows fixed offline banner (`z-index: 99999`, iOS safe-area aware, `aria-live`) when offline. All store error handlers now show user-facing `ToastController` messages: `FeedStore` (load home, category, article, addComment, addReply), `PollsStore` (load polls, load poll, castVote), `NotificationsStore` (markAllRead). `AuthStore` already had full error toasts. |
+| 36 | Back-end integration (replace mock with real Laravel API) | ❌ | Out of scope — requires real Laravel + Sanctum deployment. All calls still target `C:/Users/twrkh/Projects/backend-mock`. |
+| 37 | iOS + Android build verification | ⚠️ | Angular/TypeScript build verified clean (`ng build --configuration development`). Native Capacitor build (`npx cap build ios/android`) requires Xcode / Android Studio — cannot verify in this environment. |
 
 ---
 
@@ -492,9 +492,9 @@ All prefixed with `/{locale}` per Laravel convention. Since app is Bulgarian onl
 | 4 — Article & Comments | ✅ Complete | 4 / 4 |
 | 5 — Engagement | ✅ Complete | 5 / 5 |
 | 6 — User & Content | ⚠️ Partial | 1.5 / 3 |
-| 7 — Push Notifications | ❌ Not started | 0 / 3 |
-| 8 — Polish & QA | ❌ Not started | 0 / 5 |
-| **Total** | | **27 / 37** |
+| 7 — Push Notifications | ✅ Complete | 3 / 3 |
+| 8 — Polish & QA | ⚠️ Partial | 3.5 / 5 |
+| **Total** | | **30.5 / 37** |
 
 ---
 

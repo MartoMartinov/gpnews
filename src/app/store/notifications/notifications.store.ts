@@ -18,6 +18,15 @@ import { AppNotification } from '../../shared/models';
 import { withBase } from '../features';
 import { AuthStore } from '../auth/auth.store';
 
+async function toast(
+  ctrl: ToastController,
+  message: string,
+  color: 'success' | 'danger',
+): Promise<void> {
+  const t = await ctrl.create({ message, duration: 2500, position: 'bottom', color });
+  await t.present();
+}
+
 interface NotificationsState {
   items: AppNotification[];
   loading: boolean;
@@ -77,17 +86,9 @@ export const NotificationsStore = signalStore(
             tapResponse({
               next: () => {
                 patchState(store, { items: store.items().map((n) => ({ ...n, read: true })) });
-                void (async () => {
-                  const t = await store._toast.create({
-                    message: 'Всички известия са отбелязани',
-                    duration: 2000,
-                    position: 'bottom',
-                    color: 'success',
-                  });
-                  await t.present();
-                })();
+                void toast(store._toast, 'Всички известия са отбелязани', 'success');
               },
-              error: () => {},
+              error: () => void toast(store._toast, 'Грешка при обновяването. Опитай отново.', 'danger'),
             }),
           ),
         ),

@@ -17,6 +17,15 @@ import { PollService } from '../../core/services/poll.service';
 import { Poll } from '../../shared/models';
 import { withBase } from '../features';
 
+async function toast(
+  ctrl: ToastController,
+  message: string,
+  color: 'success' | 'danger',
+): Promise<void> {
+  const t = await ctrl.create({ message, duration: 2500, position: 'bottom', color });
+  await t.present();
+}
+
 interface PollsState {
   polls: Poll[];
   activePoll: Poll | null;
@@ -50,7 +59,10 @@ export const PollsStore = signalStore(
           store._polls.getPolls().pipe(
             tapResponse({
               next: (polls) => patchState(store, { polls, loading: false }),
-              error: () => patchState(store, { loading: false }),
+              error: () => {
+                patchState(store, { loading: false });
+                void toast(store._toast, 'Неуспешно зареждане. Провери интернет връзката.', 'danger');
+              },
             }),
           ),
         ),
@@ -64,7 +76,10 @@ export const PollsStore = signalStore(
           store._polls.getPoll(id).pipe(
             tapResponse({
               next: (activePoll) => patchState(store, { activePoll, loading: false }),
-              error: () => patchState(store, { loading: false }),
+              error: () => {
+                patchState(store, { loading: false });
+                void toast(store._toast, 'Анкетата не може да бъде заредена.', 'danger');
+              },
             }),
           ),
         ),
@@ -83,17 +98,12 @@ export const PollsStore = signalStore(
                   voting: false,
                   polls: store.polls().map((p) => (p.id === updated.id ? updated : p)),
                 });
-                void (async () => {
-                  const t = await store._toast.create({
-                    message: 'Гласът ти е записан',
-                    duration: 2000,
-                    position: 'bottom',
-                    color: 'success',
-                  });
-                  await t.present();
-                })();
+                void toast(store._toast, 'Гласът ти е записан', 'success');
               },
-              error: () => patchState(store, { voting: false }),
+              error: () => {
+                patchState(store, { voting: false });
+                void toast(store._toast, 'Грешка при гласуването. Опитай отново.', 'danger');
+              },
             }),
           ),
         ),

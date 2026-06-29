@@ -70,6 +70,11 @@ export const routes: Routes = [
       import('./pages/polls/poll-detail/poll-detail.page').then((m) => m.PollDetailPage),
   },
   {
+    path: 'search',
+    loadComponent: () =>
+      import('./pages/search/search.page').then((m) => m.SearchPage),
+  },
+  {
     path: 'add-news',
     canActivate: [authGuard],
     loadComponent: () =>

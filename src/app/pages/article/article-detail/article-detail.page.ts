@@ -168,12 +168,16 @@ function fmtAgo(mins: number): string {
                       <p class="cmt-text">{{ c.text }}</p>
                       <div class="cmt-actions">
                         <button class="cmt-like" [class.on]="c.liked"
+                          [attr.aria-label]="(c.liked ? 'Премахни харесване' : 'Харесай') + ' · ' + c.likes"
+                          [attr.aria-pressed]="c.liked"
                           (click)="likeComment(c.id)">
                           <gp-icon name="heart" [size]="14" [sw]="2" [fill]="c.liked" />
                           {{ c.likes }}
                         </button>
                         @if (auth.isLoggedIn()) {
                           <button class="cmt-reply-btn"
+                            [attr.aria-expanded]="replyTarget() === c.id"
+                            [attr.aria-label]="'Отговори на ' + c.user.name"
                             (click)="toggleReply(c.id)">Отговори</button>
                         }
                       </div>
@@ -208,6 +212,8 @@ function fmtAgo(mins: number): string {
                                 <p class="cmt-text">{{ r.text }}</p>
                                 <div class="cmt-actions">
                                   <button class="cmt-like" [class.on]="r.liked"
+                                    [attr.aria-label]="(r.liked ? 'Премахни харесване' : 'Харесай') + ' · ' + r.likes"
+                                    [attr.aria-pressed]="r.liked"
                                     (click)="likeComment(r.id, c.id)">
                                     <gp-icon name="heart" [size]="14" [sw]="2" [fill]="r.liked" />
                                     {{ r.likes }}
