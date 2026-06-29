@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <svg
-      class="bp"
+      class="block w-full h-full "
       [style.opacity]="opacity()"
       viewBox="0 0 400 300"
       preserveAspectRatio="xMidYMid slice"
@@ -40,11 +40,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       :host {
         display: block;
         color: var(--color-blueprint);
-      }
-      .bp {
-        width: 100%;
-        height: 100%;
-        display: block;
       }
     `,
   ],

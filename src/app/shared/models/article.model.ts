@@ -1,5 +1,11 @@
 import { User } from './user.model';
 
+export interface SubmitArticleData {
+  cat: string;
+  title: string;
+  body: string;
+}
+
 /** A news article. */
 export interface Article {
   id: string;
@@ -19,4 +25,6 @@ export interface Article {
   author?: User;
   /** Whether the article is submitted and awaiting moderation. */
   pending?: boolean;
+  /** Number of top-level + reply comments (returned by list endpoints). */
+  commentCount?: number;
 }

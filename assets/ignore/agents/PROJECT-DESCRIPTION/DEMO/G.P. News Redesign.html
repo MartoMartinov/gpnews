@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>G.P. News — Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Golos+Text:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Spectral:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="screens.css" />
+</head>
+<body>
+<div id="root"></div>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#16160f"/>
+    <rect x="34" y="22" width="32" height="56" rx="7" fill="#F2C200"/>
+    <rect x="39" y="30" width="22" height="3" rx="1.5" fill="#16160f"/>
+    <rect x="39" y="37" width="22" height="3" rx="1.5" fill="#16160f"/>
+    <rect x="39" y="44" width="14" height="3" rx="1.5" fill="#16160f"/>
+  </svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="data.js"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="frames.jsx"></script>
+<script type="text/babel" src="screens-auth.jsx"></script>
+<script type="text/babel" src="screens-feed.jsx"></script>
+<script type="text/babel" src="screens-article.jsx"></script>
+<script type="text/babel" src="screens-misc.jsx"></script>
+<script type="text/babel" src="screens-engage.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "direction": "A — Steel",
+  "layout": "iOS + Android",
+  "start": "Въведение",
+  "dark": false,
+  "accent": "#F2C200",
+  "font": "Технически · IBM Plex",
+  "radius": 4,
+  "density": "Стандарт"
+}/*EDITMODE-END*/;
+
+const FONTS = {
+  "Modern · Manrope":      { head: '"Manrope", sans-serif', body: '"Manrope", sans-serif', mono: '"JetBrains Mono", monospace' },
+  "Неутрален · Golos":     { head: '"Golos Text", sans-serif', body: '"Golos Text", sans-serif', mono: '"JetBrains Mono", monospace' },
+  "Технически · IBM Plex": { head: '"IBM Plex Sans", sans-serif', body: '"IBM Plex Sans", sans-serif', mono: '"IBM Plex Mono", monospace' },
+  "Редакционен · Spectral":{ head: '"Spectral", serif', body: '"Golos Text", sans-serif', mono: '"JetBrains Mono", monospace' },
+};
+const START = { "Въведение": "intro", "Начало · гост": "home-guest", "Начало · влязъл": "home-user" };
+const DENSITY = { "Компактна": 0.86, "Стандарт": 1, "Просторна": 1.14 };
+
+function luminance(hex) {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substr(0,2),16)/255, g = parseInt(c.substr(2,2),16)/255, b = parseInt(c.substr(4,2),16)/255;
+  const f = (v) => (v <= 0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4));
+  return 0.2126*f(r) + 0.7152*f(g) + 0.0722*f(b);
+}
+
+function Root() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [scale, setScale] = useState(1);
+  const phonesRef = useRef(null);
+
+  const dir = t.direction.charAt(0).toLowerCase() === "a" ? "a" : "b";
+  const theme = t.dark ? "dark" : "light";
+  const font = FONTS[t.font] || FONTS["Modern · Manrope"];
+  const accentInk = luminance(t.accent) > 0.55 ? "#1A1A12" : "#FFFFFF";
+  const startKey = START[t.start] || "intro";
+  const platforms = t.layout === "Само iOS" ? ["ios"] : t.layout === "Само Android" ? ["android"] : ["ios", "android"];
+
+  // scale the phone row to fit the viewport
+  useEffect(() => {
+    function fit() {
+      const pad = 80;
+      const phoneW = 384 + 28; // frame padding
+      const gap = 56;
+      const need = platforms.length * phoneW + (platforms.length - 1) * gap;
+      const avail = window.innerWidth - pad;
+      setScale(Math.min(1, avail / need));
+    }
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, [t.layout]);
+
+  const stageStyle = {
+    "--accent": t.accent,
+    "--accent-ink": accentInk,
+    "--radius": t.radius + "px",
+    "--sp": DENSITY[t.density] || 1,
+    "--font-head": font.head,
+    "--font-body": font.body,
+    "--font-mono": font.mono,
+  };
+
+  return (
+    <div className="gp-stage" data-theme={theme} data-direction={dir} style={stageStyle}>
+      <div className="gp-stage-head">
+        <div>
+          <h1>G.P. News · Redesign</h1>
+          <div className="sub">Интерактивен прототип · iOS + Android · посока {dir.toUpperCase()}</div>
+        </div>
+        <div className="dir-pill">{dir === "a" ? "STEEL — editorial" : "ОБЕКТ — industrial"}</div>
+      </div>
+
+      <div style={{ height: 812 * scale + 40, width: "100%", display: "flex", justifyContent: "center" }}>
+        <div className="gp-phones" ref={phonesRef}
+          style={{ transform: `scale(${scale})`, transformOrigin: "top center" }}>
+          {platforms.map((p) => (
+            <Phone key={p + t.start} platform={p} time={p === "ios" ? "9:41" : "9:41"}>
+              <GPApp platform={p} start={startKey} />
+            </Phone>
+          ))}
+        </div>
+      </div>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Посока на дизайна" />
+        <TweakRadio label="Визуален стил" value={t.direction} options={["A — Steel", "B — Обект"]}
+          onChange={(v) => setTweak("direction", v)} />
+        <TweakSelect label="Демо · начален екран" value={t.start}
+          options={["Въведение", "Начало · гост", "Начало · влязъл"]}
+          onChange={(v) => setTweak("start", v)} />
+        <TweakRadio label="Устройства" value={t.layout}
+          options={["iOS + Android", "Само iOS", "Само Android"]}
+          onChange={(v) => setTweak("layout", v)} />
+
+        <TweakSection label="Облик" />
+        <TweakToggle label="Тъмен режим" value={t.dark} onChange={(v) => setTweak("dark", v)} />
+        <TweakColor label="Акцент" value={t.accent}
+          options={["#F2C200", "#E8741E", "#2A6FDB", "#10A86A"]}
+          onChange={(v) => setTweak("accent", v)} />
+        <TweakSelect label="Шрифтове" value={t.font}
+          options={Object.keys(FONTS)} onChange={(v) => setTweak("font", v)} />
+
+        <TweakSection label="Форма и плътност" />
+        <TweakSlider label="Заобляне" value={t.radius} min={4} max={26} step={1} unit="px"
+          onChange={(v) => setTweak("radius", v)} />
+        <TweakRadio label="Плътност" value={t.density}
+          options={["Компактна", "Стандарт", "Просторна"]}
+          onChange={(v) => setTweak("density", v)} />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Root />);
+</script>
+</body>
+</html>

@@ -45,6 +45,8 @@ const ICONS: Record<string, string> = {
   shield: 'M12 3l8 3v6c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3ZM9 12l2 2 4-4',
   hourglass: 'M7 3h10M7 21h10M8 3c0 4 8 5 8 9s-8 5-8 9M16 3c0 4-8 5-8 9s8 5 8 9',
   tray: 'M3 13l2.5-7a1 1 0 0 1 .95-.7h11.1a1 1 0 0 1 .95.7L21 13M3 13v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-5M3 13h5l1.5 2.2h5L16 13h5',
+  info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 11v5M12 8h.01',
+  img: 'M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1ZM8 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM3 17l5-4 4 3 4-4 5 5',
 };
 
 export const ICON_NAMES = Object.keys(ICONS);

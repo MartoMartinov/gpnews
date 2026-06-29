@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
-/** Shimmer placeholder block. Maps to the prototype's `Skeleton`. */
 @Component({
   selector: 'gp-skeleton',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,12 +7,12 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
   styles: [':host { display: block; }'],
 })
 export class SkeletonComponent {
-  readonly w = input<string | number>('100%');
-  readonly h = input<string | number>(16);
-  readonly r = input<number>(8);
+  readonly width = input<string | number>('100%');
+  readonly height = input<string | number>(16);
+  readonly radius = input<number>(8);
 
   protected readonly boxStyle = computed(() => {
     const toCss = (v: string | number) => (typeof v === 'number' ? `${v}px` : v);
-    return `width:${toCss(this.w())};height:${toCss(this.h())};border-radius:${this.r()}px`;
+    return `width:${toCss(this.width())};height:${toCss(this.height())};border-radius:${this.radius()}px`;
   });
 }

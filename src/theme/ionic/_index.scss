@@ -7,11 +7,17 @@ ion-content {
   --background: var(--color-bg);
 }
 
+ion-header {
+  background: color-mix(in srgb, var(--color-surface) 86%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-line);
+}
+
 ion-toolbar {
-  --background: var(--color-surface);
+  --background: transparent;
   --color: var(--color-ink);
-  --border-width: 0 0 1px 0;
-  --border-color: var(--color-line);
+  --border-width: 0;
   --min-height: 56px;
 }
 
@@ -21,18 +27,35 @@ ion-title {
   letter-spacing: -0.01em;
 }
 
+
+// Tab bar — matches demo .gp-tabbar
 ion-tab-bar {
-  --background: var(--color-surface);
+  --background: color-mix(in srgb, var(--color-surface) 92%, transparent);
   --color: var(--color-ink-3);
-  --color-selected: var(--color-accent);
+  --color-selected: var(--color-ink);
   border-top: 1px solid var(--color-line);
+  padding-top: var(--s2);
+  padding-bottom: calc(var(--s5) + env(safe-area-inset-bottom, 0px));
 }
 
+// Backdrop blur must be applied via ::part to pierce the shadow DOM
+ion-tab-bar::part(native) {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+}
+
+// Tab button — matches demo .gp-tab
 ion-tab-button {
   --color: var(--color-ink-3);
   --color-selected: var(--color-ink);
+  --background: transparent;
+  --background-focused: transparent;
+  --ripple-color: transparent;
   font-family: var(--font-head);
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0;
 }
 
 ion-button {

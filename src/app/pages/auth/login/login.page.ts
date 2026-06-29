@@ -48,7 +48,7 @@ import { AuthStore } from '../../../store/auth/auth.store';
           </div>
 
           <div class="gp-field" [class.err]="invalid('password')">
-            <div class="relative">
+            <div class="gp-input-wrap">
               <input
                 class="gp-input"
                 [type]="showPw() ? 'text' : 'password'"
@@ -56,7 +56,7 @@ import { AuthStore } from '../../../store/auth/auth.store';
                 formControlName="password"
                 autocomplete="current-password"
               />
-              <button type="button" class="eye-btn" (click)="showPw.set(!showPw())" tabindex="-1">
+              <button type="button" class="eye" (click)="showPw.set(!showPw())" tabindex="-1">
                 <gp-icon [name]="showPw() ? 'eye' : 'eyeoff'" [size]="20" />
               </button>
             </div>
@@ -104,23 +104,29 @@ import { AuthStore } from '../../../store/auth/auth.store';
       .auth-scroll {
         position: relative;
         z-index: 2;
-        min-height: 100%;
+        flex: 1;
+        overflow-y: auto;
+        scrollbar-width: none;
+        padding: 70px var(--s6) var(--s6);
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        max-width: 420px;
-        margin: 0 auto;
-        padding: 64px 24px 24px;
+      }
+      .auth-scroll::-webkit-scrollbar {
+        display: none;
       }
       .auth-logo {
         display: flex;
         justify-content: center;
-        margin: 0 0 40px;
+        transform: scale(1.35);
+        margin: 18px 0 40px;
       }
-      .relative {
+      .gp-input-wrap {
         position: relative;
       }
-      .eye-btn {
+      .gp-input-wrap .gp-input {
+        padding-right: 44px;
+      }
+      .eye {
         position: absolute;
         right: 12px;
         top: 50%;

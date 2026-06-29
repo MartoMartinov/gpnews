@@ -1,7 +1,6 @@
 // ============================================================
 // G.P. News — Design tokens & Ionic variable overrides
-// Direction A (Steel) · light theme.
-// Values mirror src/tailwind.css @theme block — keep in sync.
+// Direction A (Steel) · light + dark themes.
 // ============================================================
 
 :root {
@@ -9,18 +8,18 @@
   --color-accent: #f2c200;
   --color-accent-ink: #1a1a12;
 
-  // ---- Surfaces ----
+  // ---- Surfaces (light) ----
   --color-bg: #eaeae7;
   --color-surface: #ffffff;
   --color-surface-2: #f4f4f1;
   --color-surface-3: #ececE8;
 
-  // ---- Ink (text) ----
+  // ---- Ink (light) ----
   --color-ink: #17170f;
   --color-ink-2: #56564e;
   --color-ink-3: #8c8c83;
 
-  // ---- Lines ----
+  // ---- Lines (light) ----
   --color-line: rgba(20, 20, 10, 0.09);
   --color-line-2: rgba(20, 20, 10, 0.16);
 
@@ -29,18 +28,18 @@
   --color-danger: #e0533b;
   --color-ok: #1f8a5b;
 
-  // ---- Blueprint texture (auth/splash backgrounds) ----
+  // ---- Blueprint texture ----
   --color-blueprint: #1c2a3a;
 
   // ---- Shadows (Steel uses shadowed cards) ----
   --shadow: 0 1px 2px rgba(20, 20, 10, 0.06), 0 8px 24px -12px rgba(20, 20, 10, 0.18);
   --shadow-lg: 0 12px 40px -16px rgba(20, 20, 10, 0.3);
 
-  // ---- Radius scale (radius = 8px rounded — Direction A) ----
-  --radius: 8px;
-  --r-sm: calc(var(--radius) * 0.5);
-  --r-md: calc(var(--radius) * 0.8);
-  --r-lg: var(--radius);
+  // ---- Radius scale (18px base matches the design prototype) ----
+  --radius: 18px;
+  --r-sm: calc(var(--radius) * 0.5);   // 9px
+  --r-md: calc(var(--radius) * 0.8);   // 14.4px
+  --r-lg: var(--radius);               // 18px
 
   // ---- Spacing scale ----
   --s1: 4px;
@@ -54,11 +53,11 @@
 
   // ---- Typography ----
   --font-head: "IBM Plex Sans", system-ui, sans-serif;
-  --font-body: "IBM Plex Sans", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   // ============================================================
-  // Ionic CSS variable overrides
+  // Ionic CSS variable overrides (light)
   // ============================================================
   --ion-color-primary: #f2c200;
   --ion-color-primary-rgb: 242, 194, 0;
@@ -76,7 +75,64 @@
   --ion-item-background: #ffffff;
   --ion-toolbar-background: #ffffff;
   --ion-tab-bar-background: #ffffff;
+  --ion-tab-bar-color: #8c8c83;
   --ion-tab-bar-color-selected: #f2c200;
 
-  --ion-font-family: var(--font-body);
+  --ion-font-family: "Manrope", system-ui, sans-serif;
+}
+
+// ============================================================
+// Dark theme — system preference
+// ============================================================
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0d0e0b;
+    --color-surface: #191a16;
+    --color-surface-2: #22231e;
+    --color-surface-3: #2b2c26;
+    --color-ink: #f2f2ec;
+    --color-ink-2: #aaaba1;
+    --color-ink-3: #6c6d63;
+    --color-line: rgba(255, 255, 255, 0.1);
+    --color-line-2: rgba(255, 255, 255, 0.2);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+    --shadow-lg: 0 18px 50px -18px rgba(0, 0, 0, 0.8);
+    --color-blueprint: #6f93c0;
+
+    --ion-background-color: #0d0e0b;
+    --ion-background-color-rgb: 13, 14, 11;
+    --ion-text-color: #f2f2ec;
+    --ion-text-color-rgb: 242, 242, 236;
+    --ion-card-background: #191a16;
+    --ion-item-background: #191a16;
+    --ion-toolbar-background: #191a16;
+    --ion-tab-bar-background: #191a16;
+    --ion-tab-bar-color: #6c6d63;
+  }
+}
+
+// Manual dark override (set class="dark" on <html> or <ion-app>)
+.dark {
+  --color-bg: #0d0e0b;
+  --color-surface: #191a16;
+  --color-surface-2: #22231e;
+  --color-surface-3: #2b2c26;
+  --color-ink: #f2f2ec;
+  --color-ink-2: #aaaba1;
+  --color-ink-3: #6c6d63;
+  --color-line: rgba(255, 255, 255, 0.1);
+  --color-line-2: rgba(255, 255, 255, 0.2);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 18px 50px -18px rgba(0, 0, 0, 0.8);
+  --color-blueprint: #6f93c0;
+
+  --ion-background-color: #0d0e0b;
+  --ion-background-color-rgb: 13, 14, 11;
+  --ion-text-color: #f2f2ec;
+  --ion-text-color-rgb: 242, 242, 236;
+  --ion-card-background: #191a16;
+  --ion-item-background: #191a16;
+  --ion-toolbar-background: #191a16;
+  --ion-tab-bar-background: #191a16;
+  --ion-tab-bar-color: #6c6d63;
 }

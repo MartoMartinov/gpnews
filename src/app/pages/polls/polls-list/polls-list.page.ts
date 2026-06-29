@@ -1,19 +1,72 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
-import { EmptyStateComponent } from '../../../shared/components';
+import { ChipComponent, EmptyStateComponent, IconComponent, SkeletonComponent } from '../../../shared/components';
+import { PollsStore } from '../../../store/polls/polls.store';
 
-/** Polls list placeholder (Phase 5 adds PollsStore + rows). */
 @Component({
   selector: 'app-polls-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IONIC_IMPORTS, EmptyStateComponent],
+  imports: [IONIC_IMPORTS, IonRefresher, IonRefresherContent, ChipComponent, EmptyStateComponent, IconComponent, SkeletonComponent],
   template: `
     <ion-header>
-      <ion-toolbar><ion-title>Анкети</ion-title></ion-toolbar>
+      <ion-toolbar>
+        <ion-title>Анкети</ion-title>
+      </ion-toolbar>
     </ion-header>
+
     <ion-content [fullscreen]="true">
-      <gp-empty-state icon="tray" title="Анкети" text="Списък с анкети (Phase 5)." />
+      <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+        <ion-refresher-content />
+      </ion-refresher>
+
+      <div class="gp-section-head">
+        <span class="t">Анкети</span>
+      </div>
+
+      @if (store.loading()) {
+        <div style="padding: 0 var(--s5)">
+          @for (i of [0,1,2]; track i) {
+            <gp-skeleton width="100%" height="62px" [radius]="16" style="display:block;margin-bottom:var(--s3)" />
+          }
+        </div>
+      } @else if (store.polls().length === 0) {
+        <gp-empty-state icon="tray" title="Няма активни анкети" text="В момента няма анкети за попълване." />
+      } @else {
+        <div class="poll-list">
+          @for (p of store.polls(); track p.id) {
+            <button class="poll-row" (click)="goPoll(p.id)">
+              <span class="poll-row-play">
+                <gp-icon name="fwd" [size]="16" [sw]="2.4" />
+              </span>
+              <span class="poll-row-body">
+                <span class="poll-row-title">{{ p.title }}</span>
+                <span class="poll-row-meta">{{ p.closes }} · {{ p.total }} гласа</span>
+              </span>
+              @if (p.voted) {
+                <gp-chip tone="ok" icon="check">Гласувано</gp-chip>
+              } @else {
+                <gp-icon name="fwd" [size]="18" class="poll-row-arrow" />
+              }
+            </button>
+          }
+          <div style="height: var(--s6)"></div>
+        </div>
+      }
     </ion-content>
   `,
 })
-export class PollsListPage {}
+export class PollsListPage {
+  protected readonly store = inject(PollsStore);
+  private readonly router = inject(Router);
+
+  goPoll(id: string): void {
+    void this.router.navigate(['/poll', id]);
+  }
+
+  refresh(event: CustomEvent): void {
+    this.store.loadPolls(undefined);
+    setTimeout(() => (event.target as HTMLIonRefresherElement).complete(), 1000);
+  }
+}

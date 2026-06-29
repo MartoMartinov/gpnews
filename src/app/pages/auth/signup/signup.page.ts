@@ -39,11 +39,11 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
     <ion-content [fullscreen]="true">
       <div class="auth-bg"><gp-blueprint [opacity]="0.4" /></div>
       <div class="auth-scroll">
-        <button class="back-btn" (click)="back()" aria-label="Назад">
+        <button class="auth-back" (click)="back()" aria-label="Назад">
           <gp-icon name="back" [size]="22" />
         </button>
-        <div class="mb-4 flex justify-center"><gp-logo [height]="40" /></div>
-        <h1 class="mb-6 text-center text-2xl font-extrabold tracking-tight">Регистрация</h1>
+        <div class="auth-logo sm"><gp-logo [height]="40" /></div>
+        <h1 class="auth-h1">Регистрация</h1>
 
         <form [formGroup]="form" (ngSubmit)="submit()">
           <div class="gp-field" [class.err]="invalid('name')">
@@ -62,29 +62,39 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
           </div>
 
           <div class="gp-field" [class.err]="invalid('password')">
-            <input class="gp-input" [type]="showPw() ? 'text' : 'password'" placeholder="Парола"
-              formControlName="password" autocomplete="new-password" />
+            <div class="gp-input-wrap">
+              <input class="gp-input" [type]="showPw() ? 'text' : 'password'" placeholder="Парола"
+                formControlName="password" autocomplete="new-password" />
+              <button type="button" class="eye-btn" (click)="showPw.set(!showPw())" tabindex="-1">
+                <gp-icon [name]="showPw() ? 'eye' : 'eyeoff'" [size]="20" />
+              </button>
+            </div>
             @if (invalid('password')) {
               <div class="errmsg"><gp-icon name="close" [size]="13" [sw]="2.5" />Минимум 6 символа</div>
             }
           </div>
 
           <div class="gp-field" [class.err]="confirmInvalid()">
-            <input class="gp-input" [type]="showPw() ? 'text' : 'password'" placeholder="Повтори паролата"
-              formControlName="confirm" autocomplete="new-password" />
+            <div class="gp-input-wrap">
+              <input class="gp-input" [type]="showPw2() ? 'text' : 'password'" placeholder="Повтори паролата"
+                formControlName="confirm" autocomplete="new-password" />
+              <button type="button" class="eye-btn" (click)="showPw2.set(!showPw2())" tabindex="-1">
+                <gp-icon [name]="showPw2() ? 'eye' : 'eyeoff'" [size]="20" />
+              </button>
+            </div>
             @if (confirmInvalid()) {
               <div class="errmsg"><gp-icon name="close" [size]="13" [sw]="2.5" />Паролите не съвпадат</div>
             }
           </div>
 
+          <p class="auth-cta-sub">
+            Имаш регистрация? <a (click)="back()">Влез от тук.</a>
+          </p>
+
           <gp-btn variant="primary" size="lg" [full]="true" type="submit" [loading]="store.isPending()">
             Регистрация
           </gp-btn>
         </form>
-
-        <p class="mt-5 text-center text-sm text-[var(--color-ink-2)]">
-          Имаш регистрация? <a class="login-link" (click)="back()">Влез от тук.</a>
-        </p>
       </div>
     </ion-content>
   `,
@@ -92,41 +102,6 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
     `
       ion-content {
         --background: var(--color-surface);
-      }
-      .auth-bg {
-        position: absolute;
-        right: -10%;
-        bottom: -6%;
-        width: 75%;
-        height: 48%;
-        z-index: 1;
-        pointer-events: none;
-      }
-      .auth-scroll {
-        position: relative;
-        z-index: 2;
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        max-width: 420px;
-        margin: 0 auto;
-        padding: 56px 24px 24px;
-      }
-      .back-btn {
-        position: absolute;
-        top: 12px;
-        left: 4px;
-        padding: 8px;
-        background: none;
-        border: none;
-        color: var(--color-ink);
-      }
-      .login-link {
-        color: var(--color-ink);
-        font-weight: 700;
-        border-bottom: 2px solid var(--color-accent);
-        cursor: pointer;
       }
     `,
   ],
@@ -137,6 +112,7 @@ export class SignupPage {
   private readonly location = inject(Location);
 
   protected readonly showPw = signal(false);
+  protected readonly showPw2 = signal(false);
 
   protected readonly form = this.fb.nonNullable.group(
     {

@@ -1,25 +1,111 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
-import { EmptyStateComponent } from '../../../shared/components';
+import { BtnComponent, EmptyStateComponent, IconComponent, SkeletonComponent } from '../../../shared/components';
+import { FeedStore } from '../../../store/feed/feed.store';
+import { Category } from '../../../shared/models';
 
-/** Category article list placeholder (Phase 3). Route param: :id. */
 @Component({
   selector: 'app-category-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IONIC_IMPORTS, EmptyStateComponent],
+  imports: [IONIC_IMPORTS, IonRefresher, IonRefresherContent, IconComponent, SkeletonComponent, EmptyStateComponent, BtnComponent],
   template: `
     <ion-header>
       <ion-toolbar>
-        <ion-buttons slot="start"><ion-back-button defaultHref="/tabs/home" /></ion-buttons>
-        <ion-title>Категория</ion-title>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/tabs/home" />
+        </ion-buttons>
+        <ion-title>{{ cat()?.name ?? 'Категория' }}</ion-title>
       </ion-toolbar>
     </ion-header>
+
     <ion-content [fullscreen]="true">
-      <gp-empty-state icon="news" title="Категория {{ id() }}" text="Статии по категория (Phase 3)." />
+      <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+        <ion-refresher-content />
+      </ion-refresher>
+
+      <div class="gp-section-head">
+        <span class="t">{{ cat()?.name }}</span>
+      </div>
+
+      @if (feed.loading()) {
+        @for (i of [0,1,2]; track i) {
+          <div class="gp-row" style="pointer-events:none">
+            <div class="thumb"><gp-skeleton width="116px" height="104px" [radius]="0" /></div>
+            <div class="rbody" style="flex:1">
+              <gp-skeleton width="90%" height="14px" style="margin-bottom:8px; display:block" />
+              <gp-skeleton width="60%" height="14px" style="margin-bottom:12px; display:block" />
+              <gp-skeleton width="40%" height="11px" />
+            </div>
+          </div>
+        }
+      } @else if (articles().length === 0) {
+        <gp-empty-state
+          [icon]="cat()?.icon ?? 'news'"
+          title="Все още няма новини"
+          [text]="emptyText()"
+        />
+      } @else {
+        @for (a of articles(); track a.id) {
+          <button class="gp-row" (click)="goArticle(a.id)">
+            <div class="thumb">
+              <div class="gp-img" [style.--cathue]="catHue()" style="aspect-ratio:1/1;height:104px"></div>
+            </div>
+            <div class="rbody">
+              <h3>{{ a.title }}</h3>
+              <div class="gp-meta">
+                <span>{{ a.date }}</span>
+                @if ((a.commentCount ?? 0) > 0) {
+                  <span class="dot"></span>
+                  <span class="cc"><gp-icon name="comment" [size]="13" [sw]="2" /><b>{{ a.commentCount }}</b></span>
+                }
+              </div>
+            </div>
+          </button>
+        }
+        <div style="height: var(--s6)"></div>
+      }
     </ion-content>
   `,
+  styles: [`
+    ion-button { --color: var(--color-ink); }
+    .gp-row { display: flex; cursor: pointer; background: none; border: none; width: 100%; text-align: left; }
+  `],
 })
-export class CategoryListPage {
-  /** Bound from the route param via withComponentInputBinding(). */
+export class CategoryListPage implements OnInit {
   readonly id = input<string>('');
+
+  protected readonly feed = inject(FeedStore);
+  private readonly router = inject(Router);
+
+  protected readonly cat = computed((): Category | undefined =>
+    this.feed.categories().find((c) => c.id === this.id())
+  );
+
+  protected readonly articles = computed(() =>
+    this.feed.byCat(this.id())
+  );
+
+  protected emptyText(): string {
+    return `В „${this.cat()?.name ?? ''}“ още няма публикувани статии.`;
+  }
+
+  protected catHue(): string {
+    const hue = this.cat()?.hue ?? 210;
+    return `hsl(${hue} 45% 55%)`;
+  }
+
+  ngOnInit(): void {
+    this.feed.loadCategoryArticles(this.id());
+  }
+
+  goArticle(artId: string): void {
+    void this.router.navigate(['/article', artId]);
+  }
+
+  refresh(event: CustomEvent): void {
+    this.feed.loadCategoryArticles(this.id());
+    setTimeout(() => (event.target as HTMLIonRefresherElement).complete(), 1000);
+  }
 }

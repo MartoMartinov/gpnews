@@ -1,27 +1,27 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
-import { BtnComponent, IconComponent } from '../../../shared/components';
+import { BtnComponent } from '../../../shared/components';
 
 interface Slide {
-  icon: string;
+  img: string;
   title: string;
   text: string;
 }
 
 const SLIDES: Slide[] = [
   {
-    icon: 'news',
+    img: 'assets/onb-1.png',
     title: 'G.P. News',
     text: 'Бърз и лесен достъп до полезна информация от строителния бранш — на едно място.',
   },
   {
-    icon: 'shield',
+    img: 'assets/onb-2.png',
     title: 'Премиум съдържание',
     text: 'Регистрирай се за пълен достъп до внимателно подбрано съдържание и известия за важното в бранша.',
   },
   {
-    icon: 'comment',
+    img: 'assets/onb-3.png',
     title: 'Готов ли си?',
     text: 'Чети, коментирай и споделяй новини от обектите. Включи се в разговора.',
   },
@@ -31,47 +31,109 @@ const SLIDES: Slide[] = [
 @Component({
   selector: 'app-onboarding',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IONIC_IMPORTS, BtnComponent, IconComponent],
+  imports: [IONIC_IMPORTS, BtnComponent],
   template: `
-    <ion-content [fullscreen]="true">
-      <div class="flex h-full flex-col px-6 pb-6 pt-14">
-        <button class="self-end p-2 font-semibold text-[var(--color-ink-2)]" (click)="skip()">
-          Пропусни
-        </button>
+    <ion-content [fullscreen]="true" class="onb-content">
+      <div class="onb-view">
+        <button class="onb-skip" (click)="skip()">Пропусни</button>
 
-        <div class="flex flex-1 flex-col items-center justify-center text-center">
-          <div class="art">
-            <gp-icon [name]="slide().icon" [size]="64" [sw]="1.4" />
+        <div class="onb-scroll">
+          <div class="onb-art">
+            <img class="onb-illu" [src]="slide().img" [alt]="slide().title" draggable="false" />
           </div>
-          <h1 class="mt-6 text-[27px] font-extrabold tracking-tight">{{ slide().title }}</h1>
-          <p class="mt-3 max-w-[300px] text-[15.5px] leading-relaxed text-[var(--color-ink-2)]">
-            {{ slide().text }}
-          </p>
+          <h1 class="onb-title">{{ slide().title }}</h1>
+          <p class="onb-text">{{ slide().text }}</p>
         </div>
 
-        <gp-btn variant="dark" size="lg" [full]="true" (pressed)="next()">
-          {{ isLast() ? 'Започни' : 'Напред' }}
-        </gp-btn>
+        <div class="onb-foot">
+          <gp-btn variant="dark" size="lg" [full]="true" (pressed)="next()">
+            {{ isLast() ? 'Започни' : 'Напред' }}
+          </gp-btn>
 
-        <div class="mt-5 flex justify-center gap-2">
-          @for (s of slides; track $index) {
-            <span class="dot" [class.on]="$index === index()" (click)="go($index)"></span>
-          }
+          <div class="onb-dots">
+            @for (s of slides; track $index) {
+              <span class="dot" [class.on]="$index === index()" (click)="go($index)"></span>
+            }
+          </div>
         </div>
       </div>
     </ion-content>
   `,
   styles: [
     `
-      .art {
-        width: 120px;
-        height: 120px;
-        display: grid;
-        place-items: center;
-        border-radius: 28px;
+      :host {
+        --ion-background-color: var(--color-surface);
+      }
+      .onb-view {
+        position: absolute;
+        inset: 0;
         background: var(--color-surface);
-        color: var(--color-accent-ink);
-        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+      }
+      .onb-skip {
+        position: absolute;
+        top: 52px;
+        right: 22px;
+        z-index: 5;
+        font-family: var(--font-body);
+        color: var(--color-ink-2);
+        font-weight: 600;
+        font-size: 14px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .onb-scroll {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 70px var(--s6) 0;
+        text-align: center;
+      }
+      .onb-art {
+        width: 100%;
+        max-width: 320px;
+        margin-bottom: var(--s4);
+        position: relative;
+      }
+      .onb-illu {
+        width: 100%;
+        height: auto;
+        display: block;
+        animation: gpfloat 4s ease-in-out infinite;
+      }
+      @keyframes gpfloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-7px); }
+      }
+      .onb-title {
+        font-family: var(--font-head);
+        font-size: 27px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin: 8px 0 var(--s4);
+        white-space: nowrap;
+        color: var(--color-ink);
+      }
+      .onb-text {
+        font-family: var(--font-body);
+        color: var(--color-ink-2);
+        font-size: 15.5px;
+        line-height: 1.55;
+        max-width: 300px;
+        margin: 0;
+      }
+      .onb-foot {
+        padding: var(--s6);
+      }
+      .onb-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: var(--s5);
       }
       .dot {
         width: 8px;

@@ -8,18 +8,42 @@ import { AuthStore } from '../../store/auth/auth.store';
   selector: 'app-profile',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [IONIC_IMPORTS, AvatarComponent, BtnComponent, EmptyStateComponent],
+  styles: [`
+    .prof-head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--s6) var(--s5) var(--s5);
+      text-align: center;
+      gap: var(--s2);
+    }
+    .prof-name {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin: 8px 0 2px;
+      color: var(--color-ink);
+    }
+    .prof-email {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      color: var(--color-ink-3);
+    }
+  `],
   template: `
     <ion-header>
       <ion-toolbar><ion-title>Профил</ion-title></ion-toolbar>
     </ion-header>
     <ion-content [fullscreen]="true">
       @if (store.user(); as user) {
-        <div class="flex flex-col items-center gap-2 px-5 py-8 text-center">
+        <div class="prof-head">
           <gp-avatar [user]="user" [size]="72" />
-          <h1 class="mt-2 text-[22px] font-extrabold tracking-tight">{{ user.name }}</h1>
-          <span class="font-mono text-[13.5px] text-[var(--color-ink-3)]">{{ user.email }}</span>
+          <h1 class="prof-name">{{ user.name }}</h1>
+          <span class="prof-email">{{ user.email }}</span>
         </div>
-        <div class="px-5">
+        <div style="padding: 0 var(--s5)">
           <gp-btn variant="ghost" size="md" [full]="true" (pressed)="store.logout()">
             Изход от профила
           </gp-btn>
