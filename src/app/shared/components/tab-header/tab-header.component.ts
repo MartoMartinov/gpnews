@@ -18,7 +18,7 @@ import { GpLogoComponent } from '../gp-logo/gp-logo.component';
             <gp-icon name="menu" [size]="24" [sw]="2" />
           </ion-button>
         </ion-buttons>
-        <div class="logo-wrapper"><gp-logo class="" /></div>
+        <div class="flex justify-center items-center"><gp-logo class="" /></div>
         <ion-buttons slot="end">
           <ion-button aria-label="Търсене" (click)="goSearch()">
             <gp-icon name="search" [size]="22" [sw]="2" />

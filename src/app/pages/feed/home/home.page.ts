@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import {
+  BlueprintComponent,
   BtnComponent,
   ChipComponent,
   IconComponent,
@@ -25,6 +26,7 @@ import { Category } from '../../../shared/models';
     SkeletonComponent,
     ChipComponent,
     TabHeaderComponent,
+    BlueprintComponent,
   ],
   template: `
     <gp-tab-header />
@@ -90,11 +92,11 @@ import { Category } from '../../../shared/models';
             </button>
 
             <div class="gp-hero gp-card" (click)="goArticle(sec.lead.id)">
-              <div
+              <gp-blueprint
                 class="gp-img"
                 [style.--cathue]="catHue(sec.cat)"
                 style="aspect-ratio:16/10"
-              ></div>
+              ></gp-blueprint>
               <div class="body">
                 <h2>{{ sec.lead.title }}</h2>
                 <div class="gp-meta">
@@ -111,13 +113,13 @@ import { Category } from '../../../shared/models';
             </div>
 
             @for (a of sec.more; track a.id) {
-              <button class="gp-row" (click)="goArticle(a.id)">
+              <div class="gp-row" (click)="goArticle(a.id)">
                 <div class="thumb">
-                  <div
+                 <gp-blueprint
                     class="gp-img"
                     [style.--cathue]="catHue(sec.cat)"
                     style="aspect-ratio:1/1;height:104px"
-                  ></div>
+                  ></gp-blueprint>
                 </div>
                 <div class="rbody">
                   <h3>{{ a.title }}</h3>
@@ -133,7 +135,7 @@ import { Category } from '../../../shared/models';
                     }
                   </div>
                 </div>
-              </button>
+              </div>
             }
           </div>
 
@@ -160,7 +162,6 @@ import { Category } from '../../../shared/models';
     `
       .gp-hero {
         display: block;
-        width: 100%;
         text-align: left;
         background: none;
         border: none;

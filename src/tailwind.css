@@ -1,7 +1,6 @@
-/* @import "tailwindcss"; */
-@use "tailwindcss/theme.css" layer(theme);
-@use "tailwindcss/preflight.css" layer(base);
-@use "tailwindcss/utilities.css" layer(utilities);
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
 /* ============================================================
    G.P. News — Tailwind v4 theme (Direction A — Steel)
    Mirror of design tokens in theme/variables.scss so utilities
@@ -29,8 +28,8 @@
 
   /* Typography */
   --font-head: "IBM Plex Sans", system-ui, sans-serif;
-  --font-body: "IBM Plex Sans", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   /* Breakpoint floor — mobile minimum is 360px */
   --breakpoint-sm: 360px;
