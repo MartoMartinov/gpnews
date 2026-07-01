@@ -90,11 +90,7 @@ function fmtAgo(mins: number): string {
             </div>
           }
 
-          <p class="art-lead">{{ a.lead }}</p>
-
-          @for (p of a.body; track $index) {
-            <p class="art-p">{{ p }}</p>
-          }
+          <div class="editor" [innerHTML]="a.content" (click)="onEditorClick($event)"></div>
 
           @if (a.tags?.length) {
             <div class="art-tags">
@@ -356,19 +352,6 @@ function fmtAgo(mins: number): string {
         font-weight: 600;
         margin-bottom: var(--s5);
       }
-      .art-lead {
-        font-size: 17px;
-        line-height: 1.55;
-        color: var(--color-ink);
-        font-weight: 600;
-        margin: 0 0 var(--s4);
-      }
-      .art-p {
-        font-size: 15.5px;
-        line-height: 1.72;
-        color: var(--color-ink-2);
-        margin: 0 0 var(--s4);
-      }
       .art-tags {
         display: flex;
         flex-wrap: wrap;
@@ -620,6 +603,16 @@ export class ArticleDetailPage {
 
   back(): void {
     this.location.back();
+  }
+
+  /** Route internal links inside the injected article HTML through the Angular router. */
+  onEditorClick(event: MouseEvent): void {
+    const anchor = (event.target as HTMLElement).closest('a');
+    if (!anchor) return;
+    const href = anchor.getAttribute('href');
+    if (!href || !href.startsWith('/')) return;
+    event.preventDefault();
+    void this.router.navigateByUrl(href);
   }
 
   goAuth(): void {

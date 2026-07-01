@@ -16,11 +16,10 @@ export interface Article {
   date: string;
   /** ISO 8601 date. */
   iso: string;
-  lead: string;
   /** Image placeholder key, or 'upload' for user-submitted. */
   img: string;
-  /** Body paragraphs. */
-  body: string[];
+  /** Full article body as a single HTML string (rich text). */
+  content: string;
   tags: string[];
   author?: User;
   /** Whether the article is submitted and awaiting moderation. */

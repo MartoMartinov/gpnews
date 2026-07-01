@@ -1,15 +1,37 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
-import { BtnComponent, EmptyStateComponent, IconComponent, SkeletonComponent } from '../../../shared/components';
+import {
+  BlueprintComponent,
+  BtnComponent,
+  EmptyStateComponent,
+  IconComponent,
+  SkeletonComponent,
+} from '../../../shared/components';
 import { FeedStore } from '../../../store/feed/feed.store';
 import { Category } from '../../../shared/models';
 
 @Component({
   selector: 'app-category-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IONIC_IMPORTS, IonRefresher, IonRefresherContent, IconComponent, SkeletonComponent, EmptyStateComponent, BtnComponent],
+  imports: [
+    IONIC_IMPORTS,
+    IonRefresher,
+    IonRefresherContent,
+    IconComponent,
+    SkeletonComponent,
+    EmptyStateComponent,
+    BtnComponent,
+    BlueprintComponent,
+  ],
   template: `
     <ion-header>
       <ion-toolbar>
@@ -30,12 +52,22 @@ import { Category } from '../../../shared/models';
       </div>
 
       @if (feed.loading()) {
-        @for (i of [0,1,2]; track i) {
+        @for (i of [0, 1, 2]; track i) {
           <div class="gp-row" style="pointer-events:none">
-            <div class="thumb"><gp-skeleton width="116px" height="104px" [radius]="0" /></div>
+            <div class="thumb">
+              <gp-skeleton width="116px" height="104px" [radius]="0" />
+            </div>
             <div class="rbody" style="flex:1">
-              <gp-skeleton width="90%" height="14px" style="margin-bottom:8px; display:block" />
-              <gp-skeleton width="60%" height="14px" style="margin-bottom:12px; display:block" />
+              <gp-skeleton
+                width="90%"
+                height="14px"
+                style="margin-bottom:8px; display:block"
+              />
+              <gp-skeleton
+                width="60%"
+                height="14px"
+                style="margin-bottom:12px; display:block"
+              />
               <gp-skeleton width="40%" height="11px" />
             </div>
           </div>
@@ -50,7 +82,11 @@ import { Category } from '../../../shared/models';
         @for (a of articles(); track a.id) {
           <button class="gp-row" (click)="goArticle(a.id)">
             <div class="thumb">
-              <div class="gp-img" [style.--cathue]="catHue()" style="aspect-ratio:1/1;height:104px"></div>
+              <gp-blueprint
+                class="gp-img"
+                [style.--cathue]="catHue()"
+                style="aspect-ratio:1/1;height:104px"
+              ></gp-blueprint>
             </div>
             <div class="rbody">
               <h3>{{ a.title }}</h3>
@@ -58,7 +94,11 @@ import { Category } from '../../../shared/models';
                 <span>{{ a.date }}</span>
                 @if ((a.commentCount ?? 0) > 0) {
                   <span class="dot"></span>
-                  <span class="cc"><gp-icon name="comment" [size]="13" [sw]="2" /><b>{{ a.commentCount }}</b></span>
+                  <span class="cc"
+                    ><gp-icon name="comment" [size]="13" [sw]="2" /><b>{{
+                      a.commentCount
+                    }}</b></span
+                  >
                 }
               </div>
             </div>
@@ -68,10 +108,20 @@ import { Category } from '../../../shared/models';
       }
     </ion-content>
   `,
-  styles: [`
-    ion-button { --color: var(--color-ink); }
-    .gp-row { display: flex; cursor: pointer; background: none; border: none; width: 100%; text-align: left; }
-  `],
+  styles: [
+    `
+      ion-button {
+        --color: var(--color-ink);
+      }
+      .gp-row {
+        display: flex;
+        cursor: pointer;
+        background: none;
+        border: none;
+        text-align: left;
+      }
+    `,
+  ],
 })
 export class CategoryListPage implements OnInit {
   readonly id = input<string>('');
@@ -80,12 +130,10 @@ export class CategoryListPage implements OnInit {
   private readonly router = inject(Router);
 
   protected readonly cat = computed((): Category | undefined =>
-    this.feed.categories().find((c) => c.id === this.id())
+    this.feed.categories().find((c) => c.id === this.id()),
   );
 
-  protected readonly articles = computed(() =>
-    this.feed.byCat(this.id())
-  );
+  protected readonly articles = computed(() => this.feed.byCat(this.id()));
 
   protected emptyText(): string {
     return `В „${this.cat()?.name ?? ''}“ още няма публикувани статии.`;
@@ -106,6 +154,9 @@ export class CategoryListPage implements OnInit {
 
   refresh(event: CustomEvent): void {
     this.feed.loadCategoryArticles(this.id());
-    setTimeout(() => (event.target as HTMLIonRefresherElement).complete(), 1000);
+    setTimeout(
+      () => (event.target as HTMLIonRefresherElement).complete(),
+      1000,
+    );
   }
 }

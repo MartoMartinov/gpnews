@@ -4,33 +4,33 @@
  */
 
 /* 1. Ionic core (required) */
-@import "@ionic/angular/css/core.css";
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+@use "@ionic/angular/css/core.css";
+@use "@ionic/angular/css/normalize.css" as ionic-normalize;
+// @use "@ionic/angular/css/structure.css";
+// @use "@ionic/angular/css/typography.css";
+// @use "@ionic/angular/css/display.css";
 
 /* 2. Optional Ionic utilities */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+// @use "@ionic/angular/css/padding.css";
+// @use "@ionic/angular/css/float-elements.css";
+// @use "@ionic/angular/css/text-alignment.css";
+// @use "@ionic/angular/css/text-transformation.css";
+// @use "@ionic/angular/css/flex-utils.css";
 
 /* 3. Custom fonts */
-@import "theme/custom/base/fonts";
+@use "theme/custom/base/fonts";
 
 /* 4. Design tokens / Ionic variable overrides */
-@import "theme/variables";
+@use "theme/variables";
 
 /* 5. Ionic component overrides */
-@import "theme/ionic/index";
+@use "theme/ionic/index";
 
 /* 6. Shared component classes + rich-text normalization */
-@import "theme/custom/base/global";
-@import "theme/custom/base/normalize";
+@use "theme/custom/base/global";
+@use "theme/custom/base/normalize";
 
 /*
- * Dark mode: intentionally NOT imported. The app is light-themed
+ * Dark mode: intentionally NOT useed. The app is light-themed
  * (Direction A — Steel); no prefers-color-scheme switching.
  */
