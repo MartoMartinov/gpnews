@@ -5,13 +5,12 @@ import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import {
   BtnComponent,
   ChipComponent,
-  GpLogoComponent,
   IconComponent,
   SkeletonComponent,
+  TabHeaderComponent,
 } from '../../../shared/components';
 import { FeedStore } from '../../../store/feed/feed.store';
 import { AuthStore } from '../../../store/auth/auth.store';
-import { DrawerService } from '../../../core/services/drawer.service';
 import { Category } from '../../../shared/models';
 
 @Component({
@@ -22,27 +21,13 @@ import { Category } from '../../../shared/models';
     IonRefresher,
     IonRefresherContent,
     BtnComponent,
-    GpLogoComponent,
     IconComponent,
     SkeletonComponent,
     ChipComponent,
+    TabHeaderComponent,
   ],
   template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button aria-label="Категории" (click)="openDrawer()">
-            <gp-icon name="menu" [size]="24" [sw]="2" />
-          </ion-button>
-        </ion-buttons>
-        <ion-title><gp-logo /></ion-title>
-        <ion-buttons slot="end">
-          <ion-button aria-label="Търсене" (click)="goSearch()">
-            <gp-icon name="search" [size]="22" [sw]="2" />
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
+    <gp-tab-header />
 
     <ion-content [fullscreen]="true">
       <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
@@ -173,13 +158,6 @@ import { Category } from '../../../shared/models';
   `,
   styles: [
     `
-      ion-title {
-        display: flex;
-        justify-content: center;
-      }
-      ion-button {
-        --color: var(--color-ink);
-      }
       .gp-hero {
         display: block;
         width: 100%;
@@ -204,7 +182,6 @@ export class HomePage {
   protected readonly feed = inject(FeedStore);
   protected readonly auth = inject(AuthStore);
   private readonly router = inject(Router);
-  private readonly drawerSvc = inject(DrawerService);
 
   protected catHue(cat: Category): string {
     return `hsl(${cat.hue} 45% 55%)`;
@@ -220,14 +197,6 @@ export class HomePage {
 
   goAuth(): void {
     void this.router.navigate(['/auth/login']);
-  }
-
-  goSearch(): void {
-    void this.router.navigate(['/search']);
-  }
-
-  openDrawer(): void {
-    this.drawerSvc.open();
   }
 
   refresh(event: CustomEvent): void {

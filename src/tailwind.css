@@ -1,5 +1,7 @@
-@import "tailwindcss";
-
+/* @import "tailwindcss"; */
+@use "tailwindcss/theme.css" layer(theme);
+@use "tailwindcss/preflight.css" layer(base);
+@use "tailwindcss/utilities.css" layer(utilities);
 /* ============================================================
    G.P. News — Tailwind v4 theme (Direction A — Steel)
    Mirror of design tokens in theme/variables.scss so utilities

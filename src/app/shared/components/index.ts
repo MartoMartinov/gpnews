@@ -6,3 +6,4 @@ export * from './skeleton/skeleton.component';
 export * from './empty-state/empty-state.component';
 export * from './gp-logo/gp-logo.component';
 export * from './blueprint/blueprint.component';
+export * from './tab-header/tab-header.component';

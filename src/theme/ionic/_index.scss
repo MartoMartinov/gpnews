@@ -12,6 +12,14 @@ ion-header {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-line);
+  ion-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gp-logo {
+      display: block;
+    }
+  }
 }
 
 ion-toolbar {

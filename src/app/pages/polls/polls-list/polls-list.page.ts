@@ -2,19 +2,30 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
-import { ChipComponent, EmptyStateComponent, IconComponent, SkeletonComponent } from '../../../shared/components';
+import {
+  ChipComponent,
+  EmptyStateComponent,
+  IconComponent,
+  SkeletonComponent,
+  TabHeaderComponent,
+} from '../../../shared/components';
 import { PollsStore } from '../../../store/polls/polls.store';
 
 @Component({
   selector: 'app-polls-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IONIC_IMPORTS, IonRefresher, IonRefresherContent, ChipComponent, EmptyStateComponent, IconComponent, SkeletonComponent],
+  imports: [
+    IONIC_IMPORTS,
+    IonRefresher,
+    IonRefresherContent,
+    ChipComponent,
+    EmptyStateComponent,
+    IconComponent,
+    SkeletonComponent,
+    TabHeaderComponent,
+  ],
   template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Анкети</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <gp-tab-header />
 
     <ion-content [fullscreen]="true">
       <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">

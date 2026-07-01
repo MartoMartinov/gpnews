@@ -2,20 +2,29 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { Router } from '@angular/router';
 import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../shared/ionic-imports';
-import { EmptyStateComponent, IconComponent, SkeletonComponent } from '../../shared/components';
+import {
+  EmptyStateComponent,
+  IconComponent,
+  SkeletonComponent,
+  TabHeaderComponent,
+} from '../../shared/components';
 import { NotificationsStore } from '../../store/notifications/notifications.store';
 import { AuthStore } from '../../store/auth/auth.store';
 
 @Component({
   selector: 'app-notifications',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IONIC_IMPORTS, IonRefresher, IonRefresherContent, EmptyStateComponent, IconComponent, SkeletonComponent],
+  imports: [
+    IONIC_IMPORTS,
+    IonRefresher,
+    IonRefresherContent,
+    EmptyStateComponent,
+    IconComponent,
+    SkeletonComponent,
+    TabHeaderComponent,
+  ],
   template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Известия</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <gp-tab-header />
 
     <ion-content [fullscreen]="true">
       <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">

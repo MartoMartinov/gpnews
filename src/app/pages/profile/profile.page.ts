@@ -15,6 +15,7 @@ import {
   ChipComponent,
   EmptyStateComponent,
   IconComponent,
+  TabHeaderComponent,
 } from '../../shared/components';
 import { AuthStore } from '../../store/auth/auth.store';
 import { FeedStore } from '../../store/feed/feed.store';
@@ -32,11 +33,10 @@ import { ProfileStore } from '../../store/profile/profile.store';
     ChipComponent,
     EmptyStateComponent,
     IconComponent,
+    TabHeaderComponent,
   ],
   template: `
-    <ion-header>
-      <ion-toolbar><ion-title>Профил</ion-title></ion-toolbar>
-    </ion-header>
+    <gp-tab-header />
 
     <ion-content [fullscreen]="true">
       @if (!auth.isLoggedIn()) {
