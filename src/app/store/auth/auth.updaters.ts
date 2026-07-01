@@ -4,7 +4,7 @@ import { AuthSlice } from './auth.slice';
 /** Set the authenticated session. */
 export const setSession = (
   user: User,
-  accessExpiresAt: string,
+  accessExpiresAt: string | null,
 ): Partial<AuthSlice> => ({ user, accessExpiresAt });
 
 /** Clear the session (logout / expiry). */

@@ -11,6 +11,7 @@ Authentication uses **JWT access tokens** + **httpOnly cookie refresh tokens** o
 - **Never** attach the JWT to third-party API requests (interceptor must check URL origin)
 - On native, use `@aparajita/capacitor-secure-storage` — never plain `localStorage`
 - Token expiration must trigger `autoLogout()` — do not silently ignore expired tokens
+- Auto-logout timing is dictated entirely by the backend's `accessExpiresAt` on the auth response — never hardcode a client-side expiry. If the backend omits/nulls `accessExpiresAt`, schedule **no** auto-logout timer (session never auto-expires)
 - Silent refresh must serialize concurrent 401s — no parallel refresh calls
 - Refresh queue pattern: uses a `BehaviorSubject` to serialize multiple in-flight requests during a refresh
 - `@ionic/storage-angular` (encrypted IndexedDB) for user metadata
@@ -50,7 +51,7 @@ isLoggedIn$: Observable<boolean>;
 - `register()` / `registerWithGoogle()` / `registerWithApple()`
 - `logout()` — clears tokens, resets state
 - `updateToken(token)` — called by interceptor after silent refresh
-- `autoLogout()` — sets a timer based on `tokenExpirationDate`; max duration capped at 10 days
+- `autoLogout()` — sets a timer based on the backend-provided `accessExpiresAt`; no timer at all if the backend doesn't provide it
 
 ### App Startup (Auto-login)
 

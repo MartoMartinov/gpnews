@@ -20,7 +20,13 @@ import { exhaustMap, pipe, tap } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { SecureStorageService } from '../../core/services/secure-storage.service';
 import { StorageService } from '../../core/services/storage.service';
-import { AuthMetadata, AuthResponse, Credentials, RegisterData, User } from '../../shared/models';
+import {
+  AuthMetadata,
+  AuthResponse,
+  Credentials,
+  RegisterData,
+  User,
+} from '../../shared/models';
 import { withBase } from '../features';
 import { withRequestStatus } from '../features';
 import { initialAuthSlice } from './auth.slice';
@@ -28,7 +34,7 @@ import { clearSession, setInitialized, setSession } from './auth.updaters';
 
 const AUTH_DATA = 'gpnews.authData';
 /** Auto-logout timer is capped to avoid absurdly long timeouts. */
-const MAX_TIMER_MS = 10 * 24 * 60 * 60 * 1000; // 10 days
+const MIN_TIMER_MS = (60 * 60 * 1000) / 2; // 30 min
 
 export const AuthStore = signalStore(
   { providedIn: 'root' },
@@ -47,8 +53,16 @@ export const AuthStore = signalStore(
     _timer: { handle: null as ReturnType<typeof setTimeout> | null },
   })),
   withMethods((store) => {
-    const showToast = async (message: string, color: 'success' | 'danger' | 'medium') => {
-      const t = await store._toast.create({ message, duration: 2400, position: 'bottom', color });
+    const showToast = async (
+      message: string,
+      color: 'success' | 'danger' | 'medium',
+    ) => {
+      const t = await store._toast.create({
+        message,
+        duration: 2400,
+        position: 'top',
+        color,
+      });
       await t.present();
     };
 
@@ -74,19 +88,27 @@ export const AuthStore = signalStore(
       }
     };
 
-    const scheduleAutoLogout = (iso: string) => {
+    /** No expiry from the backend means the session never auto-expires. */
+    const scheduleAutoLogout = (iso: string | null) => {
       clearTimer();
+      if (!iso) return;
       const ms = new Date(iso).getTime() - Date.now();
       if (ms <= 0) {
         void doLogout(true);
         return;
       }
-      store._timer.handle = setTimeout(() => void doLogout(true), Math.min(ms, MAX_TIMER_MS));
+      store._timer.handle = setTimeout(
+        () => void doLogout(true),
+        Math.max(MIN_TIMER_MS, ms),
+      );
     };
 
     const applySession = async (res: AuthResponse) => {
       await store._secure.setToken(res.accessToken);
-      const meta: AuthMetadata = { user: res.user, accessExpiresAt: res.accessExpiresAt };
+      const meta: AuthMetadata = {
+        user: res.user,
+        accessExpiresAt: res.accessExpiresAt,
+      };
       await store._storage.set(AUTH_DATA, meta);
       patchState(store, setSession(res.user, res.accessExpiresAt));
       scheduleAutoLogout(res.accessExpiresAt);
@@ -97,7 +119,10 @@ export const AuthStore = signalStore(
         await applySession(res);
         store.setFulfilled();
         if (welcome) {
-          await showToast('Добре дошъл, ' + res.user.name.split(' ')[0] + '!', 'success');
+          await showToast(
+            'Добре дошъл, ' + res.user.name.split(' ')[0] + '!',
+            'success',
+          );
         }
         store._router.navigateByUrl('/tabs/home', { replaceUrl: true });
       })();
@@ -105,7 +130,10 @@ export const AuthStore = signalStore(
 
     const onAuthError = (err: HttpErrorResponse) => {
       store.setError();
-      void showToast(err?.error?.message || 'Възникна грешка. Опитай отново.', 'danger');
+      void showToast(
+        err?.error?.message || 'Възникна грешка. Опитай отново.',
+        'danger',
+      );
     };
 
     return {
@@ -155,7 +183,10 @@ export const AuthStore = signalStore(
       bootstrap: async () => {
         const token = await store._secure.getToken();
         const meta = await store._storage.get<AuthMetadata>(AUTH_DATA);
-        const metaValid = !!meta && new Date(meta.accessExpiresAt).getTime() > Date.now();
+        const metaValid =
+          !!meta &&
+          (!meta.accessExpiresAt ||
+            new Date(meta.accessExpiresAt).getTime() > Date.now());
 
         if (token && metaValid) {
           patchState(store, setSession(meta!.user, meta!.accessExpiresAt));

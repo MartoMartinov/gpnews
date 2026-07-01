@@ -1,6 +1,12 @@
 import { inject } from '@angular/core';
 import { ToastController } from '@ionic/angular/standalone';
-import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withMethods,
+  withProps,
+  withState,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { pipe, switchMap, tap } from 'rxjs';
@@ -29,7 +35,12 @@ export const ProfileStore = signalStore(
   })),
   withMethods((store) => {
     const toast = async (message: string, color: 'success' | 'danger') => {
-      const t = await store._toast.create({ message, duration: 2400, position: 'bottom', color });
+      const t = await store._toast.create({
+        message,
+        duration: 2400,
+        position: 'top',
+        color,
+      });
       await t.present();
     };
 
@@ -47,7 +58,10 @@ export const ProfileStore = signalStore(
                 },
                 error: (err: { error?: { message?: string } }) => {
                   store.setError();
-                  void toast(err?.error?.message ?? 'Грешка при запазване', 'danger');
+                  void toast(
+                    err?.error?.message ?? 'Грешка при запазване',
+                    'danger',
+                  );
                 },
               }),
             ),
@@ -67,7 +81,10 @@ export const ProfileStore = signalStore(
                 },
                 error: (err: { error?: { message?: string } }) => {
                   patchState(store, { pwPending: false });
-                  void toast(err?.error?.message ?? 'Грешка при смяна на паролата', 'danger');
+                  void toast(
+                    err?.error?.message ?? 'Грешка при смяна на паролата',
+                    'danger',
+                  );
                 },
               }),
             ),
