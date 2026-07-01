@@ -1,6 +1,5 @@
 import { computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular/standalone';
 import {
   patchState,
   signalStore,
@@ -16,17 +15,9 @@ import { forkJoin, pipe, switchMap, tap } from 'rxjs';
 
 import { FeedService } from '../../core/services/feed.service';
 import { CommentService } from '../../core/services/comment.service';
+import { ToastService } from '../../core/services/toast.service';
 import { Article, Category, Comment, SubmitArticleData } from '../../shared/models';
 import { withBase } from '../features';
-
-async function toast(
-  ctrl: ToastController,
-  message: string,
-  color: 'success' | 'danger' | 'medium',
-): Promise<void> {
-  const t = await ctrl.create({ message, duration: 2500, position: 'bottom', color });
-  await t.present();
-}
 
 export interface HomeSectionData {
   cat: Category;
@@ -74,7 +65,7 @@ export const FeedStore = signalStore(
   withProps(() => ({
     _feed: inject(FeedService),
     _comment: inject(CommentService),
-    _toast: inject(ToastController),
+    _toast: inject(ToastService),
     _router: inject(Router),
   })),
   withMethods((store) => ({
@@ -88,7 +79,7 @@ export const FeedStore = signalStore(
                 patchState(store, { categories, articles, loading: false }),
               error: () => {
                 patchState(store, { loading: false });
-                void toast(store._toast, 'Неуспешно зареждане. Провери интернет връзката.', 'danger');
+                void store._toast.error('Неуспешно зареждане. Провери интернет връзката.');
               },
             }),
           ),
@@ -108,7 +99,7 @@ export const FeedStore = signalStore(
               },
               error: () => {
                 patchState(store, { loading: false });
-                void toast(store._toast, 'Неуспешно зареждане. Провери интернет връзката.', 'danger');
+                void store._toast.error('Неуспешно зареждане. Провери интернет връзката.');
               },
             }),
           ),
@@ -126,7 +117,7 @@ export const FeedStore = signalStore(
                 patchState(store, { activeArticle, activeComments, articleLoading: false }),
               error: () => {
                 patchState(store, { articleLoading: false });
-                void toast(store._toast, 'Статията не може да бъде заредена.', 'danger');
+                void store._toast.error('Статията не може да бъде заредена.');
               },
             }),
           ),
@@ -141,9 +132,9 @@ export const FeedStore = signalStore(
             tapResponse({
               next: (comment: Comment) => {
                 patchState(store, { activeComments: [comment, ...store.activeComments()] });
-                void toast(store._toast, 'Коментарът е публикуван', 'success');
+                void store._toast.success('Коментарът е публикуван');
               },
-              error: () => void toast(store._toast, 'Грешка при публикуване на коментара.', 'danger'),
+              error: () => void store._toast.error('Грешка при публикуване на коментара.'),
             }),
           ),
         ),
@@ -192,7 +183,7 @@ export const FeedStore = signalStore(
                   ),
                 });
               },
-              error: () => void toast(store._toast, 'Грешка при публикуване на отговора.', 'danger'),
+              error: () => void store._toast.error('Грешка при публикуване на отговора.'),
             }),
           ),
         ),

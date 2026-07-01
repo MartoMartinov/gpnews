@@ -1,5 +1,4 @@
 import { computed, effect, inject } from '@angular/core';
-import { ToastController } from '@ionic/angular/standalone';
 import {
   patchState,
   signalStore,
@@ -14,18 +13,10 @@ import { tapResponse } from '@ngrx/operators';
 import { pipe, switchMap, tap } from 'rxjs';
 
 import { NotificationService } from '../../core/services/notification.service';
+import { ToastService } from '../../core/services/toast.service';
 import { AppNotification } from '../../shared/models';
 import { withBase } from '../features';
 import { AuthStore } from '../auth/auth.store';
-
-async function toast(
-  ctrl: ToastController,
-  message: string,
-  color: 'success' | 'danger',
-): Promise<void> {
-  const t = await ctrl.create({ message, duration: 2500, position: 'bottom', color });
-  await t.present();
-}
 
 interface NotificationsState {
   items: AppNotification[];
@@ -46,7 +37,7 @@ export const NotificationsStore = signalStore(
   })),
   withProps(() => ({
     _notif: inject(NotificationService),
-    _toast: inject(ToastController),
+    _toast: inject(ToastService),
   })),
   withMethods((store) => ({
     loadNotifications: rxMethod<void>(
@@ -86,9 +77,9 @@ export const NotificationsStore = signalStore(
             tapResponse({
               next: () => {
                 patchState(store, { items: store.items().map((n) => ({ ...n, read: true })) });
-                void toast(store._toast, 'Всички известия са отбелязани', 'success');
+                void store._toast.success('Всички известия са отбелязани');
               },
-              error: () => void toast(store._toast, 'Грешка при обновяването. Опитай отново.', 'danger'),
+              error: () => void store._toast.error('Грешка при обновяването. Опитай отново.'),
             }),
           ),
         ),

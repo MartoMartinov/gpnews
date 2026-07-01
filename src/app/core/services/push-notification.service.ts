@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ToastController } from '@ionic/angular/standalone';
 import { Capacitor } from '@capacitor/core';
 import {
   PushNotifications,
@@ -10,12 +9,13 @@ import {
   Token,
 } from '@capacitor/push-notifications';
 import { environment } from '../../../environments/environment';
+import { ToastService } from './toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushNotificationService {
   private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
-  private readonly toast = inject(ToastController);
+  private readonly toast = inject(ToastService);
 
   private readonly isNative = Capacitor.isNativePlatform();
   private listenersAdded = false;
@@ -83,9 +83,8 @@ export class PushNotificationService {
   }
 
   private async showForegroundToast(notification: PushNotificationSchema): Promise<void> {
-    const t = await this.toast.create({
+    await this.toast.show(notification.body ?? '', {
       header: notification.title ?? 'G.P. News',
-      message: notification.body ?? '',
       duration: 4000,
       position: 'top',
       color: 'dark',
@@ -99,7 +98,6 @@ export class PushNotificationService {
         { icon: 'close', role: 'cancel' },
       ],
     });
-    await t.present();
   }
 
   private handleNotificationTap(data?: Record<string, string>): void {

@@ -1,5 +1,4 @@
 import { inject } from '@angular/core';
-import { ToastController } from '@ionic/angular/standalone';
 import {
   patchState,
   signalStore,
@@ -12,6 +11,7 @@ import { tapResponse } from '@ngrx/operators';
 import { pipe, switchMap, tap } from 'rxjs';
 
 import { AuthService } from '../../core/services/auth.service';
+import { ToastService } from '../../core/services/toast.service';
 import { AuthStore } from '../auth/auth.store';
 import { withBase } from '../features';
 import { withRequestStatus } from '../features';
@@ -31,18 +31,10 @@ export const ProfileStore = signalStore(
   withProps(() => ({
     _auth: inject(AuthService),
     _authStore: inject(AuthStore),
-    _toast: inject(ToastController),
+    _toast: inject(ToastService),
   })),
   withMethods((store) => {
-    const toast = async (message: string, color: 'success' | 'danger') => {
-      const t = await store._toast.create({
-        message,
-        duration: 2400,
-        position: 'top',
-        color,
-      });
-      await t.present();
-    };
+    const toastOpts = { duration: 2400, position: 'top' as const };
 
     return {
       saveName: rxMethod<string>(
@@ -54,13 +46,13 @@ export const ProfileStore = signalStore(
                 next: ({ user }) => {
                   store.setFulfilled();
                   store._authStore.updateUser(user);
-                  void toast('Промените са запазени', 'success');
+                  void store._toast.success('Промените са запазени', toastOpts);
                 },
                 error: (err: { error?: { message?: string } }) => {
                   store.setError();
-                  void toast(
+                  void store._toast.error(
                     err?.error?.message ?? 'Грешка при запазване',
-                    'danger',
+                    toastOpts,
                   );
                 },
               }),
@@ -77,13 +69,13 @@ export const ProfileStore = signalStore(
               tapResponse({
                 next: () => {
                   patchState(store, { pwPending: false });
-                  void toast('Паролата е сменена успешно', 'success');
+                  void store._toast.success('Паролата е сменена успешно', toastOpts);
                 },
                 error: (err: { error?: { message?: string } }) => {
                   patchState(store, { pwPending: false });
-                  void toast(
+                  void store._toast.error(
                     err?.error?.message ?? 'Грешка при смяна на паролата',
-                    'danger',
+                    toastOpts,
                   );
                 },
               }),
@@ -104,7 +96,7 @@ export const ProfileStore = signalStore(
                 },
                 error: () => {
                   patchState(store, { deletePending: false });
-                  void toast('Грешка при изтриване', 'danger');
+                  void store._toast.error('Грешка при изтриване', toastOpts);
                 },
               }),
             ),

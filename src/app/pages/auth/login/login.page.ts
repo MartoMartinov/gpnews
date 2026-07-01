@@ -25,7 +25,7 @@ import { AuthStore } from '../../../store/auth/auth.store';
   ],
   template: `
     <ion-content [fullscreen]="true">
-      <div class="auth-bg"><gp-blueprint [opacity]="0.4" /></div>
+      <div class="auth-bg"><gp-blueprint [opacity]="0.2" /></div>
 
       <div class="auth-scroll">
         <div class="auth-logo"><gp-logo [height]="52" /></div>
@@ -62,7 +62,7 @@ import { AuthStore } from '../../../store/auth/auth.store';
                 formControlName="password"
                 autocomplete="current-password"
               />
-              <button type="button" class="eye"
+              <button type="button" class="eye-btn"
                 [attr.aria-label]="showPw() ? 'Скрий паролата' : 'Покажи паролата'"
                 [attr.aria-pressed]="showPw()"
                 (click)="showPw.set(!showPw())" tabindex="-1">
@@ -100,72 +100,6 @@ import { AuthStore } from '../../../store/auth/auth.store';
     `
       ion-content {
         --background: var(--color-surface);
-      }
-      .auth-bg {
-        position: absolute;
-        right: -10%;
-        bottom: -6%;
-        width: 75%;
-        height: 48%;
-        z-index: 1;
-        pointer-events: none;
-      }
-      .auth-scroll {
-        position: relative;
-        z-index: 2;
-        flex: 1;
-        overflow-y: auto;
-        scrollbar-width: none;
-        padding: 70px var(--s6) var(--s6);
-        display: flex;
-        flex-direction: column;
-      }
-      .auth-scroll::-webkit-scrollbar {
-        display: none;
-      }
-      .auth-logo {
-        display: flex;
-        justify-content: center;
-        transform: scale(1.35);
-        margin: 18px 0 40px;
-      }
-      .gp-input-wrap {
-        position: relative;
-      }
-      .gp-input-wrap .gp-input {
-        padding-right: 44px;
-      }
-      .eye {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--color-ink-3);
-        display: grid;
-        place-items: center;
-        padding: 4px;
-      }
-      .auth-cta-sub {
-        text-align: center;
-        color: var(--color-ink-2);
-        font-size: 14px;
-        line-height: 2;
-        margin: var(--s8) 0 var(--s5);
-      }
-      .auth-cta-sub a {
-        color: var(--color-ink);
-        font-weight: 700;
-        border-bottom: 2px solid var(--color-accent);
-        cursor: pointer;
-      }
-      .auth-guest {
-        margin: var(--s5) auto 0;
-        color: var(--color-ink-2);
-        font-weight: 600;
-        font-size: 14.5px;
-        padding: 8px;
-        background: none;
-        border: none;
       }
     `,
   ],

@@ -1,5 +1,4 @@
 import { computed, inject } from '@angular/core';
-import { ToastController } from '@ionic/angular/standalone';
 import {
   patchState,
   signalStore,
@@ -14,17 +13,9 @@ import { tapResponse } from '@ngrx/operators';
 import { pipe, switchMap, tap } from 'rxjs';
 
 import { PollService } from '../../core/services/poll.service';
+import { ToastService } from '../../core/services/toast.service';
 import { Poll } from '../../shared/models';
 import { withBase } from '../features';
-
-async function toast(
-  ctrl: ToastController,
-  message: string,
-  color: 'success' | 'danger',
-): Promise<void> {
-  const t = await ctrl.create({ message, duration: 2500, position: 'bottom', color });
-  await t.present();
-}
 
 interface PollsState {
   polls: Poll[];
@@ -49,7 +40,7 @@ export const PollsStore = signalStore(
   })),
   withProps(() => ({
     _polls: inject(PollService),
-    _toast: inject(ToastController),
+    _toast: inject(ToastService),
   })),
   withMethods((store) => ({
     loadPolls: rxMethod<void>(
@@ -61,7 +52,7 @@ export const PollsStore = signalStore(
               next: (polls) => patchState(store, { polls, loading: false }),
               error: () => {
                 patchState(store, { loading: false });
-                void toast(store._toast, 'Неуспешно зареждане. Провери интернет връзката.', 'danger');
+                void store._toast.error('Неуспешно зареждане. Провери интернет връзката.');
               },
             }),
           ),
@@ -78,7 +69,7 @@ export const PollsStore = signalStore(
               next: (activePoll) => patchState(store, { activePoll, loading: false }),
               error: () => {
                 patchState(store, { loading: false });
-                void toast(store._toast, 'Анкетата не може да бъде заредена.', 'danger');
+                void store._toast.error('Анкетата не може да бъде заредена.');
               },
             }),
           ),
@@ -98,11 +89,11 @@ export const PollsStore = signalStore(
                   voting: false,
                   polls: store.polls().map((p) => (p.id === updated.id ? updated : p)),
                 });
-                void toast(store._toast, 'Гласът ти е записан', 'success');
+                void store._toast.success('Гласът ти е записан');
               },
               error: () => {
                 patchState(store, { voting: false });
-                void toast(store._toast, 'Грешка при гласуването. Опитай отново.', 'danger');
+                void store._toast.error('Грешка при гласуването. Опитай отново.');
               },
             }),
           ),

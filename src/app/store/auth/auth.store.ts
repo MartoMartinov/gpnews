@@ -2,7 +2,6 @@ import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ToastController } from '@ionic/angular/standalone';
 import { Capacitor } from '@capacitor/core';
 import {
   patchState,
@@ -20,6 +19,7 @@ import { exhaustMap, pipe, tap } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { SecureStorageService } from '../../core/services/secure-storage.service';
 import { StorageService } from '../../core/services/storage.service';
+import { ToastService } from '../../core/services/toast.service';
 import {
   AuthMetadata,
   AuthResponse,
@@ -49,22 +49,11 @@ export const AuthStore = signalStore(
     _secure: inject(SecureStorageService),
     _storage: inject(StorageService),
     _router: inject(Router),
-    _toast: inject(ToastController),
+    _toast: inject(ToastService),
     _timer: { handle: null as ReturnType<typeof setTimeout> | null },
   })),
   withMethods((store) => {
-    const showToast = async (
-      message: string,
-      color: 'success' | 'danger' | 'medium',
-    ) => {
-      const t = await store._toast.create({
-        message,
-        duration: 2400,
-        position: 'top',
-        color,
-      });
-      await t.present();
-    };
+    const toastOpts = { duration: 2400, position: 'top' as const };
 
     const clearTimer = () => {
       if (store._timer.handle) {
@@ -97,10 +86,7 @@ export const AuthStore = signalStore(
         void doLogout(true);
         return;
       }
-      store._timer.handle = setTimeout(
-        () => void doLogout(true),
-        Math.max(MIN_TIMER_MS, ms),
-      );
+      store._timer.handle = setTimeout(() => void doLogout(true), ms);
     };
 
     const applySession = async (res: AuthResponse) => {
@@ -119,9 +105,9 @@ export const AuthStore = signalStore(
         await applySession(res);
         store.setFulfilled();
         if (welcome) {
-          await showToast(
+          await store._toast.success(
             'Добре дошъл, ' + res.user.name.split(' ')[0] + '!',
-            'success',
+            toastOpts,
           );
         }
         store._router.navigateByUrl('/tabs/home', { replaceUrl: true });
@@ -130,9 +116,9 @@ export const AuthStore = signalStore(
 
     const onAuthError = (err: HttpErrorResponse) => {
       store.setError();
-      void showToast(
+      void store._toast.error(
         err?.error?.message || 'Възникна грешка. Опитай отново.',
-        'danger',
+        toastOpts,
       );
     };
 
@@ -170,7 +156,7 @@ export const AuthStore = signalStore(
         store._auth.logout().subscribe({ next: () => {}, error: () => {} });
         void (async () => {
           await doLogout(true);
-          await showToast('Излезе от профила', 'medium');
+          await store._toast.medium('Излезе от профила', toastOpts);
         })();
       },
 

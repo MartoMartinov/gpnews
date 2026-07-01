@@ -1583,3 +1583,107 @@
   }
 }
 
+// ============================================================
+// Auth screens (login, signup) — shared shell
+// ============================================================
+
+.auth-bg {
+  position: absolute;
+  right: -10%;
+  bottom: -6%;
+  width: 75%;
+  height: 48%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.auth-scroll {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 70px var(--s6) var(--s6);
+  display: flex;
+  flex-direction: column;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.auth-logo {
+  display: flex;
+  justify-content: center;
+  transform: scale(1.35);
+  margin: 18px 0 40px;
+
+  &.sm {
+    transform: scale(1.05);
+    margin: 8px 0 18px;
+  }
+}
+
+.auth-back {
+  position: absolute;
+  top: 56px;
+  left: 18px;
+  z-index: 5;
+  color: var(--color-ink);
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+}
+
+.auth-h1 {
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  margin: 0 0 var(--s6);
+  letter-spacing: -0.02em;
+}
+
+.auth-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: color-mix(in srgb, var(--color-accent) 16%, var(--color-surface));
+  color: var(--color-ink);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+  padding: 13px 15px;
+  border-radius: var(--r-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: var(--s5);
+
+  svg {
+    color: color-mix(in srgb, var(--color-accent) 60%, var(--color-ink));
+    flex: none;
+  }
+}
+
+.auth-cta-sub {
+  text-align: center;
+  color: var(--color-ink-2);
+  font-size: 14px;
+  line-height: 2;
+  margin: var(--s4) 0 var(--s5);
+
+  a {
+    color: var(--color-ink);
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-accent);
+    cursor: pointer;
+  }
+}
+
+.auth-guest {
+  margin: var(--s5) auto 0;
+  color: var(--color-ink-2);
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 8px;
+  background: none;
+  border: none;
+}
+
