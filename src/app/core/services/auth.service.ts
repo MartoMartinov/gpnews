@@ -18,9 +18,9 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.base}/auth/register`, data);
   }
 
-  /** Bearer token attached by the interceptor. */
+  /** Web: relies on the httpOnly refresh cookie, so send credentials. */
   refresh(): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.base}/auth/refresh`, {});
+    return this.http.post<AuthResponse>(`${this.base}/auth/refresh`, {}, { withCredentials: true });
   }
 
   logout(): Observable<{ ok: boolean }> {

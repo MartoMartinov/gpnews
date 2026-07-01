@@ -3,6 +3,7 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastController } from '@ionic/angular/standalone';
+import { Capacitor } from '@capacitor/core';
 import {
   patchState,
   signalStore,
@@ -154,13 +155,35 @@ export const AuthStore = signalStore(
       bootstrap: async () => {
         const token = await store._secure.getToken();
         const meta = await store._storage.get<AuthMetadata>(AUTH_DATA);
-        if (token && meta && new Date(meta.accessExpiresAt).getTime() > Date.now()) {
-          patchState(store, setSession(meta.user, meta.accessExpiresAt));
-          scheduleAutoLogout(meta.accessExpiresAt);
-        } else {
-          await clearPersisted();
-          patchState(store, clearSession());
+        const metaValid = !!meta && new Date(meta.accessExpiresAt).getTime() > Date.now();
+
+        if (token && metaValid) {
+          patchState(store, setSession(meta!.user, meta!.accessExpiresAt));
+          scheduleAutoLogout(meta!.accessExpiresAt);
+          patchState(store, setInitialized());
+          return;
         }
+
+        // Web never persists the access token across a reload (see
+        // SecureStorageService) — try a silent refresh via the httpOnly
+        // cookie before dropping a session that still looks valid.
+        if (!token && metaValid && !Capacitor.isNativePlatform()) {
+          store._auth.refresh().subscribe({
+            next: (res) => {
+              void applySession(res);
+              patchState(store, setInitialized());
+            },
+            error: async () => {
+              await clearPersisted();
+              patchState(store, clearSession());
+              patchState(store, setInitialized());
+            },
+          });
+          return;
+        }
+
+        await clearPersisted();
+        patchState(store, clearSession());
         patchState(store, setInitialized());
       },
 

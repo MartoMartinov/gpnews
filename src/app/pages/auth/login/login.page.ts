@@ -150,7 +150,7 @@ import { AuthStore } from '../../../store/auth/auth.store';
         color: var(--color-ink-2);
         font-size: 14px;
         line-height: 2;
-        margin: var(--s4) 0 var(--s5);
+        margin: var(--s8) 0 var(--s5);
       }
       .auth-cta-sub a {
         color: var(--color-ink);
