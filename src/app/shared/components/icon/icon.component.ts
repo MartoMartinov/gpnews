@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
  * Stroke-based SVG icon set, ported from the Claude Design prototype.
  * Multi-segment paths are split on " M" so each subpath renders cleanly.
  */
-const ICONS: Record<string, string> = {
+export const ICONS: Record<string, string> = {
   // category line icons
   news: 'M4 5h12v14H6a2 2 0 0 1-2-2V5Zm12 0h3a1 1 0 0 1 1 1v11a2 2 0 0 1-2 2M7 8h6M7 11h6M7 14h4',
   road: 'M12 3v3M12 10v3M12 17v3M5 21l2-18M19 21l-2-18',
@@ -36,6 +36,7 @@ const ICONS: Record<string, string> = {
   plus: 'M12 5v14M5 12h14',
   check: 'M20 6 9 17l-5-5',
   checkc: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM8.5 12l2.5 2.5L16 9',
+  alertc: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 8v5M12 16h.01',
   refresh: 'M21 12a9 9 0 1 1-2.6-6.3M21 4v4h-4',
   close: 'M6 6l12 12M18 6 6 18',
   clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 7v5l3.5 2',

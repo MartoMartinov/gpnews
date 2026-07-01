@@ -95,7 +95,6 @@ export class PushNotificationService {
             this.handleNotificationTap(notification.data);
           },
         },
-        { icon: 'close', role: 'cancel' },
       ],
     });
   }
