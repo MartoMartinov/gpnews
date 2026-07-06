@@ -27,3 +27,20 @@ export interface Article {
   /** Number of top-level + reply comments (returned by list endpoints). */
   commentCount?: number;
 }
+
+/** Lightweight article shape used by the home screen preview (no content/tags/author). */
+export interface ArticlePreview {
+  id: string;
+  /** Category id. */
+  cat: string;
+  title: string;
+  date: string;
+  commentCount?: number;
+}
+
+/** One category's home-screen preview: a lead article plus a couple more. */
+export interface HomeSection {
+  catId: string;
+  lead: ArticlePreview;
+  more: ArticlePreview[];
+}

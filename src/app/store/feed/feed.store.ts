@@ -1,9 +1,8 @@
-import { computed, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   patchState,
   signalStore,
-  withComputed,
   withHooks,
   withMethods,
   withProps,
@@ -16,19 +15,20 @@ import { filter, forkJoin, pipe, switchMap, tap } from 'rxjs';
 import { FeedService } from '../../core/services/feed.service';
 import { CommentService } from '../../core/services/comment.service';
 import { ToastService } from '../../core/services/toast.service';
-import { Article, Category, Comment, SubmitArticleData } from '../../shared/models';
+import { Article, ArticlePreview, Category, Comment, SubmitArticleData } from '../../shared/models';
 import { withBase } from '../features';
 
 const CATEGORY_PAGE_SIZE = 12;
 
 export interface HomeSectionData {
   cat: Category;
-  lead: Article;
-  more: Article[];
+  lead: ArticlePreview;
+  more: ArticlePreview[];
 }
 
 interface FeedState {
   categories: Category[];
+  homeSections: HomeSectionData[];
   articles: Article[];
   loading: boolean;
   activeArticle: Article | null;
@@ -43,6 +43,7 @@ interface FeedState {
 
 const initialState: FeedState = {
   categories: [],
+  homeSections: [],
   articles: [],
   loading: false,
   activeArticle: null,
@@ -59,19 +60,6 @@ export const FeedStore = signalStore(
   { providedIn: 'root' },
   withBase('feed'),
   withState(initialState),
-  withComputed(({ articles, categories }) => ({
-    homeSections: computed((): HomeSectionData[] => {
-      const arts = articles();
-      const cats = categories();
-      return cats
-        .map((cat) => {
-          const list = arts.filter((a) => a.cat === cat.id);
-          const more = cat.id === 'news' ? [] : list.slice(1, 3);
-          return { cat, lead: list[0] ?? null, more };
-        })
-        .filter((s): s is HomeSectionData => s.lead !== null);
-    }),
-  })),
   withProps(() => ({
     _feed: inject(FeedService),
     _comment: inject(CommentService),
@@ -83,10 +71,17 @@ export const FeedStore = signalStore(
       pipe(
         tap(() => patchState(store, { loading: true })),
         switchMap(() =>
-          forkJoin([store._feed.getCategories(), store._feed.getArticles()]).pipe(
+          forkJoin([store._feed.getCategories(), store._feed.getHomeArticles()]).pipe(
             tapResponse({
-              next: ([categories, articles]) =>
-                patchState(store, { categories, articles, loading: false }),
+              next: ([categories, sections]) => {
+                const homeSections = sections
+                  .map((s): HomeSectionData | null => {
+                    const cat = categories.find((c) => c.id === s.catId);
+                    return cat ? { cat, lead: s.lead, more: s.more } : null;
+                  })
+                  .filter((s): s is HomeSectionData => s !== null);
+                patchState(store, { categories, homeSections, loading: false });
+              },
               error: () => {
                 patchState(store, { loading: false });
                 void store._toast.error('Неуспешно зареждане. Провери интернет връзката.');

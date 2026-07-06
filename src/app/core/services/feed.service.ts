@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Article, Category, SubmitArticleData } from '../../shared/models';
+import { Article, Category, HomeSection, SubmitArticleData } from '../../shared/models';
 
 export interface SearchResult {
   items: Article[];
@@ -16,6 +16,10 @@ export class FeedService {
 
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.base}/categories`);
+  }
+
+  getHomeArticles(): Observable<HomeSection[]> {
+    return this.http.get<HomeSection[]>(`${this.base}/articles/home`);
   }
 
   getArticles(catId?: string, page?: number, pageSize?: number): Observable<Article[]> {

@@ -33,7 +33,7 @@ import { DrawerService } from '../../../core/services/drawer.service';
                   <gp-icon [name]="cat.icon" [size]="21" [sw]="1.6" />
                 </span>
                 <span class="di-name">{{ cat.name }}</span>
-                <span class="di-count">{{ feed.byCat(cat.id).length }}</span>
+                <span class="di-count">{{ cat.count ?? 0 }}</span>
                 <gp-icon name="fwd" [size]="17" class="di-arrow" />
               </button>
             }

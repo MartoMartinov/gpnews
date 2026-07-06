@@ -7,4 +7,6 @@ export interface Category {
   icon: string;
   /** Hue (0–360) used to tint image placeholders. */
   hue: number;
+  /** Total published article count in this category (returned by the list endpoint). */
+  count?: number;
 }
