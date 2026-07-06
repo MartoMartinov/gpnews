@@ -2,6 +2,8 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  effect,
   ElementRef,
   inject,
   signal,
@@ -12,16 +14,26 @@ import { Router } from '@angular/router';
 import { EMPTY, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { IonContent } from '@ionic/angular/standalone';
-import { EmptyStateComponent, IconComponent, SkeletonComponent } from '../../shared/components';
-import { FeedService } from '../../core/services/feed.service';
+import { IonContent, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/angular/standalone';
+import { BlueprintComponent, EmptyStateComponent, IconComponent, SkeletonComponent } from '../../shared/components';
+import { FeedService, SearchResult } from '../../core/services/feed.service';
 import { FeedStore } from '../../store/feed/feed.store';
 import { Article } from '../../shared/models';
+
+const SEARCH_PAGE_SIZE = 12;
 
 @Component({
   selector: 'app-search',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonContent, EmptyStateComponent, IconComponent, SkeletonComponent],
+  imports: [
+    IonContent,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    EmptyStateComponent,
+    IconComponent,
+    SkeletonComponent,
+    BlueprintComponent,
+  ],
   template: `
     <div class="search-topbar">
       <button class="search-back" (click)="back()" aria-label="Назад">
@@ -74,12 +86,12 @@ import { Article } from '../../shared/models';
         />
       } @else {
         <div class="search-count">
-          {{ results().length }}&nbsp;{{ results().length === 1 ? 'резултат' : 'резултата' }}
+          {{ total() }}&nbsp;{{ total() === 1 ? 'резултат' : 'резултата' }}
         </div>
         @for (a of results(); track a.id) {
           <button class="gp-row" (click)="goArticle(a.id)">
             <div class="thumb">
-              <div class="gp-img" [style.--cathue]="catHue(a.cat)" style="aspect-ratio:1/1;height:104px"></div>
+              <gp-blueprint class="gp-img" [style.--cathue]="catHue(a.cat)" style="aspect-ratio:1/1;height:104px"></gp-blueprint>
             </div>
             <div class="rbody">
               <h3>{{ a.title }}</h3>
@@ -97,6 +109,10 @@ import { Article } from '../../shared/models';
           </button>
         }
         <div style="height: var(--s6)"></div>
+
+        <ion-infinite-scroll (ionInfinite)="loadMore($event)" [disabled]="!hasMore()">
+          <ion-infinite-scroll-content loadingSpinner="dots" />
+        </ion-infinite-scroll>
       }
     </ion-content>
   `,
@@ -126,7 +142,6 @@ import { Article } from '../../shared/models';
       cursor: pointer;
       background: none;
       border: none;
-      width: 100%;
       text-align: left;
     }
   `],
@@ -137,12 +152,18 @@ export class SearchPage implements AfterViewInit {
   protected readonly q = signal('');
   protected readonly loading = signal(false);
   protected readonly results = signal<Article[]>([]);
+  protected readonly total = signal(0);
   protected readonly searched = signal('');
+  protected readonly page = signal(1);
+  protected readonly hasMore = signal(true);
+  protected readonly loadingMore = signal(false);
 
   private readonly feedService = inject(FeedService);
   private readonly feedStore = inject(FeedStore);
   private readonly location = inject(Location);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private pendingInfiniteEvent: CustomEvent | null = null;
 
   constructor() {
     toObservable(this.q)
@@ -160,18 +181,29 @@ export class SearchPage implements AfterViewInit {
         switchMap((q) => {
           const t = q.trim();
           if (t.length < 2) return EMPTY;
-          return this.feedService.searchArticles(t).pipe(
-            catchError(() => of([] as Article[])),
-            tap((items) => {
+          this.page.set(1);
+          this.hasMore.set(true);
+          return this.feedService.searchArticles(t, 1, SEARCH_PAGE_SIZE).pipe(
+            catchError(() => of({ items: [], total: 0 } as SearchResult)),
+            tap(({ items, total }) => {
               this.searched.set(t);
               this.results.set(items);
+              this.total.set(total);
               this.loading.set(false);
+              this.hasMore.set(items.length < total);
             }),
           );
         }),
         takeUntilDestroyed(),
       )
       .subscribe();
+
+    effect(() => {
+      if (!this.loadingMore() && this.pendingInfiniteEvent) {
+        (this.pendingInfiniteEvent.target as HTMLIonInfiniteScrollElement).complete();
+        this.pendingInfiniteEvent = null;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -198,5 +230,28 @@ export class SearchPage implements AfterViewInit {
 
   goArticle(id: string): void {
     void this.router.navigate(['/article', id]);
+  }
+
+  loadMore(event: CustomEvent): void {
+    if (!this.hasMore() || this.loadingMore() || this.loading()) {
+      (event.target as HTMLIonInfiniteScrollElement).complete();
+      return;
+    }
+    this.pendingInfiniteEvent = event;
+    this.loadingMore.set(true);
+    this.feedService
+      .searchArticles(this.searched(), this.page() + 1, SEARCH_PAGE_SIZE)
+      .pipe(
+        catchError(() => of({ items: [], total: this.total() } as SearchResult)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(({ items, total }) => {
+        const merged = [...this.results(), ...items];
+        this.results.set(merged);
+        this.total.set(total);
+        this.page.set(this.page() + 1);
+        this.hasMore.set(merged.length < total);
+        this.loadingMore.set(false);
+      });
   }
 }

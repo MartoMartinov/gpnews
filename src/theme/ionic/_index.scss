@@ -38,7 +38,7 @@ ion-title {
 
 // Tab bar — matches demo .gp-tabbar
 ion-tab-bar {
-  --background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  --background: var(--color-surface);
   --color: var(--color-ink-3);
   --color-selected: var(--color-ink);
   border-top: 1px solid var(--color-line);

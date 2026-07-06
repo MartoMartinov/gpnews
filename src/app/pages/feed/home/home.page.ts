@@ -5,7 +5,6 @@ import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import {
   BlueprintComponent,
   BtnComponent,
-  ChipComponent,
   IconComponent,
   SkeletonComponent,
   TabHeaderComponent,
@@ -24,7 +23,6 @@ import { Category } from '../../../shared/models';
     BtnComponent,
     IconComponent,
     SkeletonComponent,
-    ChipComponent,
     TabHeaderComponent,
     BlueprintComponent,
   ],

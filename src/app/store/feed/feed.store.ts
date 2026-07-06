@@ -11,13 +11,15 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
-import { forkJoin, pipe, switchMap, tap } from 'rxjs';
+import { filter, forkJoin, pipe, switchMap, tap } from 'rxjs';
 
 import { FeedService } from '../../core/services/feed.service';
 import { CommentService } from '../../core/services/comment.service';
 import { ToastService } from '../../core/services/toast.service';
 import { Article, Category, Comment, SubmitArticleData } from '../../shared/models';
 import { withBase } from '../features';
+
+const CATEGORY_PAGE_SIZE = 12;
 
 export interface HomeSectionData {
   cat: Category;
@@ -33,6 +35,10 @@ interface FeedState {
   activeComments: Comment[];
   articleLoading: boolean;
   myArticles: Article[];
+  categoryCatId: string | null;
+  categoryPage: number;
+  categoryHasMore: boolean;
+  categoryLoadingMore: boolean;
 }
 
 const initialState: FeedState = {
@@ -43,6 +49,10 @@ const initialState: FeedState = {
   activeComments: [],
   articleLoading: false,
   myArticles: [],
+  categoryCatId: null,
+  categoryPage: 1,
+  categoryHasMore: true,
+  categoryLoadingMore: false,
 };
 
 export const FeedStore = signalStore(
@@ -89,17 +99,58 @@ export const FeedStore = signalStore(
 
     loadCategoryArticles: rxMethod<string>(
       pipe(
-        tap(() => patchState(store, { loading: true })),
+        tap((catId) =>
+          patchState(store, {
+            loading: true,
+            categoryCatId: catId,
+            categoryPage: 1,
+            categoryHasMore: true,
+          }),
+        ),
         switchMap((catId) =>
-          store._feed.getArticles(catId).pipe(
+          store._feed.getArticles(catId, 1, CATEGORY_PAGE_SIZE).pipe(
             tapResponse({
               next: (articles) => {
                 const existing = store.articles().filter((a) => a.cat !== catId);
-                patchState(store, { articles: [...existing, ...articles], loading: false });
+                patchState(store, {
+                  articles: [...existing, ...articles],
+                  loading: false,
+                  categoryHasMore: articles.length === CATEGORY_PAGE_SIZE,
+                });
               },
               error: () => {
                 patchState(store, { loading: false });
                 void store._toast.error('Неуспешно зареждане. Провери интернет връзката.');
+              },
+            }),
+          ),
+        ),
+      ),
+    ),
+
+    loadMoreCategoryArticles: rxMethod<string>(
+      pipe(
+        filter(
+          (catId) =>
+            store.categoryCatId() === catId &&
+            store.categoryHasMore() &&
+            !store.categoryLoadingMore() &&
+            !store.loading(),
+        ),
+        tap(() => patchState(store, { categoryLoadingMore: true })),
+        switchMap((catId) =>
+          store._feed.getArticles(catId, store.categoryPage() + 1, CATEGORY_PAGE_SIZE).pipe(
+            tapResponse({
+              next: (more) =>
+                patchState(store, {
+                  articles: [...store.articles(), ...more],
+                  categoryPage: store.categoryPage() + 1,
+                  categoryHasMore: more.length === CATEGORY_PAGE_SIZE,
+                  categoryLoadingMore: false,
+                }),
+              error: () => {
+                patchState(store, { categoryLoadingMore: false });
+                void store._toast.error('Неуспешно зареждане на още статии.');
               },
             }),
           ),

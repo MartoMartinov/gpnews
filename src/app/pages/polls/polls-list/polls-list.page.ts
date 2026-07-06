@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
+import {
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonRefresher,
+  IonRefresherContent,
+} from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import {
   ChipComponent,
@@ -16,6 +21,8 @@ import { PollsStore } from '../../../store/polls/polls.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IONIC_IMPORTS,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
     IonRefresher,
     IonRefresherContent,
     ChipComponent,
@@ -64,6 +71,10 @@ import { PollsStore } from '../../../store/polls/polls.store';
           }
           <div style="height: var(--s6)"></div>
         </div>
+
+        <ion-infinite-scroll (ionInfinite)="loadMore($event)" [disabled]="!store.pollsHasMore()">
+          <ion-infinite-scroll-content loadingSpinner="dots" />
+        </ion-infinite-scroll>
       }
     </ion-content>
   `,
@@ -72,6 +83,17 @@ export class PollsListPage {
   protected readonly store = inject(PollsStore);
   private readonly router = inject(Router);
 
+  private pendingInfiniteEvent: CustomEvent | null = null;
+
+  constructor() {
+    effect(() => {
+      if (!this.store.pollsLoadingMore() && this.pendingInfiniteEvent) {
+        (this.pendingInfiniteEvent.target as HTMLIonInfiniteScrollElement).complete();
+        this.pendingInfiniteEvent = null;
+      }
+    });
+  }
+
   goPoll(id: string): void {
     void this.router.navigate(['/poll', id]);
   }
@@ -79,5 +101,10 @@ export class PollsListPage {
   refresh(event: CustomEvent): void {
     this.store.loadPolls(undefined);
     setTimeout(() => (event.target as HTMLIonRefresherElement).complete(), 1000);
+  }
+
+  loadMore(event: CustomEvent): void {
+    this.pendingInfiniteEvent = event;
+    this.store.loadMorePolls(undefined);
   }
 }

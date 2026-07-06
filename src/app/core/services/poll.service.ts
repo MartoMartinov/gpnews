@@ -9,8 +9,11 @@ export class PollService {
   private readonly http = inject(HttpClient);
   private readonly base = environment.apiBaseUrl;
 
-  getPolls(): Observable<Poll[]> {
-    return this.http.get<Poll[]>(`${this.base}/polls`);
+  getPolls(page?: number, pageSize?: number): Observable<Poll[]> {
+    const params: Record<string, string> = {};
+    if (page) params['page'] = String(page);
+    if (pageSize) params['pageSize'] = String(pageSize);
+    return this.http.get<Poll[]>(`${this.base}/polls`, { params });
   }
 
   getPoll(id: string): Observable<Poll> {

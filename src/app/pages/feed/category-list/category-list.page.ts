@@ -2,16 +2,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   input,
   OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
+import {
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonRefresher,
+  IonRefresherContent,
+} from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../../shared/ionic-imports';
 import {
   BlueprintComponent,
-  BtnComponent,
   EmptyStateComponent,
   IconComponent,
   SkeletonComponent,
@@ -24,12 +29,13 @@ import { Category } from '../../../shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IONIC_IMPORTS,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
     IonRefresher,
     IonRefresherContent,
     IconComponent,
     SkeletonComponent,
     EmptyStateComponent,
-    BtnComponent,
     BlueprintComponent,
   ],
   template: `
@@ -105,6 +111,10 @@ import { Category } from '../../../shared/models';
           </button>
         }
         <div style="height: var(--s6)"></div>
+
+        <ion-infinite-scroll (ionInfinite)="loadMore($event)" [disabled]="!feed.categoryHasMore()">
+          <ion-infinite-scroll-content loadingSpinner="dots" />
+        </ion-infinite-scroll>
       }
     </ion-content>
   `,
@@ -128,6 +138,16 @@ export class CategoryListPage implements OnInit {
 
   protected readonly feed = inject(FeedStore);
   private readonly router = inject(Router);
+  private pendingInfiniteEvent: CustomEvent | null = null;
+
+  constructor() {
+    effect(() => {
+      if (!this.feed.categoryLoadingMore() && this.pendingInfiniteEvent) {
+        (this.pendingInfiniteEvent.target as HTMLIonInfiniteScrollElement).complete();
+        this.pendingInfiniteEvent = null;
+      }
+    });
+  }
 
   protected readonly cat = computed((): Category | undefined =>
     this.feed.categories().find((c) => c.id === this.id()),
@@ -150,6 +170,11 @@ export class CategoryListPage implements OnInit {
 
   goArticle(artId: string): void {
     void this.router.navigate(['/article', artId]);
+  }
+
+  loadMore(event: CustomEvent): void {
+    this.pendingInfiniteEvent = event;
+    this.feed.loadMoreCategoryArticles(this.id());
   }
 
   refresh(event: CustomEvent): void {

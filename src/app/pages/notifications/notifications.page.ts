@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
+import {
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonRefresher,
+  IonRefresherContent,
+} from '@ionic/angular/standalone';
 import { IONIC_IMPORTS } from '../../shared/ionic-imports';
 import {
   EmptyStateComponent,
@@ -16,6 +21,8 @@ import { AuthStore } from '../../store/auth/auth.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IONIC_IMPORTS,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
     IonRefresher,
     IonRefresherContent,
     EmptyStateComponent,
@@ -76,6 +83,10 @@ import { AuthStore } from '../../store/auth/auth.store';
             }
             <div style="height: var(--s6)"></div>
           </div>
+
+          <ion-infinite-scroll (ionInfinite)="loadMore($event)" [disabled]="!store.notifHasMore()">
+            <ion-infinite-scroll-content loadingSpinner="dots" />
+          </ion-infinite-scroll>
         }
       }
     </ion-content>
@@ -86,6 +97,17 @@ export class NotificationsPage implements OnInit {
   protected readonly auth = inject(AuthStore);
   private readonly router = inject(Router);
 
+  private pendingInfiniteEvent: CustomEvent | null = null;
+
+  constructor() {
+    effect(() => {
+      if (!this.store.notifLoadingMore() && this.pendingInfiniteEvent) {
+        (this.pendingInfiniteEvent.target as HTMLIonInfiniteScrollElement).complete();
+        this.pendingInfiniteEvent = null;
+      }
+    });
+  }
+
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
       this.store.loadNotifications(undefined);
@@ -95,6 +117,11 @@ export class NotificationsPage implements OnInit {
   open(id: string, artId?: string): void {
     this.store.markRead(id);
     if (artId) void this.router.navigate(['/article', artId]);
+  }
+
+  loadMore(event: CustomEvent): void {
+    this.pendingInfiniteEvent = event;
+    this.store.loadMoreNotifications(undefined);
   }
 
   refresh(event: CustomEvent): void {

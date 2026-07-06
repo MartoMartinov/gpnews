@@ -10,7 +10,7 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
-import { pipe, switchMap, tap } from 'rxjs';
+import { filter, pipe, switchMap, tap } from 'rxjs';
 
 import { NotificationService } from '../../core/services/notification.service';
 import { ToastService } from '../../core/services/toast.service';
@@ -18,14 +18,22 @@ import { AppNotification } from '../../shared/models';
 import { withBase } from '../features';
 import { AuthStore } from '../auth/auth.store';
 
+const NOTIFICATIONS_PAGE_SIZE = 12;
+
 interface NotificationsState {
   items: AppNotification[];
   loading: boolean;
+  notifPage: number;
+  notifHasMore: boolean;
+  notifLoadingMore: boolean;
 }
 
 const initialState: NotificationsState = {
   items: [],
   loading: false,
+  notifPage: 1,
+  notifHasMore: true,
+  notifLoadingMore: false,
 };
 
 export const NotificationsStore = signalStore(
@@ -42,12 +50,41 @@ export const NotificationsStore = signalStore(
   withMethods((store) => ({
     loadNotifications: rxMethod<void>(
       pipe(
-        tap(() => patchState(store, { loading: true })),
+        tap(() => patchState(store, { loading: true, notifPage: 1, notifHasMore: true })),
         switchMap(() =>
-          store._notif.getNotifications().pipe(
+          store._notif.getNotifications(1, NOTIFICATIONS_PAGE_SIZE).pipe(
             tapResponse({
-              next: (items) => patchState(store, { items, loading: false }),
+              next: (items) =>
+                patchState(store, {
+                  items,
+                  loading: false,
+                  notifHasMore: items.length === NOTIFICATIONS_PAGE_SIZE,
+                }),
               error: () => patchState(store, { loading: false }),
+            }),
+          ),
+        ),
+      ),
+    ),
+
+    loadMoreNotifications: rxMethod<void>(
+      pipe(
+        filter(() => store.notifHasMore() && !store.notifLoadingMore() && !store.loading()),
+        tap(() => patchState(store, { notifLoadingMore: true })),
+        switchMap(() =>
+          store._notif.getNotifications(store.notifPage() + 1, NOTIFICATIONS_PAGE_SIZE).pipe(
+            tapResponse({
+              next: (more) =>
+                patchState(store, {
+                  items: [...store.items(), ...more],
+                  notifPage: store.notifPage() + 1,
+                  notifHasMore: more.length === NOTIFICATIONS_PAGE_SIZE,
+                  notifLoadingMore: false,
+                }),
+              error: () => {
+                patchState(store, { notifLoadingMore: false });
+                void store._toast.error('Неуспешно зареждане на още известия.');
+              },
             }),
           ),
         ),

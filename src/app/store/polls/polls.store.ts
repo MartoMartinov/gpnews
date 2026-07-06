@@ -10,18 +10,23 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
-import { pipe, switchMap, tap } from 'rxjs';
+import { filter, pipe, switchMap, tap } from 'rxjs';
 
 import { PollService } from '../../core/services/poll.service';
 import { ToastService } from '../../core/services/toast.service';
 import { Poll } from '../../shared/models';
 import { withBase } from '../features';
 
+const POLLS_PAGE_SIZE = 12;
+
 interface PollsState {
   polls: Poll[];
   activePoll: Poll | null;
   loading: boolean;
   voting: boolean;
+  pollsPage: number;
+  pollsHasMore: boolean;
+  pollsLoadingMore: boolean;
 }
 
 const initialState: PollsState = {
@@ -29,6 +34,9 @@ const initialState: PollsState = {
   activePoll: null,
   loading: false,
   voting: false,
+  pollsPage: 1,
+  pollsHasMore: true,
+  pollsLoadingMore: false,
 };
 
 export const PollsStore = signalStore(
@@ -45,14 +53,43 @@ export const PollsStore = signalStore(
   withMethods((store) => ({
     loadPolls: rxMethod<void>(
       pipe(
-        tap(() => patchState(store, { loading: true })),
+        tap(() => patchState(store, { loading: true, pollsPage: 1, pollsHasMore: true })),
         switchMap(() =>
-          store._polls.getPolls().pipe(
+          store._polls.getPolls(1, POLLS_PAGE_SIZE).pipe(
             tapResponse({
-              next: (polls) => patchState(store, { polls, loading: false }),
+              next: (polls) =>
+                patchState(store, {
+                  polls,
+                  loading: false,
+                  pollsHasMore: polls.length === POLLS_PAGE_SIZE,
+                }),
               error: () => {
                 patchState(store, { loading: false });
                 void store._toast.error('Неуспешно зареждане. Провери интернет връзката.');
+              },
+            }),
+          ),
+        ),
+      ),
+    ),
+
+    loadMorePolls: rxMethod<void>(
+      pipe(
+        filter(() => store.pollsHasMore() && !store.pollsLoadingMore() && !store.loading()),
+        tap(() => patchState(store, { pollsLoadingMore: true })),
+        switchMap(() =>
+          store._polls.getPolls(store.pollsPage() + 1, POLLS_PAGE_SIZE).pipe(
+            tapResponse({
+              next: (more) =>
+                patchState(store, {
+                  polls: [...store.polls(), ...more],
+                  pollsPage: store.pollsPage() + 1,
+                  pollsHasMore: more.length === POLLS_PAGE_SIZE,
+                  pollsLoadingMore: false,
+                }),
+              error: () => {
+                patchState(store, { pollsLoadingMore: false });
+                void store._toast.error('Неуспешно зареждане на още анкети.');
               },
             }),
           ),

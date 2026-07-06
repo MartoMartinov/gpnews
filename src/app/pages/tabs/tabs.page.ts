@@ -73,7 +73,7 @@ import { CategoryDrawerComponent } from '../feed/category-drawer/category-drawer
       position: absolute;
       top: -5px;
       right: -9px;
-      min-width: 16px;
+      min-width: 8px;
       height: 16px;
       padding: 0 4px;
       border-radius: 999px;

@@ -26,7 +26,7 @@ import { AuthStore } from '../../../store/auth/auth.store';
 import { Comment } from '../../../shared/models';
 
 function countAll(list: Comment[]): number {
-  return list.reduce((n, c) => n + 1 + (c.replies?.length ?? 0), 0);
+  return list.reduce((n, c) => n + 1 + (c.replies.length ?? 0), 0);
 }
 
 function fmtAgo(mins: number): string {
@@ -92,7 +92,7 @@ function fmtAgo(mins: number): string {
 
           <div class="editor" [innerHTML]="a.content" (click)="onEditorClick($event)"></div>
 
-          @if (a.tags?.length) {
+          @if (a.tags.length) {
             <div class="art-tags">
               @for (tag of a.tags; track tag) {
                 <span class="gp-cat-tag">{{ tag }}</span>
@@ -195,7 +195,7 @@ function fmtAgo(mins: number): string {
                         </div>
                       }
 
-                      @if (c.replies?.length) {
+                      @if (c.replies.length) {
                         <div class="cmt-replies">
                           @for (r of c.replies; track r.id) {
                             <div class="cmt reply">

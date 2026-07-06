@@ -9,8 +9,11 @@ export class NotificationService {
   private readonly http = inject(HttpClient);
   private readonly base = environment.apiBaseUrl;
 
-  getNotifications(): Observable<AppNotification[]> {
-    return this.http.get<AppNotification[]>(`${this.base}/notifications`);
+  getNotifications(page?: number, pageSize?: number): Observable<AppNotification[]> {
+    const params: Record<string, string> = {};
+    if (page) params['page'] = String(page);
+    if (pageSize) params['pageSize'] = String(pageSize);
+    return this.http.get<AppNotification[]>(`${this.base}/notifications`, { params });
   }
 
   markRead(id: string): Observable<{ ok: boolean }> {
