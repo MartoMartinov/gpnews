@@ -112,7 +112,7 @@ const SLIDES: Slide[] = [
       .onb-title {
         font-family: var(--font-head);
         font-size: 27px;
-        font-weight: 800;
+        font-weight: 700;
         letter-spacing: -0.02em;
         margin: 8px 0 var(--s4);
         white-space: nowrap;

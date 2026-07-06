@@ -485,6 +485,7 @@
           <span class="fid">H2</span>
           <h3>Google Fonts fetched from the network in a native-only app</h3>
           <span class="chip high">High</span>
+          <span class="chip ok">✓ Resolved</span>
         </div>
         <p class="files"><code>src/index.html:15-20</code> · <code>src/theme/custom/base/_fonts.scss:7-8</code></p>
         <dl>
@@ -494,6 +495,8 @@
           <dd>There is no hosted web version — every cold start on a low-end Android must reach Google's CDN before brand fonts render. First launch offline means system fallback fonts; flaky 3G stalls the WebView render path. Also a privacy / store-review smell.</dd>
           <dt class="fixlabel">Fix</dt>
           <dd class="fix">Self-host woff2 subsets (Cyrillic + Latin — the app is Bulgarian-only) in <code>assets/fonts/</code> with <code>@font-face</code>; trim Manrope to the weights actually used (400/600/700/800 — 200/300/500 are never referenced). Expect ~150–250&nbsp;kB local total.</dd>
+          <dt class="fixlabel">Status</dt>
+          <dd class="fix">2026-07-06 — Google Fonts <code>&lt;link&gt;</code>/preconnect tags removed from <code>index.html</code>. Each family now self-hosted as a single local variable-font file under <code>src/assets/fonts/</code> (one <code>@font-face</code> per style, covering the full weight range) instead of the ~14 static per-weight/subset faces Google served. Note: shipped as variable TTFs rather than woff2 subsets, so the local payload is larger than the ~150–250&nbsp;kB estimate — acceptable since it's bundled once into the app package, not downloaded per launch.</dd>
         </dl>
       </article>
 
@@ -717,7 +720,7 @@
     <h2>Priority order</h2>
     <ol class="prio">
       <li><span>✓ <s>Fix the failing <b>anyComponentStyle budget</b> — release blocker.</s> Resolved 2026-07-06.</span><span class="ref">H1</span></li>
-      <li><span>Self-host + subset fonts, trim Manrope weights.</span><span class="ref">H2</span></li>
+      <li><span>✓ <s>Self-host + subset fonts, trim Manrope weights.</s> Resolved 2026-07-06.</span><span class="ref">H2</span></li>
       <li><span>Cache the auth token in memory.</span><span class="ref">M1</span></li>
       <li><span>Resize/WebP the onboarding PNGs + add dimensions.</span><span class="ref">M3</span></li>
       <li><span>Tie refresher completion to store loading state, then evaluate zoneless.</span><span class="ref">M4·M6</span></li>
