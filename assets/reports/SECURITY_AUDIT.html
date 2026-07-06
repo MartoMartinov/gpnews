@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<!-- saved from url=(0253)https://2d62211b-d1a6-467e-a1e9-90566c10faa2.frame.claudeusercontent.com/_f/1783334284-0eeb/?__frame_t=HpFjiD42qcrfnJnwt81xxBfM.96618507-a703-40ae-87c3-b5868a97f237.cc8897c1-0fae-4bef-b3b9-9b617637abeb.1783349830&__frame_v=manifest.bda96bdb5ebc99bf.json -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!-- frame-runtime --><!--<base href="/_f/1783334284-0eeb/">--><base href="."><script>window.__FRAME_PREAMBLE={"capabilities":{"mcp":"mcp.BQqQVVN_.js"},"transforms":"_transforms.DYk1Ltlh.js"}</script><script>(function(){"use strict";const J="modulepreload",K=function(e){return"/"+e},V={},N=function(t,n,u){let o=Promise.resolve();function i(f){const a=new Event("vite:preloadError",{cancelable:!0});if(a.payload=f,window.dispatchEvent(a),!a.defaultPrevented)throw f}return o.then(f=>{for(const a of f||[])a.status==="rejected"&&i(a.reason);return t().catch(i)})},$=["light","dark","system"];function q(e){if(e==null||typeof e!="object")return!1;const t=e.__frame_init;return t!=null&&typeof t=="object"}function I(e){if(e==null||typeof e!="object")return!1;const t=e.__frame_theme;if(t==null||typeof t!="object")return!1;const n=t.theme;return typeof n=="string"&&$.includes(n)}function S(e){if(window===top||e.type==="auxclick"&&e.button!==1)return;const t=e.composedPath?e.composedPath():[e.target];let n=null;for(let f=0;f<t.length;f++){const a=t[f];if(a&&a.matches&&a.matches("a[href],area[href]")){n=a;break}}if(!n&&e.target&&e.target.closest&&(n=e.target.closest("a[href],area[href]")),!n)return;const u=n.getAttribute("href");if(!u)return;let o,i;try{o=new URL(u,document.baseURI),i=new URL(document.baseURI).origin}catch{return}(o.protocol==="http:"||o.protocol==="https:")&&o.origin!==i&&(e.preventDefault(),parent.postMessage({__frame_nav:!0,url:o.href},"*"))}const L={};function v(e){if(window===top)return;const t=Date.now();t-(L[e]||0)<500||(L[e]=t,parent.postMessage({__frame_engaged:!0,kind:e},"*"))}function U(){addEventListener("click",S,!0),addEventListener("auxclick",S,!0)}function D(){addEventListener("scroll",()=>v("scroll"),{capture:!0,passive:!0}),addEventListener("pointermove",()=>v("pointer"),{capture:!0,passive:!0}),addEventListener("click",()=>v("click"),{capture:!0,passive:!0})}function F(e,t,n){const u=[...t.values()].filter(o=>o.targets.some(i=>i.startsWith(e+".")));return{wrap(o,i){const f=`${e}.${o}`,a=u.filter(s=>s.targets.includes(f));return a.length===0?(...s)=>{try{return i(...s)}catch(d){return Promise.reject(d)}}:(...s)=>{let d=s;for(const c of a){const l=c.module.parameters;if(l)try{d=l(d)}catch{return Promise.reject({code:"transform_error",id:c.id,scope:e,message:"parameters transform failed"})}}let m;try{m=i(...d)}catch(c){m=Promise.reject(c)}return m.then(c=>{for(let l=a.length-1;l>=0;l--){const g=a[l],p=g.module.returns;if(p)try{c=p(c)}catch{return n({id:g.id,scope:e,leg:"returns"}),c}}return c},c=>{for(let l=a.length-1;l>=0;l--){const g=a[l],p=g.module.throws;if(p)try{c=p(c)}catch{return n({id:g.id,scope:e,leg:"throws"}),Promise.reject(c)}}return Promise.reject(c)})}}}}function B(e,t,n,u=()=>{}){const o=new Set(e.changes??[]),i=new Map;for(const f of o){const a=t[f];a&&i.set(f,a)}return{contract:e.contract,changes:o,flags:new Set(e.flags??[]),capabilities:e.capabilities??{},transforms:i,shellOrigin:n.shellOrigin,mount:n.mount,pipe:f=>F(f,i,u)}}(function(){const e=Object.defineProperty,t=globalThis,n=["RTCPeerConnection","webkitRTCPeerConnection","RTCDataChannel","RTCIceCandidate","RTCSessionDescription","RTCRtpSender","RTCRtpReceiver"];let u=0;for(let o=0;o<n.length;o++){const i=n[o];try{e(t,i,{value:void 0,writable:!1,configurable:!1})}catch{try{delete t[i]}catch{}try{e(t,i,{value:void 0,writable:!1,configurable:!0})}catch{}}typeof t[i]=="function"&&u++}if(u&&window!==top)try{parent.postMessage({__frame_rtc_lockdown_failed:u},"*")}catch{}})();const z=1e4,x=Object.freeze([...window.__FRAME_PREAMBLE?.origins??["https://claude.ai","https://preview.claude.ai"]]);function W(e){for(const t of x)if(t.endsWith(":*"))try{const n=new URL(e);if(`${n.protocol}//${n.hostname}:*`===t)return!0}catch{}else if(e===t)return!0;return!1}const b=Object.freeze({...window.__FRAME_PREAMBLE?.capabilities??{}}),E=window.__FRAME_PREAMBLE?.transforms,k=/^[\w.-]+\.js$/,H=/^[a-z][a-z0-9_-]{0,63}$/;let C=null,h=null;function P(e,t,n){try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!1,enumerable:!0})}catch{try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!0,enumerable:!0})}catch{}}}let R=!1;function A(e){const t=document.documentElement;e==="light"||e==="dark"?(t.dataset.theme=e,t.style.colorScheme=e,R=!0):R&&(delete t.dataset.theme,t.style.colorScheme="",R=!1)}const _=new Map;function G(e,t){const n=_.get(e);if(!n)return;Object.assign(n.impl,t),n.impl.__settled=()=>Promise.reject({code:"capability_removed",message:`${e}: method not in this runtime`});const u=n.queue;n.queue=[];for(const o of u){const i=t[o.method];i?i(...o.args).then(o.resolve,o.reject):o.reject({code:"capability_removed",message:`${e}.${o.method} is not in this runtime`})}}function j(e,t){const n=_.get(e);if(!n)return;n.impl.__settled=()=>Promise.reject(t);const u=n.queue;n.queue=[];for(const o of u)o.reject(t)}const O=Object.getOwnPropertyDescriptor(window,"claude");if(window!==top&&!(O&&O.writable===!1)){U(),D();const e=O?.value??{};P(window,"claude",e);const t=s=>{const d={impl:Object.create(null),queue:[]};_.set(s,d);const m=new Proxy(d.impl,{get:(c,l)=>{if(typeof l=="string"&&!(l==="then"||l==="toJSON"||l==="valueOf"))return l==="toString"?Object.prototype.toString:(...g)=>{const p=c[l]??c.__settled;return p?p(...g):new Promise((w,M)=>{d.queue.push({method:l,args:g,resolve:w,reject:M})})}},set:()=>!1});P(e,s,m)};for(const s of Object.keys(b)){if(e[s]!==void 0){P(e,s,e[s]);continue}t(s)}let n=null,u=null,o=0;const i=s=>{s.source!==parent||!W(s.origin)||q(s.data)&&(n=s.data.__frame_init,h=s.origin,removeEventListener("message",i),clearTimeout(o),u?.())};addEventListener("message",i),parent.postMessage({__frame_connect:!0},"*");const f=new Promise(s=>{u=s,o=setTimeout(()=>{removeEventListener("message",i),s()},z)}),a=document.readyState==="loading"?new Promise(s=>document.addEventListener("DOMContentLoaded",()=>s(),{once:!0})):Promise.resolve();f.then(async()=>{if(!n||!h){for(const r of _.keys())j(r,{code:"not_granted",message:"frame initialization did not arrive - capability unavailable"});return}A(n.theme);const s=h;addEventListener("message",r=>{r.source!==parent||r.origin!==s||I(r.data)&&A(r.data.__frame_theme.theme)});const d=r=>N(()=>import("/_runtime/"+r),void 0),m=Object.keys(n.capabilities??{});for(const r of m)Object.hasOwn(b,r)||H.test(r)&&e[r]===void 0&&(t(r),j(r,{code:"capability_disabled",message:"capability not in this runtime generation"}));const c=m.filter(r=>Object.hasOwn(b,r)).map(r=>[r,b[r]]).filter(r=>typeof r[1]=="string"&&k.test(r[1])),[l,...g]=await Promise.allSettled([E&&k.test(E)?d(E):Promise.resolve({}),...c.map(([,r])=>d(r))]),p=h;C=B(n,l.status==="fulfilled"&&l.value?.TRANSFORMS||{},{shellOrigin:p,mount:G},r=>parent.postMessage({__frame_cap_telemetry:r},p));const w=r=>parent.postMessage({__frame_cap_telemetry:{kind:"cap-load-error",cap:r}},p),M=C;g.forEach((r,y)=>{const T=c[y][0];if(r.status!=="fulfilled"){w(T);return}try{r.value?.install?.(M)}catch{w(T)}});for(const[r,y]of _)y.queue.length===0&&Object.keys(y.impl).length>0||j(r,{code:m.includes(r)?"capability_disabled":"not_granted",message:"capability not available in this session"});await a,parent.postMessage({__frame_ready:!0},h)})}})();</script><!-- /frame-runtime --><meta name="viewport" content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>G.P. News — Security Audit</title>
+<style>
+  :root {
+    --bg: #eaeae7;
+    --surface: #ffffff;
+    --surface-2: #f4f4f1;
+    --ink: #17170f;
+    --ink-2: #56564e;
+    --ink-3: #8c8c83;
+    --line: rgba(20, 20, 10, 0.09);
+    --accent: #f2c200;
+    --accent-ink: #1a1a12;
+    --danger: #e0533b;
+    --danger-bg: rgba(224, 83, 59, 0.11);
+    --warn: #c05f10;
+    --warn-bg: rgba(232, 116, 30, 0.12);
+    --ok: #1f8a5b;
+    --ok-bg: rgba(31, 138, 91, 0.11);
+    --low: #56564e;
+    --low-bg: rgba(20, 20, 10, 0.07);
+    --shadow: 0 1px 2px rgba(20, 20, 10, 0.06), 0 8px 24px -12px rgba(20, 20, 10, 0.18);
+    --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+    --head: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d0e0b;
+      --surface: #191a16;
+      --surface-2: #22231e;
+      --ink: #f2f2ec;
+      --ink-2: #aaaba1;
+      --ink-3: #83847a;
+      --line: rgba(255, 255, 255, 0.1);
+      --danger: #ef7c68;
+      --danger-bg: rgba(224, 83, 59, 0.16);
+      --warn: #eb9350;
+      --warn-bg: rgba(232, 116, 30, 0.15);
+      --ok: #4dbd8b;
+      --ok-bg: rgba(31, 138, 91, 0.17);
+      --low: #aaaba1;
+      --low-bg: rgba(255, 255, 255, 0.08);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0e0b;
+    --surface: #191a16;
+    --surface-2: #22231e;
+    --ink: #f2f2ec;
+    --ink-2: #aaaba1;
+    --ink-3: #83847a;
+    --line: rgba(255, 255, 255, 0.1);
+    --danger: #ef7c68;
+    --danger-bg: rgba(224, 83, 59, 0.16);
+    --warn: #eb9350;
+    --warn-bg: rgba(232, 116, 30, 0.15);
+    --ok: #4dbd8b;
+    --ok-bg: rgba(31, 138, 91, 0.17);
+    --low: #aaaba1;
+    --low-bg: rgba(255, 255, 255, 0.08);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+  }
+  :root[data-theme="light"] {
+    --bg: #eaeae7;
+    --surface: #ffffff;
+    --surface-2: #f4f4f1;
+    --ink: #17170f;
+    --ink-2: #56564e;
+    --ink-3: #8c8c83;
+    --line: rgba(20, 20, 10, 0.09);
+    --danger: #e0533b;
+    --danger-bg: rgba(224, 83, 59, 0.11);
+    --warn: #c05f10;
+    --warn-bg: rgba(232, 116, 30, 0.12);
+    --ok: #1f8a5b;
+    --ok-bg: rgba(31, 138, 91, 0.11);
+    --low: #56564e;
+    --low-bg: rgba(20, 20, 10, 0.07);
+    --shadow: 0 1px 2px rgba(20, 20, 10, 0.06), 0 8px 24px -12px rgba(20, 20, 10, 0.18);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15.5px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  header .brandline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  header .mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: var(--head);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: -0.02em;
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+  header .brand {
+    font-family: var(--head);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+  }
+  header .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    margin: 0 0 6px;
+  }
+  header h1 {
+    font-family: var(--head);
+    font-size: clamp(27px, 6vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  header .meta {
+    color: var(--ink-2);
+    font-size: 14px;
+    max-width: 64ch;
+    margin: 0;
+  }
+  header .meta code { color: var(--ink); }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+    gap: 10px;
+  }
+  .tile {
+    background: var(--surface);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tile .k {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+  .tile .v {
+    font-family: var(--head);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+  .tile .v small {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-3);
+    letter-spacing: 0;
+  }
+  .tile .v.bad { color: var(--danger); }
+  .tile .v.good { color: var(--ok); }
+  .tile .sub { font-size: 11.5px; color: var(--ink-3); }
+  .sevrow { display: flex; align-items: baseline; gap: 12px; }
+  .sevrow b {
+    font-family: var(--head);
+    font-size: 22px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .sevrow .h b { color: var(--danger); }
+  .sevrow .m b { color: var(--warn); }
+  .sevrow .l b { color: var(--ink-3); }
+  .sevrow span span {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    margin-left: 3px;
+  }
+
+  section > h2 {
+    font-family: var(--head);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--ink-2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px;
+  }
+  section > h2::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .cards { display: flex; flex-direction: column; gap: 12px; }
+
+  .finding {
+    background: var(--surface);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 18px 20px 16px;
+  }
+  .finding .top {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .fid {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-3);
+    flex: none;
+  }
+  .finding h3 {
+    font-family: var(--head);
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 200px;
+    text-wrap: balance;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    flex: none;
+    align-self: center;
+  }
+  .chip.high   { background: var(--danger-bg); color: var(--danger); }
+  .chip.medium { background: var(--warn-bg);   color: var(--warn); }
+  .chip.low    { background: var(--low-bg);    color: var(--low); }
+  .chip.resolved { background: var(--ok-bg);   color: var(--ok); }
+  .chip.partial  { background: var(--warn-bg); color: var(--warn); }
+  .finding.is-resolved { opacity: 0.72; }
+  .statusnote {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--ok-bg);
+    color: var(--ink);
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .statusnote b { color: var(--ok); }
+  .statusnote.warn { background: var(--warn-bg); }
+  .statusnote.warn b { color: var(--warn); }
+
+  .files {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+    margin: 0 0 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+  }
+  .finding dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    row-gap: 7px;
+    column-gap: 12px;
+  }
+  .finding dt {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    padding-top: 4px;
+  }
+  .finding dd {
+    margin: 0;
+    font-size: 14.5px;
+    color: var(--ink-2);
+    max-width: 66ch;
+  }
+  .finding dd b, .finding dd strong { color: var(--ink); font-weight: 700; }
+  code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--surface-2);
+    border-radius: 5px;
+    padding: 1px 5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .files code { background: none; padding: 0; color: inherit; }
+  .finding dd.fix { color: var(--ink); }
+  dt.fixlabel { color: var(--ok); }
+
+  .well {
+    background: var(--surface);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 8px 20px;
+  }
+  .well ul { list-style: none; margin: 0; padding: 0; }
+  .well li {
+    display: flex;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+  .well li:last-child { border-bottom: none; }
+  .well li b { color: var(--ink); }
+  .tick {
+    color: var(--ok);
+    flex: none;
+    font-weight: 700;
+    font-family: var(--mono);
+    font-size: 13px;
+    padding-top: 1px;
+  }
+
+  .prio { list-style: none; margin: 0; padding: 0; counter-reset: p; display: flex; flex-direction: column; gap: 8px; }
+  .prio li {
+    counter-increment: p;
+    background: var(--surface);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+  .prio li::before {
+    content: counter(p);
+    font-family: var(--head);
+    font-weight: 800;
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    display: grid;
+    place-items: center;
+    flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .prio li b { color: var(--ink); }
+  .prio .ref {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    flex: none;
+    padding-left: 10px;
+  }
+
+  footer {
+    color: var(--ink-3);
+    font-size: 12.5px;
+    font-family: var(--mono);
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+
+  @media (max-width: 420px) {
+    .finding dl { grid-template-columns: 1fr; row-gap: 2px; }
+    .finding dt { padding-top: 8px; }
+    .prio .ref { display: none; }
+  }
+  a { color: inherit; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="brandline">
+      <span class="mark">GP</span>
+      <span class="brand">G.P. News</span>
+    </div>
+    <p class="eyebrow">Security Audit · 2026-07-06</p>
+    <h1>Solid auth core, wrong keys in the ignition</h1>
+    <p class="meta">Client-side security review of the Capacitor-only app: auth store, interceptor, storage, guards, push service, remote-content rendering, environments, and Capacitor config — all read directly. Native <code>android/</code>&nbsp;/&nbsp;<code>ios/</code> platforms are not yet added, so native hardening is tracked as pending. Backend is a mock; server-side items are flagged as backend requirements.</p>
+  </header>
+
+  <section aria-label="Summary">
+    <div class="tiles">
+      <div class="tile">
+        <span class="k">Findings</span>
+        <span class="sevrow">
+          <span class="h"><b>1</b><span>high</span></span>
+          <span class="m"><b>4</b><span>med</span></span>
+          <span class="l"><b>4</b><span>low</span></span>
+        </span>
+        <span class="sub">10 practices verified as done well</span>
+      </div>
+      <div class="tile">
+        <span class="k">Token storage</span>
+        <span class="v good">Keychain</span>
+        <span class="sub">EncryptedSharedPreferences on Android</span>
+      </div>
+      <div class="tile">
+        <span class="k">Sanitizer bypasses</span>
+        <span class="v good">0</span>
+        <span class="sub">no bypassSecurityTrust anywhere</span>
+      </div>
+      <div class="tile">
+        <span class="k">Firebase config</span>
+        <span class="v good">Removed</span>
+        <span class="sub">wrong-project block deleted + purged from git history; key rotation still pending</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>High severity</h2>
+    <div class="cards">
+
+      <article class="finding is-resolved">
+        <div class="top">
+          <span class="fid">S1</span>
+          <h3>Committed Firebase credentials belong to an unrelated project</h3>
+          <span class="chip high">High</span>
+          <span class="chip partial">Partially resolved</span>
+        </div>
+        <p class="files"><code>src/environments/environment.ts:10-17</code> · <code>environment.prod.ts</code> · <code>environment.staging.ts</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>All three environments — including production — ship the Firebase config of <b>redacted-firebase-project</b> (<code>authDomain: redacted-firebase-project.firebaseapp.com</code>), a different product entirely, API key included.</dd>
+          <dt>Why</dt>
+          <dd>Push registration for <code>com.gp.gp-group</code> cannot work against that project, so FCM is broken at release. And a live key + project identifiers of another application sit in this repo's history — quota/abuse surface on the wrong project, and a guaranteed flag in any review.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Create a dedicated Firebase project for G.P. News, generate per-platform configs when <code>android/</code>/<code>ios/</code> are added, replace all three env blocks, and rotate/restrict the exposed key on the old project (API-key restrictions by app/package).</dd>
+        </dl>
+        <p class="statusnote warn"><b>Status (2026-07-06):</b> the <code>firebase</code> block was deleted from all three environment files, and the leaked API key / project id / sender id were purged from every commit in git history via <code>git filter-repo</code> — verified with zero remaining matches. A dedicated Firebase project has since been created and <code>capacitor.config.ts</code>'s <code>appId</code> now matches its registered app id (<code>com.gp.gp-group</code> — bundle id was updated repo-wide, see <code>CLAUDE.md</code>). <b>Still open:</b> the exposed key on <code>redacted-firebase-project</code> has not been confirmed rotated/restricted in that project's Firebase/GCP console (external action, outside this repo), and no <code>google-services.json</code> / <code>GoogleService-Info.plist</code> or web config for the new project has been added to the repo yet — push notifications remain unconfigured until those land.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Medium severity</h2>
+    <div class="cards">
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">S2</span>
+          <h3>No Content-Security-Policy on the WebView</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>src/index.html</code> — no CSP meta anywhere in <code>src/</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>The app renders API-driven HTML inside a Capacitor WebView with no CSP; the page also currently loads remote CSS from fonts.googleapis.com, which a strict policy would surface.</dd>
+          <dt>Why</dt>
+          <dd>Angular's sanitizer is the <b>only</b> layer between API content and the DOM. CSP is the standard defense-in-depth for Capacitor apps: it blocks inline script execution, unexpected remote loads, and exfiltration channels if any injection slips through.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">After self-hosting fonts (perf audit H2), add <code>default-src 'self' capacitor:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.gpgroup.bg</code> and tighten from there.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">S3</span>
+          <h3>Article HTML via <code>[innerHTML]</code> — sanitizer is the only guard</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>src/app/pages/article/article-detail/article-detail.page.ts:93</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd><code>[innerHTML]="a.content"</code> renders server-supplied HTML. <b>Verified:</b> zero <code>bypassSecurityTrust</code>/<code>DomSanitizer</code> usage in the codebase, so Angular's sanitizer applies — scripts, event handlers and <code>javascript:</code> URLs are stripped.</dd>
+          <dt>Why</dt>
+          <dd>The sanitizer still permits arbitrary <code>&lt;a href&gt;</code> (phishing links styled as app content) and <code>&lt;img src&gt;</code> to any host (tracking / remote content). A compromised CMS becomes a direct content-injection channel.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Keep the sanitizer (never bypass it), add the S2 CSP to control remote loads, and prefer server-side allowlist sanitization (<code>p, h2, h3, a, img, ul, ol, li, b, i, blockquote</code>) before content is stored.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">S4</span>
+          <h3>Push-notification tap navigates to an unvalidated URL</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>src/app/core/services/push-notification.service.ts:102-109</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd><code>handleNotificationTap</code> calls <code>router.navigateByUrl(data['url'])</code> with whatever string arrives in the push payload.</dd>
+          <dt>Why</dt>
+          <dd>Anyone able to send pushes (compromised backend, leaked FCM key — see S1) can deep-link users to any in-app route as a social-engineering primitive. <code>navigateByUrl</code> stays in-app so impact is bounded, but the payload is untrusted input.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Validate against a route allowlist, or accept only typed fields (<code>articleId</code>, <code>pollId</code>) and build routes locally — the <code>articleId</code> branch already does this correctly.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">S5</span>
+          <h3>Session restored without server validation; PII in plaintext storage</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>src/app/store/auth/auth.store.ts:169-205</code> · <code>:92-101</code> · <code>storage.service.ts</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd><code>bootstrap()</code> marks the user logged in purely from local metadata + token presence — <code>AuthService.me()</code> exists but is never called, so a server-revoked session looks valid until the first 401. The <code>gpnews.authData</code> blob (user object + expiry) lives in plain Ionic Storage, unlike the token, which correctly sits in the keychain.</dd>
+          <dt>Why</dt>
+          <dd>On a shared or compromised device the user's identity data is readable without the keychain, and server-side revocation (stolen device, forced logout) does not take effect at app start.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Fire-and-forget <code>me()</code> after optimistic restore and force logout on 401; move <code>authData</code> into secure storage, or store only the user id and refetch the profile.</dd>
+        </dl>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Low severity</h2>
+    <div class="cards">
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L1</span>
+          <h3>Weak client-side password rules</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files"><code>login.page.ts:115</code> minLength(4) · <code>signup.page.ts:140</code> minLength(6)</p>
+        <dl>
+          <dt>What</dt>
+          <dd>No complexity/entropy checks; login accepts 4 characters, signup 6. Client validators are UX, not security — but they signal the server policy (mock backend today).</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Real backend must enforce length ≥ 8, rate-limit <code>/auth/login</code>, and lock out brute force. Align the login validator with the real minimum so errors are accurate.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L2</span>
+          <h3>External links in article HTML fall through to WebView defaults</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files"><code>article-detail.page.ts:609-616</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd><code>onEditorClick</code> intercepts only internal (<code>/…</code>) hrefs and returns for everything else, leaving external <code>https://</code> anchors to platform-dependent Capacitor defaults.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Handle them explicitly: open via <code>@capacitor/browser</code> (or <code>window.open</code> with <code>noopener</code>) so remote pages can never replace the app UI inside the WebView.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L3</span>
+          <h3><code>returnUrl</code> is produced but never consumed</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files"><code>auth.guard.ts:16-18</code> stashes it · <code>auth.store.ts:113</code> always navigates to <code>/tabs/home</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>Today a UX gap; if wired up naively later it becomes an open-redirect-style primitive.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">When implementing, accept only app-internal paths — reject absolute URLs and <code>//</code>-prefixed values.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L4</span>
+          <h3>Native-layer hardening pending — platforms not yet added</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files">no <code>android/</code> or <code>ios/</code> directories · <code>capacitor.config.ts</code> clean (no server.url, no allowNavigation, no cleartext)</p>
+        <dl>
+          <dt>What</dt>
+          <dd>Checklist for when platforms are generated: cleartext traffic off in release (dev API is <code>http://localhost:3000</code>), <code>android:allowBackup=false</code> or backup rules, certificate-pinning decision for <code>api.gpgroup.bg</code>, ProGuard/R8 on, WebView debugging off in release.</dd>
+        </dl>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Done well</h2>
+    <div class="well">
+      <ul>
+        <li><span class="tick">✓</span><span><b>Token storage.</b> Access token in iOS Keychain / Android EncryptedSharedPreferences; web dev fallback is in-memory only — explicitly never localStorage (<code>secure-storage.service.ts:8-16</code>).</span></li>
+        <li><span class="tick">✓</span><span><b>Scoped Bearer.</b> Interceptor attaches the token only to <code>apiBaseUrl</code> requests — never third-party hosts (<code>auth.interceptor.ts:26-28</code>).</span></li>
+        <li><span class="tick">✓</span><span><b>Refresh flow.</b> Single-flight serialized 401 refresh queue; failure forces logout and clears persisted state; web refresh uses an httpOnly cookie with <code>withCredentials</code>.</span></li>
+        <li><span class="tick">✓</span><span><b>No sanitizer bypasses.</b> Zero <code>bypassSecurityTrust</code> usage; comments and names rendered via interpolation, not HTML.</span></li>
+        <li><span class="tick">✓</span><span><b>Forms.</b> Correct <code>autocomplete</code> hints (email, current-password, new-password); typed inputs; <code>exhaustMap</code> blocks double-submit of login/register.</span></li>
+        <li><span class="tick">✓</span><span><b>Route protection.</b> <code>authGuard</code> on add-news, <code>guestGuard</code> on auth screens — both pure <code>UrlTree</code> redirects.</span></li>
+        <li><span class="tick">✓</span><span><b>Session expiry.</b> Auto-logout timer derived from token expiry, cleared correctly, re-checked at bootstrap.</span></li>
+        <li><span class="tick">✓</span><span><b>Logging hygiene.</b> Only two console calls in the app (push diagnostics) — no tokens, credentials, or PII logged.</span></li>
+        <li><span class="tick">✓</span><span><b>No dangerous primitives.</b> No <code>eval</code>, no <code>document.cookie</code>, no dynamic script injection.</span></li>
+        <li><span class="tick">✓</span><span><b>Capacitor config.</b> Minimal and safe — no remote <code>server.url</code>, no <code>allowNavigation</code> wildcards.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Priority order</h2>
+    <ol class="prio">
+      <li><span>Replace the wrong-project <b>Firebase config</b>; rotate/restrict the exposed key.</span><span class="ref">S1</span></li>
+      <li><span>Add a <b>CSP</b> after self-hosting fonts (pairs with perf audit H2).</span><span class="ref">S2</span></li>
+      <li><span>Validate <b>push deep-link</b> payloads against an allowlist.</span><span class="ref">S4</span></li>
+      <li><span>Server-validate restored sessions; move <code>authData</code> to secure storage.</span><span class="ref">S5</span></li>
+      <li><span>Server-side sanitization for article HTML; explicit external-link handling.</span><span class="ref">S3·L2</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    Companion to the performance audit · verified against source, 2026-07-06 · status updates tracked inline per finding
+  </footer>
+
+</div>
+
+</body></html>

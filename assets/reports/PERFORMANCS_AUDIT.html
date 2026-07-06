@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<!-- saved from url=(0253)https://81f47b53-4769-4bd1-9c51-81ed65cbe6e8.frame.claudeusercontent.com/_f/1783333808-07a2/?__frame_t=eDS8tSDQHuEb_6nZMs2r1UoE.96618507-a703-40ae-87c3-b5868a97f237.cc8897c1-0fae-4bef-b3b9-9b617637abeb.1783337756&__frame_v=manifest.bda96bdb5ebc99bf.json -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!-- frame-runtime --><!--<base href="/_f/1783333808-07a2/">--><base href="."><script>window.__FRAME_PREAMBLE={"capabilities":{"mcp":"mcp.BQqQVVN_.js"},"transforms":"_transforms.DYk1Ltlh.js"}</script><script>(function(){"use strict";const J="modulepreload",K=function(e){return"/"+e},V={},N=function(t,n,u){let o=Promise.resolve();function i(f){const a=new Event("vite:preloadError",{cancelable:!0});if(a.payload=f,window.dispatchEvent(a),!a.defaultPrevented)throw f}return o.then(f=>{for(const a of f||[])a.status==="rejected"&&i(a.reason);return t().catch(i)})},$=["light","dark","system"];function q(e){if(e==null||typeof e!="object")return!1;const t=e.__frame_init;return t!=null&&typeof t=="object"}function I(e){if(e==null||typeof e!="object")return!1;const t=e.__frame_theme;if(t==null||typeof t!="object")return!1;const n=t.theme;return typeof n=="string"&&$.includes(n)}function S(e){if(window===top||e.type==="auxclick"&&e.button!==1)return;const t=e.composedPath?e.composedPath():[e.target];let n=null;for(let f=0;f<t.length;f++){const a=t[f];if(a&&a.matches&&a.matches("a[href],area[href]")){n=a;break}}if(!n&&e.target&&e.target.closest&&(n=e.target.closest("a[href],area[href]")),!n)return;const u=n.getAttribute("href");if(!u)return;let o,i;try{o=new URL(u,document.baseURI),i=new URL(document.baseURI).origin}catch{return}(o.protocol==="http:"||o.protocol==="https:")&&o.origin!==i&&(e.preventDefault(),parent.postMessage({__frame_nav:!0,url:o.href},"*"))}const L={};function v(e){if(window===top)return;const t=Date.now();t-(L[e]||0)<500||(L[e]=t,parent.postMessage({__frame_engaged:!0,kind:e},"*"))}function U(){addEventListener("click",S,!0),addEventListener("auxclick",S,!0)}function D(){addEventListener("scroll",()=>v("scroll"),{capture:!0,passive:!0}),addEventListener("pointermove",()=>v("pointer"),{capture:!0,passive:!0}),addEventListener("click",()=>v("click"),{capture:!0,passive:!0})}function F(e,t,n){const u=[...t.values()].filter(o=>o.targets.some(i=>i.startsWith(e+".")));return{wrap(o,i){const f=`${e}.${o}`,a=u.filter(s=>s.targets.includes(f));return a.length===0?(...s)=>{try{return i(...s)}catch(d){return Promise.reject(d)}}:(...s)=>{let d=s;for(const c of a){const l=c.module.parameters;if(l)try{d=l(d)}catch{return Promise.reject({code:"transform_error",id:c.id,scope:e,message:"parameters transform failed"})}}let m;try{m=i(...d)}catch(c){m=Promise.reject(c)}return m.then(c=>{for(let l=a.length-1;l>=0;l--){const g=a[l],p=g.module.returns;if(p)try{c=p(c)}catch{return n({id:g.id,scope:e,leg:"returns"}),c}}return c},c=>{for(let l=a.length-1;l>=0;l--){const g=a[l],p=g.module.throws;if(p)try{c=p(c)}catch{return n({id:g.id,scope:e,leg:"throws"}),Promise.reject(c)}}return Promise.reject(c)})}}}}function B(e,t,n,u=()=>{}){const o=new Set(e.changes??[]),i=new Map;for(const f of o){const a=t[f];a&&i.set(f,a)}return{contract:e.contract,changes:o,flags:new Set(e.flags??[]),capabilities:e.capabilities??{},transforms:i,shellOrigin:n.shellOrigin,mount:n.mount,pipe:f=>F(f,i,u)}}(function(){const e=Object.defineProperty,t=globalThis,n=["RTCPeerConnection","webkitRTCPeerConnection","RTCDataChannel","RTCIceCandidate","RTCSessionDescription","RTCRtpSender","RTCRtpReceiver"];let u=0;for(let o=0;o<n.length;o++){const i=n[o];try{e(t,i,{value:void 0,writable:!1,configurable:!1})}catch{try{delete t[i]}catch{}try{e(t,i,{value:void 0,writable:!1,configurable:!0})}catch{}}typeof t[i]=="function"&&u++}if(u&&window!==top)try{parent.postMessage({__frame_rtc_lockdown_failed:u},"*")}catch{}})();const z=1e4,x=Object.freeze([...window.__FRAME_PREAMBLE?.origins??["https://claude.ai","https://preview.claude.ai"]]);function W(e){for(const t of x)if(t.endsWith(":*"))try{const n=new URL(e);if(`${n.protocol}//${n.hostname}:*`===t)return!0}catch{}else if(e===t)return!0;return!1}const b=Object.freeze({...window.__FRAME_PREAMBLE?.capabilities??{}}),E=window.__FRAME_PREAMBLE?.transforms,k=/^[\w.-]+\.js$/,H=/^[a-z][a-z0-9_-]{0,63}$/;let C=null,h=null;function P(e,t,n){try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!1,enumerable:!0})}catch{try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!0,enumerable:!0})}catch{}}}let R=!1;function A(e){const t=document.documentElement;e==="light"||e==="dark"?(t.dataset.theme=e,t.style.colorScheme=e,R=!0):R&&(delete t.dataset.theme,t.style.colorScheme="",R=!1)}const _=new Map;function G(e,t){const n=_.get(e);if(!n)return;Object.assign(n.impl,t),n.impl.__settled=()=>Promise.reject({code:"capability_removed",message:`${e}: method not in this runtime`});const u=n.queue;n.queue=[];for(const o of u){const i=t[o.method];i?i(...o.args).then(o.resolve,o.reject):o.reject({code:"capability_removed",message:`${e}.${o.method} is not in this runtime`})}}function j(e,t){const n=_.get(e);if(!n)return;n.impl.__settled=()=>Promise.reject(t);const u=n.queue;n.queue=[];for(const o of u)o.reject(t)}const O=Object.getOwnPropertyDescriptor(window,"claude");if(window!==top&&!(O&&O.writable===!1)){U(),D();const e=O?.value??{};P(window,"claude",e);const t=s=>{const d={impl:Object.create(null),queue:[]};_.set(s,d);const m=new Proxy(d.impl,{get:(c,l)=>{if(typeof l=="string"&&!(l==="then"||l==="toJSON"||l==="valueOf"))return l==="toString"?Object.prototype.toString:(...g)=>{const p=c[l]??c.__settled;return p?p(...g):new Promise((w,M)=>{d.queue.push({method:l,args:g,resolve:w,reject:M})})}},set:()=>!1});P(e,s,m)};for(const s of Object.keys(b)){if(e[s]!==void 0){P(e,s,e[s]);continue}t(s)}let n=null,u=null,o=0;const i=s=>{s.source!==parent||!W(s.origin)||q(s.data)&&(n=s.data.__frame_init,h=s.origin,removeEventListener("message",i),clearTimeout(o),u?.())};addEventListener("message",i),parent.postMessage({__frame_connect:!0},"*");const f=new Promise(s=>{u=s,o=setTimeout(()=>{removeEventListener("message",i),s()},z)}),a=document.readyState==="loading"?new Promise(s=>document.addEventListener("DOMContentLoaded",()=>s(),{once:!0})):Promise.resolve();f.then(async()=>{if(!n||!h){for(const r of _.keys())j(r,{code:"not_granted",message:"frame initialization did not arrive - capability unavailable"});return}A(n.theme);const s=h;addEventListener("message",r=>{r.source!==parent||r.origin!==s||I(r.data)&&A(r.data.__frame_theme.theme)});const d=r=>N(()=>import("/_runtime/"+r),void 0),m=Object.keys(n.capabilities??{});for(const r of m)Object.hasOwn(b,r)||H.test(r)&&e[r]===void 0&&(t(r),j(r,{code:"capability_disabled",message:"capability not in this runtime generation"}));const c=m.filter(r=>Object.hasOwn(b,r)).map(r=>[r,b[r]]).filter(r=>typeof r[1]=="string"&&k.test(r[1])),[l,...g]=await Promise.allSettled([E&&k.test(E)?d(E):Promise.resolve({}),...c.map(([,r])=>d(r))]),p=h;C=B(n,l.status==="fulfilled"&&l.value?.TRANSFORMS||{},{shellOrigin:p,mount:G},r=>parent.postMessage({__frame_cap_telemetry:r},p));const w=r=>parent.postMessage({__frame_cap_telemetry:{kind:"cap-load-error",cap:r}},p),M=C;g.forEach((r,y)=>{const T=c[y][0];if(r.status!=="fulfilled"){w(T);return}try{r.value?.install?.(M)}catch{w(T)}});for(const[r,y]of _)y.queue.length===0&&Object.keys(y.impl).length>0||j(r,{code:m.includes(r)?"capability_disabled":"not_granted",message:"capability not available in this session"});await a,parent.postMessage({__frame_ready:!0},h)})}})();</script><!-- /frame-runtime --><meta name="viewport" content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>G.P. News — Performance Audit</title>
+<style>
+  :root {
+    --bg: #eaeae7;
+    --surface: #ffffff;
+    --surface-2: #f4f4f1;
+    --ink: #17170f;
+    --ink-2: #56564e;
+    --ink-3: #8c8c83;
+    --line: rgba(20, 20, 10, 0.09);
+    --accent: #f2c200;
+    --accent-ink: #1a1a12;
+    --danger: #e0533b;
+    --danger-bg: rgba(224, 83, 59, 0.11);
+    --warn: #c05f10;
+    --warn-bg: rgba(232, 116, 30, 0.12);
+    --ok: #1f8a5b;
+    --ok-bg: rgba(31, 138, 91, 0.11);
+    --low: #56564e;
+    --low-bg: rgba(20, 20, 10, 0.07);
+    --shadow: 0 1px 2px rgba(20, 20, 10, 0.06), 0 8px 24px -12px rgba(20, 20, 10, 0.18);
+    --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+    --head: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d0e0b;
+      --surface: #191a16;
+      --surface-2: #22231e;
+      --ink: #f2f2ec;
+      --ink-2: #aaaba1;
+      --ink-3: #83847a;
+      --line: rgba(255, 255, 255, 0.1);
+      --danger: #ef7c68;
+      --danger-bg: rgba(224, 83, 59, 0.16);
+      --warn: #eb9350;
+      --warn-bg: rgba(232, 116, 30, 0.15);
+      --ok: #4dbd8b;
+      --ok-bg: rgba(31, 138, 91, 0.17);
+      --low: #aaaba1;
+      --low-bg: rgba(255, 255, 255, 0.08);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0e0b;
+    --surface: #191a16;
+    --surface-2: #22231e;
+    --ink: #f2f2ec;
+    --ink-2: #aaaba1;
+    --ink-3: #83847a;
+    --line: rgba(255, 255, 255, 0.1);
+    --danger: #ef7c68;
+    --danger-bg: rgba(224, 83, 59, 0.16);
+    --warn: #eb9350;
+    --warn-bg: rgba(232, 116, 30, 0.15);
+    --ok: #4dbd8b;
+    --ok-bg: rgba(31, 138, 91, 0.17);
+    --low: #aaaba1;
+    --low-bg: rgba(255, 255, 255, 0.08);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+  }
+  :root[data-theme="light"] {
+    --bg: #eaeae7;
+    --surface: #ffffff;
+    --surface-2: #f4f4f1;
+    --ink: #17170f;
+    --ink-2: #56564e;
+    --ink-3: #8c8c83;
+    --line: rgba(20, 20, 10, 0.09);
+    --danger: #e0533b;
+    --danger-bg: rgba(224, 83, 59, 0.11);
+    --warn: #c05f10;
+    --warn-bg: rgba(232, 116, 30, 0.12);
+    --ok: #1f8a5b;
+    --ok-bg: rgba(31, 138, 91, 0.11);
+    --low: #56564e;
+    --low-bg: rgba(20, 20, 10, 0.07);
+    --shadow: 0 1px 2px rgba(20, 20, 10, 0.06), 0 8px 24px -12px rgba(20, 20, 10, 0.18);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15.5px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  /* ── Header ─────────────────────────────── */
+  header .brandline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  header .mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: var(--head);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: -0.02em;
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+  header .brand {
+    font-family: var(--head);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+  }
+  header .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    margin: 0 0 6px;
+  }
+  header h1 {
+    font-family: var(--head);
+    font-size: clamp(27px, 6vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  header .meta {
+    color: var(--ink-2);
+    font-size: 14px;
+    max-width: 62ch;
+    margin: 0;
+  }
+  header .meta code { color: var(--ink); }
+
+  /* ── Summary tiles ──────────────────────── */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+    gap: 10px;
+  }
+  .tile {
+    background: var(--surface);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tile .k {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+  .tile .v {
+    font-family: var(--head);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+  .tile .v small {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-3);
+    letter-spacing: 0;
+  }
+  .tile .v.bad { color: var(--danger); }
+  .tile .v.ok { color: var(--ok); }
+  .tile .sub { font-size: 11.5px; color: var(--ink-3); }
+  .sevrow { display: flex; align-items: baseline; gap: 12px; }
+  .sevrow b {
+    font-family: var(--head);
+    font-size: 22px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .sevrow .h b { color: var(--danger); }
+  .sevrow .m b { color: var(--warn); }
+  .sevrow .l b { color: var(--ink-3); }
+  .sevrow span span {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    margin-left: 3px;
+  }
+
+  /* ── Sections ───────────────────────────── */
+  section > h2 {
+    font-family: var(--head);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--ink-2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px;
+  }
+  section > h2::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .cards { display: flex; flex-direction: column; gap: 12px; }
+
+  /* ── Finding card ───────────────────────── */
+  .finding {
+    background: var(--surface);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 18px 20px 16px;
+  }
+  .finding .top {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .fid {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-3);
+    flex: none;
+  }
+  .finding h3 {
+    font-family: var(--head);
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 200px;
+    text-wrap: balance;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    flex: none;
+    align-self: center;
+  }
+  .chip.high   { background: var(--danger-bg); color: var(--danger); }
+  .chip.medium { background: var(--warn-bg);   color: var(--warn); }
+  .chip.low    { background: var(--low-bg);    color: var(--low); }
+  .chip.ok     { background: var(--ok-bg);     color: var(--ok); }
+
+  .files {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+    margin: 0 0 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+  }
+  .finding dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    row-gap: 7px;
+    column-gap: 12px;
+  }
+  .finding dt {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    padding-top: 4px;
+  }
+  .finding dd {
+    margin: 0;
+    font-size: 14.5px;
+    color: var(--ink-2);
+    max-width: 66ch;
+  }
+  .finding dd b, .finding dd strong { color: var(--ink); font-weight: 700; }
+  code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--surface-2);
+    border-radius: 5px;
+    padding: 1px 5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .files code { background: none; padding: 0; color: inherit; }
+  .finding dd.fix { color: var(--ink); }
+  .finding dd.fix::before {
+    content: "";
+  }
+  dt.fixlabel { color: var(--ok); }
+
+  /* ── Done well ──────────────────────────── */
+  .well {
+    background: var(--surface);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 8px 20px;
+  }
+  .well ul { list-style: none; margin: 0; padding: 0; }
+  .well li {
+    display: flex;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+    color: var(--ink-2);
+    max-width: none;
+  }
+  .well li:last-child { border-bottom: none; }
+  .well li b { color: var(--ink); }
+  .tick {
+    color: var(--ok);
+    flex: none;
+    font-weight: 700;
+    font-family: var(--mono);
+    font-size: 13px;
+    padding-top: 1px;
+  }
+
+  /* ── Priorities ─────────────────────────── */
+  .prio { list-style: none; margin: 0; padding: 0; counter-reset: p; display: flex; flex-direction: column; gap: 8px; }
+  .prio li {
+    counter-increment: p;
+    background: var(--surface);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+  .prio li::before {
+    content: counter(p);
+    font-family: var(--head);
+    font-weight: 800;
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    display: grid;
+    place-items: center;
+    flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .prio li b { color: var(--ink); }
+  .prio .ref {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    flex: none;
+    padding-left: 10px;
+  }
+
+  footer {
+    color: var(--ink-3);
+    font-size: 12.5px;
+    font-family: var(--mono);
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+
+  @media (max-width: 420px) {
+    .finding dl { grid-template-columns: 1fr; row-gap: 2px; }
+    .finding dt { padding-top: 8px; }
+    .prio .ref { display: none; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .finding, .tile, .prio li { transition: box-shadow 0.15s ease; }
+  }
+  a { color: inherit; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="brandline">
+      <span class="mark">GP</span>
+      <span class="brand">G.P. News</span>
+    </div>
+    <p class="eyebrow">Performance &amp; Optimization Audit · 2026-07-06</p>
+    <h1>Fast bones, two heavy anchors</h1>
+    <p class="meta">Ionic 8 · Angular 21 · Capacitor 8, native-only, mobile-first (360&nbsp;px floor). Every component, store, service, and build config was read directly; bundle numbers come from a fresh <code>ng build --configuration production</code> — not the stale dev output in <code>www/</code>.</p>
+  </header>
+
+  <section aria-label="Summary">
+    <div class="tiles">
+      <div class="tile">
+        <span class="k">Prod build</span>
+        <span class="v ok">Passing</span>
+        <span class="sub">style budget fixed (H1 resolved)</span>
+      </div>
+      <div class="tile">
+        <span class="k">Initial bundle</span>
+        <span class="v">204 <small>kB transfer</small></span>
+        <span class="sub">835.9 kB raw — healthy</span>
+      </div>
+      <div class="tile">
+        <span class="k">Findings</span>
+        <span class="sevrow">
+          <span class="h"><b>2</b><span>high</span></span>
+          <span class="m"><b>6</b><span>med</span></span>
+          <span class="l"><b>5</b><span>low</span></span>
+        </span>
+        <span class="sub">12 practices verified as done well</span>
+      </div>
+      <div class="tile">
+        <span class="k">Change detection</span>
+        <span class="v">100<small>% OnPush</small></span>
+        <span class="sub">signals everywhere · zoneless-ready</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>High impact</h2>
+    <div class="cards">
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">H1</span>
+          <h3>Production build currently fails on a style budget</h3>
+          <span class="chip high">High · blocker</span>
+          <span class="chip ok">✓ Resolved</span>
+        </div>
+        <p class="files"><code>src/app/pages/article/article-detail/article-detail.page.ts:238-548</code> · <code>angular.json:51-54</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd><code>ng build</code> errors: <b>anyComponentStyle budget 4.00&nbsp;kB not met by 1.20&nbsp;kB (total 5.20&nbsp;kB)</b>. The article page carries ~310 lines of inline component SCSS.</dd>
+          <dt>Why</dt>
+          <dd>No production APK can be produced right now. 5&nbsp;kB of per-component CSS is also re-parsed on every style injection.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Move the comments-section CSS into <code>_global.scss</code> (where <code>.gp-row</code>/<code>.gp-card</code> already live) or split a <code>comment-list</code> child component. Don't just bump the budget — the file duplicates row/composer styles that exist globally.</dd>
+          <dt class="fixlabel">Status</dt>
+          <dd class="fix">2026-07-06 — Hero, body, and comments-section CSS moved out of the component into <code>_global.scss</code>; component now carries only a one-line <code>ion-content</code> override. <code>ng build --configuration production</code> passes.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">H2</span>
+          <h3>Google Fonts fetched from the network in a native-only app</h3>
+          <span class="chip high">High</span>
+        </div>
+        <p class="files"><code>src/index.html:15-20</code> · <code>src/theme/custom/base/_fonts.scss:7-8</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>A render-blocking <code>&lt;link&gt;</code> to fonts.googleapis.com pulls <b>3 families / 14 weights</b> — IBM Plex Sans (4), Manrope (7, 200→800), JetBrains Mono (3). <code>display=swap</code> softens FOIT but not the network dependency.</dd>
+          <dt>Why</dt>
+          <dd>There is no hosted web version — every cold start on a low-end Android must reach Google's CDN before brand fonts render. First launch offline means system fallback fonts; flaky 3G stalls the WebView render path. Also a privacy / store-review smell.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Self-host woff2 subsets (Cyrillic + Latin — the app is Bulgarian-only) in <code>assets/fonts/</code> with <code>@font-face</code>; trim Manrope to the weights actually used (400/600/700/800 — 200/300/500 are never referenced). Expect ~150–250&nbsp;kB local total.</dd>
+        </dl>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Medium impact</h2>
+    <div class="cards">
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">M1</span>
+          <h3>Native keychain round-trip on every HTTP request</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>src/app/core/interceptors/auth.interceptor.ts:34</code> · <code>secure-storage.service.ts:26-32</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>The interceptor awaits <code>SecureStorage.get()</code> (Keychain / EncryptedSharedPreferences over the Capacitor bridge) before every API call.</dd>
+          <dt>Why</dt>
+          <dd>Each request pays a JS→native→JS round-trip (several ms on low-end Android); <code>forkJoin</code> bursts like home (categories + articles) pay it twice concurrently.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Cache the token in memory in <code>SecureStorageService</code> — read the keychain once at bootstrap, update the cache in <code>setToken</code>/<code>clearToken</code>.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">M2</span>
+          <h3>Duplicate notifications request on first open</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>src/app/store/notifications/notifications.store.ts:126-139</code> · <code>notifications.page.ts:111-115</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>The store self-loads when injected (TabsPage injects it for the unread badge), then the page's <code>ngOnInit</code> fetches page&nbsp;1 again on every visit.</dd>
+          <dt>Why</dt>
+          <dd>Redundant network + JSON parse + state churn; pagination resets each tab visit.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Drop the page's <code>ngOnInit</code> fetch (keep pull-to-refresh), or add a stale-while-revalidate timestamp so <code>loadNotifications</code> skips fresh data.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">M3</span>
+          <h3>Onboarding PNGs are 3.5× oversized</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>src/assets/onb-1.png</code> 163&nbsp;kB · <code>onb-2.png</code> 109&nbsp;kB · <code>onb-3.png</code> 154&nbsp;kB · <code>onboarding.page.ts:42,96-99</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>All three are <b>1125×950 RGBA</b> rendered at <code>max-width: 320px</code>, with no <code>width</code>/<code>height</code> attributes on the <code>&lt;img&gt;</code>.</dd>
+          <dt>Why</dt>
+          <dd>~426&nbsp;kB in the APK, and each decodes to a ~4&nbsp;MB RGBA bitmap in WebView memory on a 360&nbsp;px phone. Missing intrinsic dimensions shift layout while the first slide decodes.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Resize to ~640×540, convert to WebP (~25–40&nbsp;kB each), add dimensions — or use <code>NgOptimizedImage</code> like <code>gp-logo</code> already does.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">M4</span>
+          <h3>Pull-to-refresh completes on a blind timer, not on data</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>home.page.ts:201-207</code> (1200&nbsp;ms) · <code>category-list.page.ts:180-186</code> · <code>notifications.page.ts:127-132</code> · <code>polls-list.page.ts:101-104</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd><code>refresh()</code> starts the store load, then completes the <code>ion-refresher</code> after a fixed <code>setTimeout</code>.</dd>
+          <dt>Why</dt>
+          <dd>On slow networks the spinner vanishes while content still loads (looks broken); on fast ones the user is held 1–1.2&nbsp;s artificially. The same pages already do this correctly for infinite scroll (<code>pendingInfiniteEvent</code> + <code>effect</code>).</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Reuse that pattern: stash the refresher event, complete it in an <code>effect</code> when <code>loading()</code> goes false.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">M5</span>
+          <h3>Unbounded DOM growth on infinite-scroll lists</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>category-list.page.ts:115-117</code> · <code>search.page.ts:113-115</code> · <code>notifications.page.ts:87-89</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>Rows accumulate forever at 12/page with no virtualization; each row renders a <code>gp-blueprint</code> SVG (~13 nodes) plus icons — 30+ DOM nodes per row.</dd>
+          <dt>Why</dt>
+          <dd>After 10–15 pages on a 2&nbsp;GB Android device, hundreds of composited SVG textures degrade scroll FPS and memory. Fine with mock data; a real news archive will hit it.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">CDK <code>cdk-virtual-scroll-viewport</code> for these three lists (Ionic's own guidance since ion-virtual-scroll was removed), or drop off-screen pages from the store.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">M6</span>
+          <h3>zone.js retained although the app is 100% signals + OnPush</h3>
+          <span class="chip medium">Medium</span>
+        </div>
+        <p class="files"><code>src/main.ts:20-21</code> · <code>src/polyfills.ts:50</code> · <code>src/zone-flags.ts</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>Every component is OnPush, state is <code>@ngrx/signals</code>, there are no async-pipe patterns — yet zone.js (34.6&nbsp;kB polyfill) still patches all timers and events, so every <code>setTimeout</code> and Capacitor callback schedules app-wide ticks.</dd>
+          <dt>Why</dt>
+          <dd>Wasted CPU per interaction on low-end devices, for change detection the signal graph already handles.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Trial <code>provideZonelessChangeDetection()</code> (Ionic ≥ 8.6/8.7 supports zoneless) and drop <code>zone.js</code> from <code>angular.json:26-28</code>. Test Ionic overlays + push listeners — their callbacks arrive outside Angular; the signal-based state makes this safe.</dd>
+        </dl>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Low impact</h2>
+    <div class="cards">
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L1</span>
+          <h3>Function calls in template loops</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files"><code>home.page.ts:95,118</code> · <code>search.page.ts:94,217-220</code> · <code>article-detail.page.ts:162,206,568</code> · <code>add-news.page.ts:223</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd><code>catHue(sec.cat)</code> builds a string per row per CD; search's <code>catHue</code> does <code>categories().find(...)</code> — O(rows × categories) each pass; <code>fmtAgo</code> runs per comment; <code>canSubmit()</code> in the add-news template.</dd>
+          <dt>Why</dt>
+          <dd>Bounded by OnPush + signal-scoped CD, but still per-row work on every cycle.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Precompute <code>hueCss</code> in the FeedStore view-model (it already joins categories in <code>loadHome</code>) or a <code>computed()</code> Map; <code>fmtAgo</code> → pure pipe or mapped in the <code>sortedComments</code> computed.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L2</span>
+          <h3>Bundle budgets too loose to catch regressions</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files"><code>angular.json:44-49</code> — warn 2&nbsp;MB / error 5&nbsp;MB initial</p>
+        <dl>
+          <dt>What</dt>
+          <dd>Actual prod initial is <b>835.9&nbsp;kB raw / 204.2&nbsp;kB transfer</b>; styles.css 54.4&nbsp;kB; largest lazy chunk 19.3&nbsp;kB. The 5&nbsp;MB error would let the bundle sextuple silently.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Tighten to ~1&nbsp;MB warn / 1.5&nbsp;MB error. Ignore the 3&nbsp;MB chunk in the stale <code>www/</code> dev output — prod numbers are authoritative.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L3</span>
+          <h3><code>localforage</code> CommonJS bailout via @ionic/storage</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files"><code>src/main.ts:26</code> · prod build warning: “Module 'localforage' … is not ESM”</p>
+        <dl>
+          <dt>What</dt>
+          <dd>An IndexedDB abstraction is dragged in for one small JSON blob (<code>gpnews.authData</code>); CJS blocks esbuild optimizations.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Replace with <code>@capacitor/preferences</code>; drop <code>@ionic/storage-angular</code> and the <code>importProvidersFrom</code>.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L4</span>
+          <h3>Splash / startup chain has an uncovered gap</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files"><code>capacitor.config.ts</code> (no SplashScreen plugin) · <code>splash.page.ts:39-47</code> · <code>auth.store.ts:169-205</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd>Native splash auto-hides on defaults (~500&nbsp;ms) → WebView boot → <code>/splash</code> route → <code>AuthStore.bootstrap()</code> (keychain + storage reads) → navigate. Possible white flash between native splash and web splash on slow devices. <code>PreloadAllModules</code> is fine here — files are local.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Add <code>@capacitor/splash-screen</code> with <code>launchAutoHide: false</code>; call <code>SplashScreen.hide()</code> from SplashPage once <code>initialized()</code> fires.</dd>
+        </dl>
+      </article>
+
+      <article class="finding">
+        <div class="top">
+          <span class="fid">L5</span>
+          <h3>Theme / metadata inconsistencies</h3>
+          <span class="chip low">Low</span>
+        </div>
+        <p class="files"><code>src/index.html:10</code> · <code>global.scss:33-36</code> · <code>tailwind.css:9-36</code> · <code>src/assets/icon/</code></p>
+        <dl>
+          <dt>What</dt>
+          <dd><code>&lt;meta name="color-scheme" content="light"&gt;</code> while <code>variables.scss:92-117</code> implements full dark mode — UA surfaces (inputs, scrollbars) won't match. <code>global.scss</code> claims dark mode is "intentionally NOT used", contradicting the code and CLAUDE.md; no code ever sets the <code>.dark</code> class (no theme toggle exists yet). Tailwind's <code>@theme</code> duplicates the light palette by hand — dark values are not mirrored. Web-only icons (~128&nbsp;kB) ship in the APK.</dd>
+          <dt class="fixlabel">Fix</dt>
+          <dd class="fix">Set <code>color-scheme: light dark</code>, build the theme-toggle service CLAUDE.md requires, reconcile the comment, and exclude web manifest icons from the native copy.</dd>
+        </dl>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Done well</h2>
+    <div class="well">
+      <ul>
+        <li><span class="tick">✓</span><span><b>OnPush everywhere.</b> Every real component declares it; state is exclusively @ngrx/signals + local signals — zero async pipes, zero manual <code>markForCheck</code>.</span></li>
+        <li><span class="tick">✓</span><span><b>Fully lazy routing.</b> Every route is <code>loadComponent</code> (<code>app.routes.ts:5-85</code>), functional guards, <code>withComponentInputBinding</code> feeding signal inputs.</span></li>
+        <li><span class="tick">✓</span><span><b>Healthy code splitting.</b> 204&nbsp;kB initial transfer; each page a 1.5–5&nbsp;kB lazy chunk.</span></li>
+        <li><span class="tick">✓</span><span><b>IONIC_IMPORTS does not defeat tree-shaking.</b> A curated 9-component shell set; rare components stay page-local — and pages actually follow the rule.</span></li>
+        <li><span class="tick">✓</span><span><b>Near-zero icon bytes.</b> No ionicons at runtime — one inline-SVG <code>gp-icon</code> path table plus <code>gp-blueprint</code> placeholders instead of raster images.</span></li>
+        <li><span class="tick">✓</span><span><b>List hygiene.</b> Every <code>@for</code> has a stable <code>track</code>; skeletons on all loading states; <code>aspect-ratio</code> on all placeholders (no CLS).</span></li>
+        <li><span class="tick">✓</span><span><b>Textbook search.</b> <code>debounceTime(350)</code> + <code>distinctUntilChanged</code> + <code>switchMap</code> + <code>takeUntilDestroyed</code>, min-2-chars gate, guarded pagination.</span></li>
+        <li><span class="tick">✓</span><span><b>Stores as cache.</b> Home loads once and survives navigation; category pages merge; pagination guards prevent duplicate fetches; <code>exhaustMap</code> blocks double submits.</span></li>
+        <li><span class="tick">✓</span><span><b>Auth discipline.</b> Single-flight serialized 401 refresh queue; token never sent to third-party hosts; auto-logout timer properly cleared.</span></li>
+        <li><span class="tick">✓</span><span><b>No leaks found.</b> The one manual subscription is unsubscribed; push listeners registered once behind an idempotence flag; no <code>setInterval</code> anywhere.</span></li>
+        <li><span class="tick">✓</span><span><b>Zone hygiene meanwhile.</b> <code>zone-flags.ts</code> disables custom-elements patching; <code>eventCoalescing: true</code> at bootstrap.</span></li>
+        <li><span class="tick">✓</span><span><b>gp-logo</b> uses <code>NgOptimizedImage</code> with width/height/priority.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Priority order</h2>
+    <ol class="prio">
+      <li><span>✓ <s>Fix the failing <b>anyComponentStyle budget</b> — release blocker.</s> Resolved 2026-07-06.</span><span class="ref">H1</span></li>
+      <li><span>Self-host + subset fonts, trim Manrope weights.</span><span class="ref">H2</span></li>
+      <li><span>Cache the auth token in memory.</span><span class="ref">M1</span></li>
+      <li><span>Resize/WebP the onboarding PNGs + add dimensions.</span><span class="ref">M3</span></li>
+      <li><span>Tie refresher completion to store loading state, then evaluate zoneless.</span><span class="ref">M4·M6</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    Full report also saved at <code>E:\Projects\gpnews\PERFORMANCE_AUDIT.md</code> · verified against source + production build, 2026-07-06
+  </footer>
+
+</div>
+
+</body></html>

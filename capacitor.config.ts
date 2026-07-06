@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.gp.group.news',
+  appId: 'com.gp.gp-group',
   appName: 'G.P. News',
   webDir: 'www',
   plugins: {

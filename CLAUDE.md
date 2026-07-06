@@ -1,5 +1,5 @@
 - app name is `G.P. News`
-- bundle id is `com.gp.group.news`
+- bundle id is `com.gp.gp-group`
 - only native app, no web app will be hosted
 - optimize for mobile first and then for tablet. Desktop is not required.
 - for mobile the minimal size is `360px CSS pixels`

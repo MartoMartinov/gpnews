@@ -2,7 +2,7 @@
 
 **Date:** 2026-06-26
 **App:** G.P. News
-**Bundle ID:** `com.gp.group.news`
+**Bundle ID:** `com.gp.gp-group`
 **Platform:** Native only — iOS + Android (via Capacitor)
 **Language:** Bulgarian only
 
@@ -36,7 +36,7 @@ The design reference is the interactive React prototype in Claude Design ("GP Gr
 ## 3. Project Setup Checklist
 
 - [ ] Scaffold with Ionic CLI: `ionic start gpnews blank --type=angular`
-- [ ] Set `appId: 'com.gp.group.news'` in `capacitor.config.ts`
+- [x] Set `appId: 'com.gp.gp-group'` in `capacitor.config.ts`
 - [ ] Install Tailwind CSS v4 + `@tailwindcss/postcss`, create `postcss.config.js`
 - [ ] Create `src/tailwind.css` with `@import "tailwindcss"` + `@theme` block
 - [ ] Set `angular.json` styles order: `tailwind.css` before `global.scss`
