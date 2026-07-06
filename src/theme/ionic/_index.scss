@@ -7,6 +7,15 @@ ion-content {
   --background: var(--color-bg);
 }
 
+// Center and cap the content column on wide viewports (tablet landscape /
+// desktop) so the app reads as a contained tablet-width view instead of
+// stretching edge-to-edge. Header and tab bar stay full-bleed. Applied as
+// padding (not a narrower + margin:auto box) so the scroll container itself
+// stays full width and its scrollbar stays pinned to the true screen edge.
+ion-content::part(scroll) {
+  padding-inline: max(0px, calc((100% - var(--content-max-width)) / 2));
+}
+
 ion-header {
   background: color-mix(in srgb, var(--color-surface) 86%, transparent);
   backdrop-filter: blur(14px);
@@ -34,7 +43,6 @@ ion-title {
   font-weight: 700;
   letter-spacing: -0.01em;
 }
-
 
 // Tab bar — matches demo .gp-tabbar
 ion-tab-bar {

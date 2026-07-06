@@ -51,6 +51,11 @@
   --s8: 32px;
   --s10: 40px;
 
+  // ---- Layout ----
+  // Caps scrollable page content on wide viewports so the app keeps
+  // reading as a tablet-width column instead of stretching edge-to-edge.
+  --content-max-width: 1024px;
+
   // ---- Typography ----
   --font-head: "IBM Plex Sans", system-ui, sans-serif;
   --font-body: "Manrope", system-ui, sans-serif;
