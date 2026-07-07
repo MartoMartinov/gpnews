@@ -4,10 +4,11 @@ import { NetworkService } from './core/services/network.service';
 import { PushNotificationService } from './core/services/push-notification.service';
 import { AuthStore } from './store/auth/auth.store';
 import { IconComponent } from './shared/components';
+import { CategoryDrawerComponent } from './pages/feed/category-drawer/category-drawer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [IonApp, IonRouterOutlet, IconComponent],
+  imports: [IonApp, IonRouterOutlet, IconComponent, CategoryDrawerComponent],
   template: `
     <ion-app>
       <ion-router-outlet [swipeGesture]="true" />
@@ -17,6 +18,7 @@ import { IconComponent } from './shared/components';
           Няма интернет връзка
         </div>
       }
+      <app-category-drawer />
     </ion-app>
   `,
   styles: [`

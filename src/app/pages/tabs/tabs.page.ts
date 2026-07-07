@@ -10,12 +10,11 @@ import { IonTabBar, IonTabButton, IonLabel, IonTabs } from '@ionic/angular/stand
 import { IconComponent } from '../../shared/components';
 import { AuthStore } from '../../store/auth/auth.store';
 import { NotificationsStore } from '../../store/notifications/notifications.store';
-import { CategoryDrawerComponent } from '../feed/category-drawer/category-drawer.component';
 
 @Component({
   selector: 'app-tabs',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonTabs, IonTabBar, IonTabButton, IonLabel, IconComponent, CategoryDrawerComponent],
+  imports: [IonTabs, IonTabBar, IonTabButton, IonLabel, IconComponent],
   template: `
     <ion-tabs>
       <ion-tab-bar slot="bottom">
@@ -57,8 +56,6 @@ import { CategoryDrawerComponent } from '../feed/category-drawer/category-drawer
         }
       </ion-tab-bar>
     </ion-tabs>
-
-    <app-category-drawer />
   `,
   styles: [`
     .ic-active { color: var(--color-accent); }
