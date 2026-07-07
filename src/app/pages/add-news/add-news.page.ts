@@ -81,7 +81,7 @@ import { AuthStore } from '../../store/auth/auth.store';
           <div class="addnews-cats">
             @for (cat of feed.categories(); track cat.id) {
               <button class="anc" [class.on]="selectedCat() === cat.id" (click)="selectCat(cat.id)">
-                <gp-icon [name]="cat.icon" [size]="14" [sw]="1.7" />
+                <gp-icon [name]="cat.icon" [size]="14" [sw]="cat.icon === 'dots' ? 2.6 : 1.7" />
                 {{ cat.name }}
               </button>
             }
