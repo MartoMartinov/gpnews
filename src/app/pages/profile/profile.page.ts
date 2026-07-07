@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   effect,
   inject,
   signal,
@@ -75,7 +74,7 @@ import { ProfileStore } from '../../store/profile/profile.store';
               </div>
             } @else {
               @for (art of feed.myArticles(); track art.id) {
-                <div class="prof-art">
+                <button class="prof-art" (click)="goArticle(art.id)">
                   <div class="pa-ic">
                     <gp-icon [name]="catIcon(art.cat)" [size]="18" [sw]="1.7" />
                   </div>
@@ -88,7 +87,7 @@ import { ProfileStore } from '../../store/profile/profile.store';
                   } @else {
                     <gp-chip tone="ok">Публикувана</gp-chip>
                   }
-                </div>
+                </button>
               }
             }
           </div>
@@ -270,7 +269,7 @@ import { ProfileStore } from '../../store/profile/profile.store';
     </ion-content>
   `,
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage {
   protected readonly auth = inject(AuthStore);
   protected readonly feed = inject(FeedStore);
   protected readonly profileStore = inject(ProfileStore);
@@ -292,21 +291,35 @@ export class ProfilePage implements OnInit {
   protected readonly delStep = signal(0);
   protected readonly delTyped = signal('');
 
+  private myArticlesLoaded = false;
+
   constructor() {
     effect(() => {
       const user = this.auth.user();
       if (user) this.nameVal = user.name;
     });
-  }
 
-  ngOnInit(): void {
-    if (this.auth.isLoggedIn()) {
-      this.feed.loadMyArticles(undefined);
-    }
+    // Runs on every auth change so it also fires when the session is
+    // restored asynchronously (bootstrap) or the user logs in while this
+    // page instance is kept alive by Ionic's tab router-outlet.
+    effect(() => {
+      if (this.auth.isLoggedIn()) {
+        if (!this.myArticlesLoaded) {
+          this.myArticlesLoaded = true;
+          this.feed.loadMyArticles(undefined);
+        }
+      } else {
+        this.myArticlesLoaded = false;
+      }
+    });
   }
 
   protected catIcon(catId: string): string {
     return this.feed.catOf(catId)?.icon ?? 'news';
+  }
+
+  protected goArticle(id: string): void {
+    void this.router.navigate(['/article', id]);
   }
 
   protected saveName(): void {

@@ -1551,11 +1551,16 @@ img.gp-img {
   display: flex;
   align-items: center;
   gap: var(--s3);
+  width: 100%;
   padding: var(--s3);
   background: var(--color-surface);
+  border: none;
   border-radius: var(--r-md);
   box-shadow: var(--shadow);
   margin-bottom: var(--s3);
+  font: inherit;
+  text-align: left;
+  color: inherit;
   cursor: pointer;
   transition: transform 0.12s;
 
