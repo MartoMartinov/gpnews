@@ -5,7 +5,9 @@ import {
   input,
   output,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, startWith } from 'rxjs';
 import { BtnComponent, IconComponent } from '../../../shared/components';
 import { FeedStore } from '../../../store/feed/feed.store';
 import { DrawerService } from '../../../core/services/drawer.service';
@@ -28,7 +30,11 @@ import { DrawerService } from '../../../core/services/drawer.service';
 
           <div class="drawer-list">
             @for (cat of feed.categories(); track cat.id) {
-              <button class="drawer-item" (click)="openCategory(cat.id)">
+              <button
+                class="drawer-item"
+                [class.on]="cat.id === activeCatId()"
+                (click)="openCategory(cat.id)"
+              >
                 <span class="di-ic">
                   <gp-icon [name]="cat.icon" [size]="21" [sw]="1.6" />
                 </span>
@@ -55,6 +61,19 @@ export class CategoryDrawerComponent {
   protected readonly feed = inject(FeedStore);
   protected readonly drawer = inject(DrawerService);
   private readonly router = inject(Router);
+
+  protected readonly activeCatId = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map((e) => this.parseCatId(e.urlAfterRedirects)),
+      startWith(this.parseCatId(this.router.url)),
+    ),
+    { initialValue: null as string | null },
+  );
+
+  private parseCatId(url: string): string | null {
+    return url.match(/^\/category\/([^/?#]+)/)?.[1] ?? null;
+  }
 
   openCategory(catId: string): void {
     this.drawer.close();

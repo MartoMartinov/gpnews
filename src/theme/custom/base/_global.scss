@@ -478,6 +478,7 @@ img.gp-img {
     border: none;
     cursor: pointer;
     text-align: left;
+    position: relative;
     transition: background 0.12s;
 
     &:active,
@@ -494,6 +495,7 @@ img.gp-img {
       place-items: center;
       color: var(--color-ink-2);
       flex-shrink: 0;
+      transition: background 0.12s, color 0.12s;
     }
 
     .di-name {
@@ -516,6 +518,28 @@ img.gp-img {
     .di-arrow {
       color: var(--color-ink-3);
       flex-shrink: 0;
+    }
+
+    &.on {
+      .di-ic {
+        background: var(--color-accent);
+        color: var(--color-accent-ink);
+      }
+
+      .di-name {
+        font-weight: 800;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 3px;
+        border-radius: 0 3px 3px 0;
+        background: var(--color-accent);
+      }
     }
   }
 

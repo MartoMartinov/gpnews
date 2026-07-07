@@ -41,8 +41,14 @@ import { Category, isPhotoImg } from '../../../shared/models';
     TabHeaderComponent
   ],
   template: `
-
-     <gp-tab-header />
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/tabs/home" />
+        </ion-buttons>
+        <ion-title>{{ cat()?.name ?? 'Категория' }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
     <ion-content [fullscreen]="true">
       <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
