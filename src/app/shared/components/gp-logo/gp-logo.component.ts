@@ -27,6 +27,19 @@ import { NgOptimizedImage } from '@angular/common';
       .logo-img {
         width: auto;
       }
+
+      /* The brand mark is dark ink on a transparent background, so it
+         nearly disappears on dark surfaces. Inverting it turns the dark
+         ink light while keeping the shading/highlights intact. */
+      @media (prefers-color-scheme: dark) {
+        .logo-img {
+          filter: invert(1);
+        }
+      }
+
+      :host-context(.dark) .logo-img {
+        filter: invert(1);
+      }
     `,
   ],
 })

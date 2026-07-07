@@ -70,6 +70,15 @@
               ],
               "outputHashing": "all"
             },
+            "demo": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -90,6 +99,9 @@
             },
             "staging": {
               "buildTarget": "app:build:staging"
+            },
+            "demo": {
+              "buildTarget": "app:build:demo"
             },
             "development": {
               "buildTarget": "app:build:development"

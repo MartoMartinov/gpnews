@@ -4,6 +4,8 @@ export interface SubmitArticleData {
   cat: string;
   title: string;
   body: string;
+  /** Optional cover photo as a base64 data URI. */
+  img?: string;
 }
 
 /** A news article. */

@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "1004011034082",
+    "firebase_url": "https://gp-group-news.firebaseio.com",
+    "project_id": "gp-group-news",
+    "storage_bucket": "gp-group-news.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004011034082:android:a224d97840e4b7719995bb",
+        "android_client_info": {
+          "package_name": "com.gp.group.news"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhlxee2s9DmPFsONyoIaCqAdc9YBwD5HA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1004011034082-8t2cntd1nt7t8tkvb84iu57c6rnqvbun.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gp.group.news"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

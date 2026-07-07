@@ -87,13 +87,20 @@ import { AuthStore } from '../../store/auth/auth.store';
             }
           </div>
 
-          <button class="addnews-upload" [class.has]="hasImg()" (click)="hasImg.set(!hasImg())">
-            @if (hasImg()) {
-              <div class="up-img-mock">
-                <gp-icon name="img" [size]="32" [sw]="1.4" />
-                <span>КАЧЕНО ИЗОБРАЖЕНИЕ</span>
-              </div>
-              <span class="up-remove" (click)="$event.stopPropagation(); hasImg.set(false)">
+          <label class="addnews-upload" [class.has]="imgPreview()">
+            <input
+              #fileInput
+              type="file"
+              accept="image/*"
+              class="addnews-upload-input"
+              (change)="onFileSelected($event)"
+            />
+            @if (imgPreview(); as preview) {
+              <img class="up-img-real" [src]="preview" alt="Прикачено изображение" />
+              <span
+                class="up-remove"
+                (click)="$event.preventDefault(); $event.stopPropagation(); removeImage(fileInput)"
+              >
                 <gp-icon name="trash" [size]="15" />Премахни
               </span>
             } @else {
@@ -103,7 +110,12 @@ import { AuthStore } from '../../store/auth/auth.store';
                 <span>Снимка от обекта · JPG, PNG до 10 MB</span>
               </div>
             }
-          </button>
+          </label>
+          @if (imgError()) {
+            <div class="errmsg" style="margin-top: -8px; margin-bottom: var(--s5)">
+              <gp-icon name="close" [size]="13" [sw]="2.5" />{{ imgError() }}
+            </div>
+          }
 
           <div class="gp-field" [class.err]="formErr().title">
             <label>Заглавие</label>
@@ -162,6 +174,7 @@ import { AuthStore } from '../../store/auth/auth.store';
     .addnews-top {
       flex: none;
       padding-top: max(env(safe-area-inset-top), 16px);
+      z-index: 1;
     }
     .icbtn {
       width: 40px;
@@ -172,18 +185,21 @@ import { AuthStore } from '../../store/auth/auth.store';
       background: none;
       border: none;
     }
-    .up-img-mock {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: var(--s6) var(--s5);
-      background: var(--color-surface-2);
-      border-radius: var(--r-md);
-      color: var(--color-ink-2);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+    .addnews-upload-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: none;
+    }
+    .up-img-real {
+      display: block;
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
     }
     .addnews-secondary {
       display: block;
@@ -204,8 +220,11 @@ export class AddNewsPage implements OnDestroy {
   private readonly router = inject(Router);
   private readonly location = inject(Location);
 
+  private static readonly MAX_IMG_BYTES = 10 * 1024 * 1024;
+
   protected readonly selectedCat = signal('');
-  protected readonly hasImg = signal(false);
+  protected readonly imgPreview = signal<string | null>(null);
+  protected readonly imgError = signal('');
   protected readonly submitted = signal(false);
   protected readonly submittedId = signal('');
   protected readonly loading = signal(false);
@@ -232,6 +251,34 @@ export class AddNewsPage implements OnDestroy {
     this.selectedCat.set(id);
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      this.imgError.set('Изберете файл във формат JPG или PNG');
+      input.value = '';
+      return;
+    }
+    if (file.size > AddNewsPage.MAX_IMG_BYTES) {
+      this.imgError.set('Изображението трябва да е до 10 MB');
+      input.value = '';
+      return;
+    }
+
+    this.imgError.set('');
+    const reader = new FileReader();
+    reader.onload = () => this.imgPreview.set(reader.result as string);
+    reader.readAsDataURL(file);
+  }
+
+  removeImage(input: HTMLInputElement): void {
+    this.imgPreview.set(null);
+    this.imgError.set('');
+    input.value = '';
+  }
+
   submit(): void {
     const e: { title?: string; body?: string } = {};
     if (this.titleVal.trim().length < 6) e.title = 'Заглавието трябва да е поне 6 символа';
@@ -240,11 +287,13 @@ export class AddNewsPage implements OnDestroy {
     if (Object.keys(e).length || !this.selectedCat()) return;
 
     this.loading.set(true);
+    const img = this.imgPreview();
     this._sub = this.feed
       .submitArticle({
         cat: this.selectedCat(),
         title: this.titleVal.trim(),
         body: this.bodyVal.trim(),
+        ...(img ? { img } : {}),
       })
       .subscribe({
         next: ({ id }) => {
