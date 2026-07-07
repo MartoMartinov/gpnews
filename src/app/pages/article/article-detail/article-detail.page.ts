@@ -126,7 +126,12 @@ function fmtAgo(mins: number): string {
               }
             </div>
 
-            @if (auth.isLoggedIn()) {
+            @if (a.pending) {
+              <div class="cmt-locked static">
+                <gp-icon name="hourglass" [size]="18" [sw]="1.8" />
+                <span>Не може да се коментира, докато статията чака одобрение.</span>
+              </div>
+            } @else if (auth.isLoggedIn()) {
               <div class="cmt-composer">
                 <gp-avatar [user]="auth.user()!" [size]="36" />
                 <div class="cc-input">
@@ -174,7 +179,7 @@ function fmtAgo(mins: number): string {
                           <gp-icon name="heart" [size]="14" [sw]="2" [fill]="c.liked" />
                           {{ c.likes }}
                         </button>
-                        @if (auth.isLoggedIn()) {
+                        @if (auth.isLoggedIn() && !a.pending) {
                           <button class="cmt-reply-btn"
                             [attr.aria-expanded]="replyTarget() === c.id"
                             [attr.aria-label]="'Отговори на ' + c.user.name"
@@ -182,7 +187,7 @@ function fmtAgo(mins: number): string {
                         }
                       </div>
 
-                      @if (replyTarget() === c.id) {
+                      @if (replyTarget() === c.id && !a.pending) {
                         <div class="cmt-composer compact">
                           <gp-avatar [user]="auth.user()!" [size]="30" />
                           <div class="cc-input">
@@ -333,7 +338,7 @@ export class ArticleDetailPage {
 
   submitComment(): void {
     const text = this.newComment.trim();
-    if (!text) return;
+    if (!text || this.feed.activeArticle()?.pending) return;
     this.feed.addComment({ articleId: this.id(), text });
     this.newComment = '';
   }
@@ -345,7 +350,7 @@ export class ArticleDetailPage {
 
   submitReply(commentId: string): void {
     const text = this.replyText.trim();
-    if (!text) return;
+    if (!text || this.feed.activeArticle()?.pending) return;
     this.feed.addReply({ articleId: this.id(), commentId, text });
     this.replyText = '';
     this.replyTarget.set(null);

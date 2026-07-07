@@ -1420,6 +1420,11 @@ img.gp-img {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 
+  &.static {
+    cursor: default;
+    -webkit-tap-highlight-color: initial;
+  }
+
   .fwd-ic {
     margin-left: auto;
   }
