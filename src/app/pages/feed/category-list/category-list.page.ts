@@ -22,7 +22,7 @@ import {
   SkeletonComponent,
 } from '../../../shared/components';
 import { FeedStore } from '../../../store/feed/feed.store';
-import { Category } from '../../../shared/models';
+import { Category, isPhotoImg } from '../../../shared/models';
 
 @Component({
   selector: 'app-category-list',
@@ -88,11 +88,15 @@ import { Category } from '../../../shared/models';
         @for (a of articles(); track a.id) {
           <button class="gp-row" (click)="goArticle(a.id)">
             <div class="thumb">
-              <gp-blueprint
-                class="gp-img"
-                [style.--cathue]="catHue()"
-                style="aspect-ratio:1/1;height:104px"
-              ></gp-blueprint>
+              @if (isPhoto(a.img)) {
+                <img class="gp-img" [src]="a.img" style="aspect-ratio:1/1;height:104px" alt="" />
+              } @else {
+                <gp-blueprint
+                  class="gp-img"
+                  [style.--cathue]="catHue()"
+                  style="aspect-ratio:1/1;height:104px"
+                ></gp-blueprint>
+              }
             </div>
             <div class="rbody">
               <h3>{{ a.title }}</h3>
@@ -154,6 +158,8 @@ export class CategoryListPage implements OnInit {
   );
 
   protected readonly articles = computed(() => this.feed.byCat(this.id()));
+
+  protected readonly isPhoto = isPhotoImg;
 
   protected emptyText(): string {
     return `В „${this.cat()?.name ?? ''}“ още няма публикувани статии.`;

@@ -86,6 +86,11 @@ import { AuthStore } from '../../store/auth/auth.store';
               </button>
             }
           </div>
+          @if (formErr().category) {
+            <div class="errmsg" style="margin-top: -8px; margin-bottom: var(--s5)">
+              <gp-icon name="close" [size]="13" [sw]="2.5" />{{ formErr().category }}
+            </div>
+          }
 
           <label class="addnews-upload" [class.has]="imgPreview()">
             <input
@@ -153,6 +158,7 @@ import { AuthStore } from '../../store/auth/auth.store';
             variant="primary"
             size="lg"
             [full]="true"
+            [disabled]="!canSubmit()"
             [loading]="loading()"
             (pressed)="submit()"
           >
@@ -228,7 +234,7 @@ export class AddNewsPage implements OnDestroy {
   protected readonly submitted = signal(false);
   protected readonly submittedId = signal('');
   protected readonly loading = signal(false);
-  protected readonly formErr = signal<{ title?: string; body?: string }>({});
+  protected readonly formErr = signal<{ title?: string; body?: string; category?: string }>({});
 
   protected titleVal = '';
   protected bodyVal = '';
@@ -280,11 +286,12 @@ export class AddNewsPage implements OnDestroy {
   }
 
   submit(): void {
-    const e: { title?: string; body?: string } = {};
+    const e: { title?: string; body?: string; category?: string } = {};
+    if (!this.selectedCat()) e.category = 'Моля, изберете категория';
     if (this.titleVal.trim().length < 6) e.title = 'Заглавието трябва да е поне 6 символа';
     if (this.bodyVal.trim().length < 20) e.body = 'Съдържанието е твърде кратко (мин. 20 символа)';
     this.formErr.set(e);
-    if (Object.keys(e).length || !this.selectedCat()) return;
+    if (Object.keys(e).length) return;
 
     this.loading.set(true);
     const img = this.imgPreview();

@@ -17,7 +17,7 @@ import { ToastService } from '../../core/services/toast.service';
 import { Poll } from '../../shared/models';
 import { withBase } from '../features';
 
-const POLLS_PAGE_SIZE = 12;
+const POLLS_PAGE_SIZE = 24;
 
 interface PollsState {
   polls: Poll[];

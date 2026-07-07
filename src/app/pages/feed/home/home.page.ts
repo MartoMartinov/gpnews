@@ -11,7 +11,7 @@ import {
 } from '../../../shared/components';
 import { FeedStore } from '../../../store/feed/feed.store';
 import { AuthStore } from '../../../store/auth/auth.store';
-import { Category } from '../../../shared/models';
+import { Category, isPhotoImg } from '../../../shared/models';
 
 @Component({
   selector: 'app-home',
@@ -90,11 +90,15 @@ import { Category } from '../../../shared/models';
             </button>
 
             <div class="gp-hero gp-card" (click)="goArticle(sec.lead.id)">
-              <gp-blueprint
-                class="gp-img"
-                [style.--cathue]="catHue(sec.cat)"
-                style="aspect-ratio:16/10"
-              ></gp-blueprint>
+              @if (isPhoto(sec.lead.img)) {
+                <img class="gp-img" [src]="sec.lead.img" style="aspect-ratio:16/10" alt="" />
+              } @else {
+                <gp-blueprint
+                  class="gp-img"
+                  [style.--cathue]="catHue(sec.cat)"
+                  style="aspect-ratio:16/10"
+                ></gp-blueprint>
+              }
               <div class="body">
                 <h2>{{ sec.lead.title }}</h2>
                 <div class="gp-meta">
@@ -113,11 +117,15 @@ import { Category } from '../../../shared/models';
             @for (a of sec.more; track a.id) {
               <div class="gp-row" (click)="goArticle(a.id)">
                 <div class="thumb">
-                 <gp-blueprint
-                    class="gp-img"
-                    [style.--cathue]="catHue(sec.cat)"
-                    style="aspect-ratio:1/1;height:104px"
-                  ></gp-blueprint>
+                  @if (isPhoto(a.img)) {
+                    <img class="gp-img" [src]="a.img" style="aspect-ratio:1/1;height:104px" alt="" />
+                  } @else {
+                    <gp-blueprint
+                      class="gp-img"
+                      [style.--cathue]="catHue(sec.cat)"
+                      style="aspect-ratio:1/1;height:104px"
+                    ></gp-blueprint>
+                  }
                 </div>
                 <div class="rbody">
                   <h3>{{ a.title }}</h3>
@@ -181,6 +189,8 @@ export class HomePage {
   protected readonly feed = inject(FeedStore);
   protected readonly auth = inject(AuthStore);
   private readonly router = inject(Router);
+
+  protected readonly isPhoto = isPhotoImg;
 
   protected catHue(cat: Category): string {
     return `hsl(${cat.hue} 45% 55%)`;

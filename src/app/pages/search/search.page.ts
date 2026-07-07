@@ -18,7 +18,7 @@ import { IonContent, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/
 import { BlueprintComponent, EmptyStateComponent, IconComponent, SkeletonComponent } from '../../shared/components';
 import { FeedService, SearchResult } from '../../core/services/feed.service';
 import { FeedStore } from '../../store/feed/feed.store';
-import { Article } from '../../shared/models';
+import { Article, isPhotoImg } from '../../shared/models';
 
 const SEARCH_PAGE_SIZE = 12;
 
@@ -91,7 +91,11 @@ const SEARCH_PAGE_SIZE = 12;
         @for (a of results(); track a.id) {
           <button class="gp-row" (click)="goArticle(a.id)">
             <div class="thumb">
-              <gp-blueprint class="gp-img" [style.--cathue]="catHue(a.cat)" style="aspect-ratio:1/1;height:104px"></gp-blueprint>
+              @if (isPhoto(a.img)) {
+                <img class="gp-img" [src]="a.img" style="aspect-ratio:1/1;height:104px" alt="" />
+              } @else {
+                <gp-blueprint class="gp-img" [style.--cathue]="catHue(a.cat)" style="aspect-ratio:1/1;height:104px"></gp-blueprint>
+              }
             </div>
             <div class="rbody">
               <h3>{{ a.title }}</h3>
@@ -164,6 +168,8 @@ export class SearchPage implements AfterViewInit {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private pendingInfiniteEvent: CustomEvent | null = null;
+
+  protected readonly isPhoto = isPhotoImg;
 
   constructor() {
     toObservable(this.q)

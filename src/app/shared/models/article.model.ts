@@ -1,5 +1,10 @@
 import { User } from './user.model';
 
+/** True when `img` is an uploaded photo (data URI or URL) rather than a legacy placeholder key. */
+export function isPhotoImg(img: string | undefined | null): img is string {
+  return !!img && /^(data:|https?:\/\/|\/)/.test(img);
+}
+
 export interface SubmitArticleData {
   cat: string;
   title: string;
@@ -37,6 +42,8 @@ export interface ArticlePreview {
   cat: string;
   title: string;
   date: string;
+  /** Image placeholder key, or an uploaded photo (data URI/URL) — see {@link isPhotoImg}. */
+  img?: string;
   commentCount?: number;
 }
 

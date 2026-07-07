@@ -23,7 +23,7 @@ import {
 } from '../../../shared/components';
 import { FeedStore } from '../../../store/feed/feed.store';
 import { AuthStore } from '../../../store/auth/auth.store';
-import { Comment } from '../../../shared/models';
+import { Comment, isPhotoImg } from '../../../shared/models';
 
 function countAll(list: Comment[]): number {
   return list.reduce((n, c) => n + 1 + (c.replies.length ?? 0), 0);
@@ -56,9 +56,13 @@ function fmtAgo(mins: number): string {
         <gp-skeleton width="100%" [height]="220" [radius]="0" />
       } @else if (feed.activeArticle(); as a) {
         <div class="art-hero" [style.--cathue]="catHue()">
-          <div class="art-hero-tex">
-            <gp-blueprint [opacity]="0.5" />
-          </div>
+          @if (isPhoto(a.img)) {
+            <img class="art-hero-img" [src]="a.img" alt="" />
+          } @else {
+            <div class="art-hero-tex">
+              <gp-blueprint [opacity]="0.5" />
+            </div>
+          }
           <div class="art-hero-grad"></div>
           <button class="art-back" aria-label="Назад" (click)="back()">
             <gp-icon name="back" [size]="22" [sw]="2" />
@@ -261,6 +265,7 @@ export class ArticleDetailPage {
 
   protected readonly fmtAgo = fmtAgo;
   protected readonly firstName = (name: string) => name.split(' ')[0];
+  protected readonly isPhoto = isPhotoImg;
 
   protected cat() {
     const a = this.feed.activeArticle();
