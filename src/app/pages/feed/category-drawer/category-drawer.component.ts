@@ -72,12 +72,12 @@ export class CategoryDrawerComponent {
   );
 
   private parseCatId(url: string): string | null {
-    return url.match(/^\/category\/([^/?#]+)/)?.[1] ?? null;
+    return url.match(/^\/tabs\/category\/([^/?#]+)/)?.[1] ?? null;
   }
 
   openCategory(catId: string): void {
     this.drawer.close();
-    void this.router.navigate(['/category', catId]);
+    void this.router.navigate(['/tabs/category', catId]);
   }
 
   addNews(): void {

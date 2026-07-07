@@ -197,7 +197,7 @@ export class HomePage {
   }
 
   goCategory(id: string): void {
-    void this.router.navigate(['/category', id]);
+    void this.router.navigate(['/tabs/category', id]);
   }
 
   goArticle(id: string): void {

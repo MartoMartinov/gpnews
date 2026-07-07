@@ -49,13 +49,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/profile/profile.page').then((m) => m.ProfilePage),
       },
+      {
+        path: 'category/:id',
+        loadComponent: () =>
+          import('./pages/feed/category-list/category-list.page').then(
+            (m) => m.CategoryListPage,
+          ),
+      },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
-  },
-  {
-    path: 'category/:id',
-    loadComponent: () =>
-      import('./pages/feed/category-list/category-list.page').then((m) => m.CategoryListPage),
   },
   {
     path: 'article/:id',
